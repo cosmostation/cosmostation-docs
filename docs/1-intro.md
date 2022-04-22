@@ -3,7 +3,6 @@ sidebar_position: 1
 ---
 
 # Cosmostation Wallet
-
 Let's discover **Cosmostation Wallet**.
 
 
