@@ -15,12 +15,14 @@ To download Cosmostation Wallet Extension, click the [link](https://chrome.googl
 > # Overview
 > 
 > ## Wallet detail page
-![Dashboard](/img/guide/extension/introduction/detail.png)
+> <img src="/img/guide/extension/introduction/detail.png" width="50%" height="50%" />
+>
 > - You can manage account by clicking <img src="/img/guide/extension/introduction/account.png" width="20" height="20" />. Please click [here](/docs/User%20Guide/Cosmostation%20Extension/Account/introduction) for more detail
 > - You can send/deposit coins. If you want detailed instruction, please click [here](/docs/User%20Guide/Cosmostation%20Extension/transfer-coins) for more information.
 > - Click <img src="/img/guide/extension/introduction/share.png" width="20" height="20" /> to view your account history on [mintscan](https://mintscan.io)
 > - You can connect/disconnect with the dApps. Check the status under your account name.
 > ## Dashboard
-![Dashboard](/img/guide/extension/introduction/dashboard.png)
+> <img src="/img/guide/extension/introduction/dashboard.png" width="50%" height="50%" />
+>
 > - You can see all the selected chains and prices in a bird's eye view
 > - You can customize the chains to be selected by clicking '+ Add chain'
