@@ -28,9 +28,9 @@ Memo is optional but it is required for sending it to centralized cryptocurrency
 Centralized cryptocurrency exchanges will ask you to enter a memo for identification when you make a deposit.
 
 :::warning
-> Please make sure that you enter the correct recipient address. 
->
-> Entering incorrect address will result loss of funds and responsibility of entering correct information is on the user.
+Please make sure that you enter the correct recipient address. 
+
+Entering incorrect address will result loss of funds and responsibility of entering correct information is on the user.
 :::
 
 `Step 2, 3` Check transaction info and confirm.
