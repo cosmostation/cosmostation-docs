@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Introduce
+# Introduction
 
 Cosmostation mobile wallet support wallet connect.
 

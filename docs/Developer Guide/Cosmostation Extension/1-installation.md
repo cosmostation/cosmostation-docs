@@ -8,8 +8,11 @@ Create Dapp using "Cosmostation extension"
 
 ## Add package
 
-Import into your project:
 
-```bash
-npm i @cosmostation/extension-client
+```bash title="yarn"
+yarn add @cosmostation/extension-client
+```
+
+```bash title="npm"
+npm install @cosmostation/extension-client
 ```
