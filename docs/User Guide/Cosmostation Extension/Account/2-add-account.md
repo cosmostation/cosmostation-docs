@@ -20,7 +20,7 @@ Create a new wallet, restore with an existing mnemonic phrase, or restore with a
 
 `Step 3` Your mnemonic phrase will be displayed. Cosmostation Wallet Extension supports both 12 words and 24 words mnemonic phrases.
 :::caution
-Please make sure to back up your mnemonic phrase and save it in a safe locatio only accessible by you. If the mnemonic phrase is lost, you will not be able to regain access to your account.
+Please make sure to back up your mnemonic phrase and save it in a safe location only accessible by you. If the mnemonic phrase is lost, you will not be able to regain access to your account.
 :::
 
 `Step 4` (Optional) Choose the HD path you wish to import. Cosmostation Wallet Extension supports HD paths designated/unique to each network by default.

@@ -25,7 +25,7 @@ Securely manage your accounts in a convenient user interface.
 >
 > If you created a new account or restored a wallet with a mnemonic phrase, you will be able to see the option to **[View mnemonics]**, **[View private key]**, and **[Delete account]**.
 >
-> If you restored a wallet with a private key, then you will only be able to choose **[View private key]**.
+> If you restored a wallet with a _private key_, then you will only be able to choose **[View private key]**.
 
 ![Manage](/img/guide/extension/account/introduction/manage.png)
 

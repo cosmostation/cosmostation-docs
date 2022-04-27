@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Support Chains
+# Chains
 
 Cosmostation Wallet Extension supports various PoS networks.
 
