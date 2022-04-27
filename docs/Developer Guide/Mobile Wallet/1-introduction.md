@@ -4,14 +4,14 @@ sidebar_position: 1
 
 # Introduction
 
-Cosmostation mobile wallet support wallet connect.
+Cosmostation Mobile Wallet supports WalletConnect.
 
 - Cosmostation Wallet specs.
 - Trust Wallet specs.
 - Keplr Wallet specs.
 
-Using mobile wallet, support various type service.
+Various types of services are supported on the mobile wallet.
 
-- Desktop / Mobile Website wallet connect from QR code scan
-- Mobile Website wallet connect from Deep Link
-- Mobile In App Browser from Dapp Browser
+- Access dApps on desktop/mobile via scanning QR code.
+- Connect with dApps on mobile via Deep Link.
+- In-app browser on mobile app with dApp store.

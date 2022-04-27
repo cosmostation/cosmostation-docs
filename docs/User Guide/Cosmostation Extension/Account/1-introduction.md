@@ -5,42 +5,43 @@ sidebar_position: 2
 
 # Introduction
 
-Cosmostation Wallet Extension supports account management.
-Securely manage your accounts and keys in a more convenient way
+Cosmostation Wallet Extension allows you to add and manage multiple accounts.
+Securely manage your accounts in a convenient user interface.
 
 ## Add Account
-
-> There are three options on add account. **[Creat a new account]**, **[Import mnemonics]**, and **[Import private key]**.
-Please refer to each page for detailed instruction.
+> **'Add Account'** has three options. **[Creat a new account]**, **[Import mnemonics]**, and **[Import private key]**. Please refer to each page for detailed instructions.
 
 ![Manage](/img/guide/extension/account/introduction/add.png)
 
-`Step 1` Click **'Add account'** on Account Management
+`Step 1` Click **'Add account'** under 'Account Management'.
 
-`Step 2` You will see three options in adding the account. Please refer to the following [link](/docs/User%20Guide/Cosmostation%20Extension/Account/add-account) for more detailed instruction.
+`Step 2` You will see three options to choose from. Please refer to the following [link](/docs/User%20Guide/Cosmostation%20Extension/Account/add-account) for detailed instructions.
 
 
 
 ## Manage keys
 
-> Then you should be able to see Account Management
-In Account Management page, you will be able to see all the accounts that are registered in the Cosmostation Wallet Extension.
+> Under **'Account Management'**, you are able to see all the accounts that are registered on Cosmostation Extension.
 >
-> If you have created a new account or restore wallet with _mnemonic phrases_.
-Then you will be able to see **[View mnemonics]** and **[View private key]** and **[Delete account]** options.
-> 
-> However, if you restored wallet with _private key_, then you will only able to see **[View private key]**.
+> If you created a new account or restored a wallet with a mnemonic phrase, you will be able to see the option to **[View mnemonics]**, **[View private key]**, and **[Delete account]**.
+>
+> If you restored a wallet with a private key, then you will only be able to choose **[View private key]**.
 
 ![Manage](/img/guide/extension/account/introduction/manage.png)
 
 
-### Delete Account
 
-> You can delete the account from the Cosmostation Wallet Extension.
+
+
+
+
+### Delete Account
+> You can delete accounts from Cosmostation Extension.
 >
-> Although you have deleted the account, you can re-derive it using mnemonic in this or another account.
->
+> Once deleted, you can restore your account again by importing the same mnemonic phrase or private key.
+
 :::warning
-The system will ask you to enter the password. If you enter the password then you can delete the account.
-However, if you lose/forget the mnemonic phrase or private key then you will not be able to get the account back.
+You are required to enter your password before deleting your account.
+
+Once deleted, if you lose your mnemonic phrase or private key you will not be able to gain access to the account again.
 :::

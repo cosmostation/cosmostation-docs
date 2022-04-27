@@ -4,19 +4,18 @@ sidebar_position: 4
 
 # Support Chains
 
-Cosmostation Wallet Extension supports various cosmos networks.
+Cosmostation Wallet Extension supports various PoS networks.
 
-## Add / Remove chains
+## Add/Remove Chains
 
-> Add/remove chains to efficiently manage Cosmostation Wallet Extension.
+> Add/remove chains to dfficiently manage your wallet.
 >
-> You can select chains you want to see on the list and selected chains will only be displayed to both dashboard and wallet detail page.
+> Select chains you want to display on the list. Only selected chains will be displayed on both the dashboard and wallet detail page.
 
+`Step 1` View chains that are added to your list. Click **'Add chain'** to add/remove chains from the list.
 
-`Step 1` You can see chains that are added to your list. To add/remove chains, click 'Add chain'
+`Step 2` By toggling on/off, you can choose chains that you want to display on Cosmostation Wallet Extension.
 
-`Step 2` By toggling on/off, you can choose chains that you want to be on the Cosmostation Wallet Extension.
-
-`Step 3` Selected chains are also visible on the top right side of the wallet detail.
+`Step 3` Selected chains are also visible on the top right side of wallet details.
 
 ![Add & Remove chains](/img/guide/extension/chains/support.png)

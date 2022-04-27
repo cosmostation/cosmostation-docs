@@ -5,43 +5,43 @@ sidebar_position: 6
 
 # Settings
 
-On the setting, you can customize the Cosmostation Wallet Extension.
+Customize the wallet extension in wallet settings.
 
 ## Dark mode
 
-> By toggling back and forth you can choose either between Dark or Light mode
+> Toggle back and forth to choose between Dark or Light mode.
 
 ![Dark mode](/img/guide/extension/settings/darkmode.png)
 
 
 ## Address Book
 
-> You can create different address book for each chain. You can use it when you use **'Send'** functionality
+> Create different address books for each chain. You can use the address book when using the **'Send'** function.
 
-`Step 1` You can view / add addressbook of a chain you selected
+`Step 1` View / Add addresses to the chain you selected.
 
-`Step 2` Enter Address information and click 'Save'
-- Label is a name that you can distinguish addresses.
+`Step 2` Enter address information and click **'Save.'**
+- Label your address to distinguish them from one another.
 
 :::warning
-Memo is optional but required to transfer funds to cryptocurrency exchange. Cryptocurrency exchanges will ask you to enter a memo for identification when you make a deposit.
+Memo is optional but required to transfer assets to centralized cryptocurrency exchanges. Centralized exchanges will ask you to enter a memo for identification when you make a deposit.
 :::
 
 
 ![Address Book Detail](/img/guide/extension/settings/address.png)
 
 
-> If you add addresses in addressbook, you can use addressbook function when sending the fund.
+> If you add addresses in the address book, you can use the address book feature when sending assets.
 
 ![Send by address book](/img/guide/extension/settings/address_send.png)
 
 
 ## Change password
 
-> Enter Current password and a password you want to change. Enter a new password again to confirm it.
+> Enter your current password and to change it to a new password. Enter the new password once more to confirm.
 
 :::caution
-Please make sure that you enter more than 8 characters for the password.
+Make sure that you enter more than 8 characters for the password.
 :::
 
 ![Change Password](/img/guide/extension/settings/password.png)
@@ -49,14 +49,14 @@ Please make sure that you enter more than 8 characters for the password.
 
 ## Currency & Language
 
-> Cosmostation Wallet Extension currently supports 2 languages and 5 currencies.
-We plan to support more currencies and language in the near future.
+> Cosmostation Wallet Extension supports 2 languages and 5 currencies.
+> We plan to support more currencies and languages in the near future.
 
 ![Currency & Language](/img/guide/extension/settings/currency.png)
 
 
 ## Lock screen
 
-> You can lock your screen to secure your wallet.
+> Lock your screen to secure your wallet.
 
 ![Lock screen](/img/guide/extension/settings/lock.png)

@@ -4,17 +4,14 @@ sidebar_position: 5
 
 # Support dApps
 
-Cosmostation Wallet Extension supports various cosmos based dApps.
+Cosmostation Wallet Exntension supports various dApps deployed on PoS networks.
 
 ![Support dApps](/img/guide/extension/dapp/connect.png)
 
-## Connected status on dApp.
-> You can easily see that Cosmostation Extension Wallet is connected to the dApp.
+## Connect status
+> Easily check if the wallet extension is connect to the dApp.
 >
-> If you wish to disconnect, click the status of the connection under the account name.
+> If you wish to disconnect, click the connection status under your account name.
 
 ## Disconnect with just a click.
-> You can easily disconnect from dApps with Cosmostation Wallet Extesnion.
->
-> If you wish to disconnect, click the status of the connection under the account name.
-
+> Easily disconnect from dApps by clicking the connecting status under your account name.

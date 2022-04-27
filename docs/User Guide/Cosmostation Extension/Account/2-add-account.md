@@ -5,74 +5,62 @@ sidebar_position: 2
 
 # Add Account
 
-Using Cosmostation Wallet Extension, you can create your wallet, restore with mnemonic phrase, and restore with private key.
+Create a new wallet, restore with an existing mnemonic phrase, or restore with a private key.
 
 
 ## Create wallet
 
-> The following process is for the users who do not have wallet.
+> The following process is for users who do not have a wallet and wish to create a new wallet. 
 >
-> 'Create wallet' will make a new wallet with mnemonic phrase and private key.
+> 'Create wallet' will import a new wallet with a mnemonic phrase.
 
 `Step 1` Click 'Create wallet'
 
-`Step 2` Enter 'Account name'
-Account name will be used for users to easily distinguish wallets. 
+`Step 2` Enter 'Account name'. Account name will be used for users to easily distinguish wallets imported on the extension.
 
-`Step 3` Your mnemonic phrases will be displayed. 
-Cosmostation Wallet Extension supports both 12 words and 24 words mnemonic phrases.
+`Step 3` Your mnemonic phrase will be displayed. Cosmostation Wallet Extension supports both 12 words and 24 words mnemonic phrases.
 :::caution
-Please save your mnemonic phrases in a safe place and make sure you have back up of the mnemonic phrase. If mnemonic phrase is lost, there is no way to get the funds back.
+Please make sure to back up your mnemonic phrase and save it in a safe locatio only accessible by you. If the mnemonic phrase is lost, you will not be able to regain access to your account.
 :::
 
-`Step 4` (Optional) Choose HD path setting
-Cosmostation Wallet Extension provides HD path the foundation designated as a default.
+`Step 4` (Optional) Choose the HD path you wish to import. Cosmostation Wallet Extension supports HD paths designated/unique to each network by default.
 
-`Step 5` Please enter the seed phrase according to the correct sequence. This process is to confirm that users have the correct mnemonic phrase.
+`Step 5` Enter your seed phrase in correct order. This process is to confirm that you have saved the correct mnemonic phrase.
 
-`Step 6` Choose chains to use in Cosmostation Wallet Extension
-When choosing chains to use, you cannot uncheck everychain. It is mandatory to choose at least one chain.
+`Step 6` Choose networks to display in your Cosmostation Wallet Extension. You must select at least 1 chain in order to proceed.
 
-`Step 7` Enter password for Cosmostation Wallet Extension
-Please enter more than 8 character password.
+`Step 7` Enter your password for Cosmostation Wallet Extension. Password must be more than 8 characters.
 
 ![Create wallet](/img/guide/extension/account/add/create.png)
 
-## Restore wallet with mnemonic phrase
+## Restore wallet with a mnemonic phrase
 
-> The following process is for the users who already have mnemonic phrase.
+> The following process is for users who already have a mnemonic phrase.
 
-`Step 1` Click 'Restore with Mnemonics'
+`Step 1` Click 'Restore with mnemonics'
 
-`Step 2` Enter 'Account name' and 'Mnemonic phrases'. 
-Account name will be used for users to easily distinguish wallets. 
+`Step 2` Enter 'Account name' and 'Mnemonic phrases'. Account name will be used for you to easily distinguish wallets.
 
-`Step 3` (Optional) Choose HD path setting
-Cosmostation Wallet Extension provides HD path the foundation designated as a default.
+`Step 3` (Optional) Choose the HD path you wish to import. Cosmostation Wallet Extension supports HD paths designated/unique to each network by default.
 
-`Step 4` Choose chains to use in Cosmostation Wallet Extension
-When choosing chains to use, you cannot uncheck everychain. It is mandatory to choose at least one chain.
+`Step 4` Choose networks to display in your Cosmostation Wallet Extension. You must select at least 1 chain in order to proceed.
 
-`Step 5` Enter password for Cosmostation Wallet Extension
-Please enter more than 8 character password.
+`Step 5` Enter your password for Cosmostation Wallet Extension. Password must be more than 8 characters.
 
 ![Import mnemonic](/img/guide/extension/account/add/mnemonic.png)
 
-## Restore wallet with private key
+## Restore wallet with a private key
 
-> The following process is for the people who already have private key.
+> The following process is for users that already have a private key.
 
-`Step 1` Click 'Import Wallet'
+`Step 1` Click 'Import wallet'.
 
-`Step 2` Click 'Restore with Private Key'
+`Step 2` Click 'Restore with private key'.
 
-`Step 3` Enter 'Account name' and 'Private Key'
-(Private key has to start with 0x and it is in 66 digit string)
+`Step 3` Enter your 'Account name' and 'Private key'. (Private keys start with 0x and consists of a 66 digit string)
 
-`Step 4` Choose chains to use in Cosmostation Wallet Extension
-When choosing chains to use, you cannot uncheck everychain. It is mandatory to choose at least one chain.
+`Step 4` Choose networks to display in your Cosmostation Wallet Extension. You must select at least 1 chain in order to proceed.
 
-`Step 5` Enter password for Cosmostation Wallet Extension
-For entering the password, users have to enter a password that is at least 8 characters long.
+`Step 5` Enter your password for Cosmostation Wallet Extension. Password must be more than 8 characters.
 
 ![Import private key](/img/guide/extension/account/add/privatekey.png)
