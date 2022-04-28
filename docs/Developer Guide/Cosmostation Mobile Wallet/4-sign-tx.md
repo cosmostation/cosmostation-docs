@@ -3,7 +3,7 @@ sidebar_position: 4
 ---
 
 # Sign Transcations
-Sign Transcation DeepLink & QRCode.
+Sign transcation using Cosmostation Mobile Wallet via WalletConnect.
 
 ```js
 export function getSignTxRequest(chainId, signer, signDoc) {

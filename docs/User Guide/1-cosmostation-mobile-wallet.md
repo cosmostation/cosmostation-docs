@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Mobile Wallet
+# Cosmostation Mobile Wallet
 
 Cosmostation wallet support various cosmos networks.
 

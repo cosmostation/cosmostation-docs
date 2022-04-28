@@ -20,7 +20,7 @@ Customize the wallet extension in wallet settings.
 
 `Step 1` View / Add addresses to the chain you selected.
 
-`Step 2` Enter address information and click **'Save.'**
+`Step 2` Enter address information and click **'Save'**.
 - Label your address to distinguish them from one another.
 
 :::warning
@@ -33,8 +33,7 @@ Memo is optional but required to transfer assets to centralized cryptocurrency e
 
 > If you add addresses in the address book, you can use the address book feature when sending assets.
 
-![Send by address book](/img/guide/extension/settings/address_send.png)
-
+<img src="/img/guide/extension/settings/address_send.png" width="50%" height="50%" />
 
 ## Change password
 
@@ -44,8 +43,7 @@ Memo is optional but required to transfer assets to centralized cryptocurrency e
 Make sure that you enter more than 8 characters for the password.
 :::
 
-![Change Password](/img/guide/extension/settings/password.png)
-
+<img src="/img/guide/extension/settings/password.png" width="50%" height="50%" />
 
 ## Currency & Language
 
@@ -59,4 +57,4 @@ Make sure that you enter more than 8 characters for the password.
 
 > Lock your screen to secure your wallet.
 
-![Lock screen](/img/guide/extension/settings/lock.png)
+!<img src="/img/guide/extension/settings/lock.png" width="50%" height="50%" />

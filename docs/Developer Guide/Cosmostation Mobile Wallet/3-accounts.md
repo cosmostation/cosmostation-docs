@@ -4,12 +4,12 @@ sidebar_position: 3
 
 # Accounts
 
-Get Account from DeepLink & QRCode.
-> Before Select Account, Check Not supported chain or Empty accounts.
->
-> Response contain selected accounts 
+Use account on Cosmostation Mobile Wallet via WalletConnect.
 
 ## Get Accounts
+> Select an account after checking unsupported chains or empty accounts.
+>
+> The response only contains selected account.
 
 ```js
 export function getAccountRequest(chainIds) {

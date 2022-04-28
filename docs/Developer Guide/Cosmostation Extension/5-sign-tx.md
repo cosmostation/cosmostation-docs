@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Sign Transcation
+# Sign Transcations
 
 Sign transcation via Cosmostation Extension
 

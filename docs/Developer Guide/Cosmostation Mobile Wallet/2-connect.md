@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Connect
 
-Cosmostation Mobile Wallet support wallet connect.
+Cosmostation Mobile Wallet supports dApps via WalletConnect.
 
 ```js
 import WalletConnect from '@walletconnect/client';
@@ -22,7 +22,7 @@ export async function connect() {
 }
 ```
 ### Modal
-On initialize WalletConnect using CosmostationModal to use DeepLink and QRCode connect.
+Use CosmostationModal when initializing WalletConnect to use DeepLink and QRCode connect.
 ```js
 import CosmostationWCModal from '@cosmostataion/wc-modal';
 ```
@@ -33,7 +33,7 @@ https://github.com/cosmostation/wc-example/tree/master/src/modal
 :::
 
 ### Event
-Implement connect event
+By implementing connect/disconnect event, handle connect state event.
 ```js
 const connector = await connect();
 
