@@ -8,7 +8,6 @@ Create Dapp using "Cosmostation extension"
 
 ## Add package
 
-
 ```bash title="yarn"
 yarn add @cosmostation/extension-client
 ```
