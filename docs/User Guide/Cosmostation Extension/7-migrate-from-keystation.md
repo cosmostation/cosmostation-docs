@@ -45,15 +45,13 @@ DO NOT share your Secret Recovery Phrase with anyone! If someone has access to y
 Please make sure that you use Cosmostation Wallet Extension on your private PC. 
 :::
 
-`Step 1` To download Cosmostation Wallet Extension, please click here to download from the chrome web store.
-
-https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf/related
+`Step 1` To download Cosmostation Wallet Extension, please click [here](https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf/related) to download from the chrome web store.
 
 ![Extension_webstore](/img/guide/extension/migrate/2.0.0.Extension_webstore.png)
 
 
-`Step 2` From here, please refer to our docs on how to restore an account with either your mnemonic phrase or private key.
+`Step 2` From here, please refer to our [docs](https://docs.cosmostation.io/docs/User%20Guide/Cosmostation%20Extension/Account/add-account) on how to restore an account with either your mnemonic phrase or private key.
 
-https://docs.cosmostation.io/docs/User%20Guide/Cosmostation%20Extension/Account/add-account
+
 
 <img src="/img/guide/extension/migrate/2.0.1.Extension_welcome_page.png" width="50%" height="50%" />
