@@ -37,18 +37,19 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Cosmostation Wallet',
+        // title: 'Cosmostation Wallet',
         logo: {
           alt: 'Logo',
           src: 'img/logo.svg',
+          srcDark: 'img/logo_dark.svg'
         },
         items: [
-          {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Docs',
-          },
+          // {
+          //   type: 'doc',
+          //   docId: 'intro',
+          //   position: 'left',
+          //   label: 'Docs',
+          // },
           {
             href: 'https://github.com/cosmostation',
             label: 'GitHub',
