@@ -17,8 +17,8 @@ const supportedChains = await provider.getSupportedChains();
 ### Vanilla Code
 
 ```javascript
-const supportedChains = await window.cosmostation.tendermint.request({
-  method: "ten_supportedChainNames",
+const supportedChains = await window.cosmostation.cosmos.request({
+  method: "cos_supportedChainNames",
 });
 ```
 
@@ -65,8 +65,8 @@ await provider.addChain({
 ### Vanilla Code
 
 ```javascript
-await window.cosmostation.tendermint.request({
-  method: "ten_addChain",
+await window.cosmostation.cosmos.request({
+  method: "cos_addChain",
   params: {
     chainId: "cerberus-chain-1",
     chainName: "cerberus",

@@ -37,8 +37,8 @@ const response = await provider.signAmino(
 ### Vanilla Code
 
 ```javascript
-const response = await window.cosmostation.tendermint.request({
-  method: "ten_signAmino",
+const response = await window.cosmostation.cosmos.request({
+  method: "cos_signAmino",
   params: {
     chainName: "cosmos",
     doc: {
@@ -162,8 +162,8 @@ const response = await provider.signDirect(
 ### Vanilla Code
 
 ```javascript
-const response = await window.cosmostation.tendermint.request({
-  method: "ten_signDirect",
+const response = await window.cosmostation.cosmos.request({
+  method: "cos_signDirect",
   params: {
     chainName: "cosmos",
     doc: {
