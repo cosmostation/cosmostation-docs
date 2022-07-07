@@ -17,8 +17,8 @@ const account = await provider.getAccount({ chainName: "cosmos" });
 ### Vanilla Code
 
 ```javascript
-const accoutn = await window.cosmostation.tendermint.request({
-  method: "ten_account",
+const accoutn = await window.cosmostation.cosmos.request({
+  method: "cos_account",
   params: { chainName: "cosmos" },
 });
 ```
@@ -59,8 +59,8 @@ const account = await provider.requestAccount({ chainName: "cosmos" });
 ### Vanilla Code
 
 ```javascript
-const accoutn = await window.cosmostation.tendermint.request({
-  method: "ten_requestAccount",
+const accoutn = await window.cosmostation.cosmos.request({
+  method: "cos_requestAccount",
   params: { chainName: "cosmos" },
 });
 ```

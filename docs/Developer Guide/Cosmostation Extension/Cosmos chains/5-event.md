@@ -17,9 +17,7 @@ provider.onAccountChanged(() => console.log("changed"));
 ### Vanilla Code
 
 ```javascript
-window.cosmostation.tendermint.on("accountChanged", () =>
-  console.log("changed")
-);
+window.cosmostation.cosmos.on("accountChanged", () => console.log("changed"));
 ```
 
 ## offAccountChanged
@@ -34,8 +32,8 @@ provider.offAccountChanged(event);
 ### Vanilla Code
 
 ```javascript
-const event = window.cosmostation.tendermint.on("accountChanged", () =>
+const event = window.cosmostation.cosmos.on("accountChanged", () =>
   console.log("changed")
 );
-window.cosmostation.tendermint.off(event);
+window.cosmostation.cosmos.off(event);
 ```

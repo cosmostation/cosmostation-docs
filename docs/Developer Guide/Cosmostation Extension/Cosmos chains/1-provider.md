@@ -9,10 +9,10 @@ Cosmostation extension support various chains.
 ### Code using @cosmostation/extension-client
 
 ```typescript
-import { tendermint, InstallError } from "@cosmostation/extension-client";
+import { cosmos, InstallError } from "@cosmostation/extension-client";
 
 try {
-  const provider = await tendermint();
+  const provider = await cosmos();
 } catch (e) {
   if (e instanceof InstallError) {
     console.log("not installed");
