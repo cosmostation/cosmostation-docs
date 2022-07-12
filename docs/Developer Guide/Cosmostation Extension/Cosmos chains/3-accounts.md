@@ -11,7 +11,7 @@ Using Cosmostation Extension accounts.
 ### Code using @cosmostation/extension-client
 
 ```javascript
-const account = await provider.getAccount({ chainName: "cosmos" });
+const account = await provider.getAccount("cosmos");
 ```
 
 ### Vanilla Code
@@ -53,7 +53,7 @@ type AccountResponse = {
 ### Code using @cosmostation/extension-client
 
 ```typescript
-const account = await provider.requestAccount({ chainName: "cosmos" });
+const account = await provider.requestAccount("cosmos");
 ```
 
 ### Vanilla Code
