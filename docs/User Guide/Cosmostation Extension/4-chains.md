@@ -8,7 +8,7 @@ Cosmostation Wallet Extension supports various PoS networks.
 
 ## Add/Remove Chains
 
-> Add/remove chains to dfficiently manage your wallet.
+> Add/remove chains to efficiently manage your wallet.
 >
 > Select chains you want to display on the list. Only selected chains will be displayed on both the dashboard and wallet detail page.
 
