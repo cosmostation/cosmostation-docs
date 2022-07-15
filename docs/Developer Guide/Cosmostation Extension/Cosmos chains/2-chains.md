@@ -59,6 +59,7 @@ await provider.addChain({
     tiny: "0.002",
   },
   sendGas: "80000", // optional (default: '100000')
+  type: "ETHERMINT", // optional (default: '')
 });
 ```
 
@@ -83,6 +84,7 @@ await window.cosmostation.cosmos.request({
       tiny: "0.002",
     },
     sendGas: "80000", // optional (default: '100000')
+    type: "ETHERMINT", // optional (default: '')
   },
 });
 ```
