@@ -26,11 +26,6 @@ Use CosmostationModal when initializing WalletConnect to use DeepLink and QRCode
 ```js
 import CosmostationWCModal from '@cosmostataion/wc-modal';
 ```
-:::warning
-Not deploy yet. Please using below code.
-
-https://github.com/cosmostation/wc-example/tree/master/src/modal
-:::
 
 ### Event
 By implementing connect/disconnect event, handle connect state event.
