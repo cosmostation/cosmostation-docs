@@ -98,3 +98,29 @@ type addChainResponse = boolean;
 ```json title="Example"
 true
 ```
+
+## Activated chains
+
+### Code using @cosmostation/extension-client
+
+```javascript
+const activatedChains = await provider.getActivatedChains();
+```
+
+### Vanilla Code
+
+```javascript
+const activatedChains = await window.cosmostation.cosmos.request({
+  method: "cos_activatedChainNames",
+});
+```
+
+#### Response
+
+```typescript title="Model"
+type ActivatedChainNamesResponse = string[]; // lowercase
+```
+
+```json title="Example"
+["cosmos", "osmosis"]
+```
