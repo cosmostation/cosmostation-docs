@@ -53,7 +53,20 @@ type AccountResponse = {
 ### Code using @cosmostation/extension-client
 
 ```typescript
-const account = await provider.requestAccount("cosmos");
+try {
+  // ...
+  const account = await provider.requestAccount("cosmos");
+} catch (e) {
+  if (e instanceof InstallError) {
+    console.log("not installed");
+  }
+
+  if (e.code === 4001) {
+    console.log("user rejected request");
+  }
+
+  // exception
+}
 ```
 
 ### Vanilla Code

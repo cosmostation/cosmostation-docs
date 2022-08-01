@@ -43,24 +43,37 @@ type SupportedChainNamesResponse = {
 ### Code using @cosmostation/extension-client
 
 ```javascript
-await provider.addChain({
-  chainId: "cerberus-chain-1",
-  chainName: "cerberus",
-  addressPrefix: "cre",
-  baseDenom: "ucrbrus",
-  displayDenom: "CRBRUS",
-  restURL: "https://lcd-office.cosmostation.io/mooncat-1-1",
-  coinType: "118", // optional (default: '118')
-  decimals: 6, // optional (default: 6)
-  gasRate: {
-    // optional (default: { average: '0.025', low: '0.0025', tiny: '0.00025' })
-    average: "0.2",
-    low: "0.02",
-    tiny: "0.002",
-  },
-  sendGas: "80000", // optional (default: '100000')
-  type: "ETHERMINT", // optional (default: '')
-});
+try {
+  // ...
+  await provider.addChain({
+    chainId: "cerberus-chain-1",
+    chainName: "cerberus",
+    addressPrefix: "cre",
+    baseDenom: "ucrbrus",
+    displayDenom: "CRBRUS",
+    restURL: "https://lcd-office.cosmostation.io/mooncat-1-1",
+    coinType: "118", // optional (default: '118')
+    decimals: 6, // optional (default: 6)
+    gasRate: {
+      // optional (default: { average: '0.025', low: '0.0025', tiny: '0.00025' })
+      average: "0.2",
+      low: "0.02",
+      tiny: "0.002",
+    },
+    sendGas: "80000", // optional (default: '100000')
+    type: "ETHERMINT", // optional (default: '')
+  });
+} catch (e) {
+  if (e instanceof InstallError) {
+    console.log("not installed");
+  }
+
+  if (e.code === 4001) {
+    console.log("user rejected request");
+  }
+
+  // exception
+}
 ```
 
 ### Vanilla Code
