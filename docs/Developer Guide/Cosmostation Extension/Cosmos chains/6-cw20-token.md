@@ -102,7 +102,7 @@ export type getCW20TokenBalanceResponse = string;
 "1331775394"
 ```
 
-## Get CW20 Token Balance
+## Get CW20 Token Info
 
 ### Code using @cosmostation/extension-client
 
