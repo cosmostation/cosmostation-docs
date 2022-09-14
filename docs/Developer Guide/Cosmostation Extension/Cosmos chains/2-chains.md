@@ -6,38 +6,6 @@ sidebar_position: 2
 
 Get supported chains and add specific chains for using Cosmostation Extension.
 
-## Supported chains
-
-### Code using @cosmostation/extension-client
-
-```javascript
-const supportedChains = await provider.getSupportedChains();
-```
-
-### Vanilla Code
-
-```javascript
-const supportedChains = await window.cosmostation.cosmos.request({
-  method: "cos_supportedChainNames",
-});
-```
-
-#### Response
-
-```typescript title="Model"
-type SupportedChainNamesResponse = {
-  official: string[]; // lowercase
-  unofficial: string[]; // lowercase
-};
-```
-
-```json title="Example"
-{
-  "official": ["cosmos", "osmosis"],
-  "unofficial": ["test"]
-}
-```
-
 ## Add chains
 
 ### Code using @cosmostation/extension-client
@@ -112,6 +80,70 @@ type addChainResponse = boolean;
 true
 ```
 
+## Supported chains
+
+### Code using @cosmostation/extension-client
+
+```javascript
+const supportedChains = await provider.getSupportedChains();
+```
+
+### Vanilla Code
+
+```javascript
+const supportedChains = await window.cosmostation.cosmos.request({
+  method: "cos_supportedChainNames",
+});
+```
+
+#### Response
+
+```typescript title="Model"
+type SupportedChainNamesResponse = {
+  official: string[]; // lowercase
+  unofficial: string[]; // lowercase
+};
+```
+
+```json title="Example"
+{
+  "official": ["cosmos", "osmosis"],
+  "unofficial": ["test"]
+}
+```
+
+## Supported chainIds
+
+### Code using @cosmostation/extension-client
+
+```javascript
+const supportedChains = await provider.getSupportedChainIds();
+```
+
+### Vanilla Code
+
+```javascript
+const supportedChainIds = await window.cosmostation.cosmos.request({
+  method: "cos_supportedChainIds",
+});
+```
+
+#### Response
+
+```typescript title="Model"
+type SupportedChainIdsResponse = {
+  official: string[];
+  unofficial: string[];
+};
+```
+
+```json title="Example"
+{
+  "official": ["cosmoshub-4", "gravity-bridge-3"],
+  "unofficial": ["columbus-5", "agoric-3"]
+}
+```
+
 ## Activated chains
 
 ### Code using @cosmostation/extension-client
@@ -136,4 +168,30 @@ type ActivatedChainNamesResponse = string[]; // lowercase
 
 ```json title="Example"
 ["cosmos", "osmosis"]
+```
+
+## Activated chainIds
+
+### Code using @cosmostation/extension-client
+
+```javascript
+const activatedChainIds = await provider.getActivatedChainIds();
+```
+
+### Vanilla Code
+
+```javascript
+const activatedChainIds = await window.cosmostation.cosmos.request({
+  method: "cos_activatedChainIds",
+});
+```
+
+#### Response
+
+```typescript title="Model"
+type ActivatedChainIdsResponse = string[];
+```
+
+```json title="Example"
+["cosmoshub-4", "gravity-bridge-3"]
 ```

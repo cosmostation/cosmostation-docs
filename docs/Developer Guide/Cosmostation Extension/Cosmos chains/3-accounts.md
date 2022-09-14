@@ -34,6 +34,7 @@ type AccountResponse = {
   name: string;
   address: string;
   publicKey: Uint8Array;
+  isLedger: boolean;
 };
 ```
 
@@ -44,7 +45,8 @@ type AccountResponse = {
   "publicKey": [
     3, 77, 9, 189, 251, 249, 150, 235, 192, 56, 51, 98, 56, 242, 12, 102, 144,
     211, 89, 42, 187, 170
-  ]
+  ],
+  "isLedger": false
 }
 ```
 
@@ -85,6 +87,7 @@ type RequestAccountResponse = {
   name: string;
   address: string;
   publicKey: Uint8Array;
+  isLedger: boolean;
 };
 ```
 
@@ -95,6 +98,7 @@ type RequestAccountResponse = {
   "publicKey": [
     3, 77, 9, 189, 251, 249, 150, 235, 192, 56, 51, 98, 56, 242, 12, 102, 144,
     211, 89, 42, 187, 170
-  ]
+  ],
+  "isLedger": false
 }
 ```
