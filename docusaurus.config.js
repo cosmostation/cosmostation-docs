@@ -92,7 +92,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Cosmosation, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Cosmostation, Inc. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

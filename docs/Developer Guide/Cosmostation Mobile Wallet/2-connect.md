@@ -34,7 +34,7 @@ yarn add @cosmostation/wc-modal
 ```
 
 ```js
-import CosmostationWCModal from "@cosmostataion/wc-modal";
+import CosmostationWCModal from "@cosmostation/wc-modal";
 ```
 
 ### Event
