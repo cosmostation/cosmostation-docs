@@ -33,7 +33,7 @@ try {
 ```javascript
 const provider = aptos();
 try {
-  const pendingTransaction = await provider.connect();
+  const account = await provider.connect();
 } catch (e) {
   if (e.code === 4001) {
     console.log("user rejected request");
@@ -85,7 +85,7 @@ try {
 try {
   const provider = aptos();
 
-  const pendingTransaction = await provider.account(payload);
+  const account = await provider.account(payload);
 } catch (e) {
   if (e.code === 4001) {
     console.log("user rejected request");

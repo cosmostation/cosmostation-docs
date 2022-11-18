@@ -129,7 +129,7 @@ import { aptos, InstallError } from "@cosmostation/extension-client";
 try {
   const provider = await aptos();
 
-  const pendingTransaction = await provider.signAndSubmitTransaction(payload);
+  const signature = await provider.signTransaction(payload);
 } catch (e) {
   if (e instanceof InstallError) {
     console.log("not installed");
@@ -160,7 +160,7 @@ const payload = {
 try {
   const provider = aptos();
 
-  const pendingTransaction = await provider.signAndSubmitTransaction(payload);
+  const signature = await provider.signTransaction(payload);
 } catch (e) {
   if (e.code === 4001) {
     console.log("user rejected request");
