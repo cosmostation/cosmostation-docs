@@ -11,7 +11,7 @@ Using Cosmostation Extension accounts.
 ### Code using @cosmostation/extension-client
 
 ```javascript
-const account = await provider.getAccount("cosmos");
+const account = await provider.getAccount("cosmoshub-4");
 ```
 
 ### Vanilla Code
@@ -19,7 +19,7 @@ const account = await provider.getAccount("cosmos");
 ```javascript
 const accoutn = await window.cosmostation.cosmos.request({
   method: "cos_account",
-  params: { chainName: "cosmos" },
+  params: { chainName: "cosmoshub-4" },
 });
 ```
 
@@ -57,7 +57,7 @@ type AccountResponse = {
 ```typescript
 try {
   // ...
-  const account = await provider.requestAccount("cosmos");
+  const account = await provider.requestAccount("cosmoshub-4");
 } catch (e) {
   if (e instanceof InstallError) {
     console.log("not installed");
@@ -76,7 +76,7 @@ try {
 ```javascript
 const accoutn = await window.cosmostation.cosmos.request({
   method: "cos_requestAccount",
-  params: { chainName: "cosmos" },
+  params: { chainName: "cosmoshub-4" },
 });
 ```
 

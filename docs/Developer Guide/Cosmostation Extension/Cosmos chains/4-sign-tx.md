@@ -14,7 +14,7 @@ Sign transcation via Cosmostation Extension
 try {
   // ...
   const response = await provider.signAmino(
-    "cosmos",
+    "cosmoshub-4",
     {
       chain_id: "cosmoshub-4",
       fee: { amount: [{ denom: "uatom", amount: "5000" }], gas: "200000" },
@@ -32,7 +32,16 @@ try {
       sequence: "20",
       account_number: "632177",
     },
-    { memo: true, fee: true } // edit | optional (default: { memo: false, fee: false }),
+    {
+      memo: true, // optional
+      fee: true, // optional
+      gasRate: {
+        // optional
+        average: "0.2",
+        low: "0.02",
+        tiny: "0.002",
+      },
+    }
   );
 } catch (e) {
   if (e instanceof InstallError) {
@@ -53,7 +62,7 @@ try {
 const response = await window.cosmostation.cosmos.request({
   method: "cos_signAmino",
   params: {
-    chainName: "cosmos",
+    chainName: "cosmoshub-4",
     doc: {
       chain_id: "cosmoshub-4",
       fee: { amount: [{ denom: "uatom", amount: "5000" }], gas: "200000" },
@@ -71,8 +80,14 @@ const response = await window.cosmostation.cosmos.request({
       sequence: "20",
       account_number: "632177",
     },
-    isEditMemo: true,
-    isEditFee: true,
+    isEditMemo: true, // optional
+    isEditFee: true, // optional
+    gasRate: {
+      // optional
+      average: "0.2",
+      low: "0.02",
+      tiny: "0.002",
+    },
   },
 });
 ```
