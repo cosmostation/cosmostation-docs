@@ -82,7 +82,7 @@ true
 
 ### keplr to cosmostation
 
-```JSON
+```typescript
 {
   chainId: chainInfo.chainId,
   addressPrefix: chainInfo.bech32Config.bech32PrefixAccAddr,
