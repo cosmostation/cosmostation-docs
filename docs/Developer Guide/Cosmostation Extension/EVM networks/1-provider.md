@@ -23,11 +23,16 @@ try {
 ### Vanilla Code
 
 ```javascript
-window.onload = async () => {
-  if (!window.cosmostation) {
-    alert("Please install cosmostation extension");
+const ethereum = () => {
+  if ("cosmostation" in window) {
+    return window.cosmostation.ethereum;
   } else {
-    // logic
+    window.open("https://cosmostation.io/wallet/#extension");
+    /**
+     * or window.open("https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf");
+     * */
   }
 };
+
+const provider = ethereum();
 ```
