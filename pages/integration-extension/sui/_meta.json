@@ -1,0 +1,6 @@
+{
+  "provider": "Provider",
+  "connect-and-get-accounts":"Connect & Get Accounts",
+  "execute-move-call":"Execute Move Call",
+  "sign-and-execute-transaction":"Sign & Execute Transaction"
+}

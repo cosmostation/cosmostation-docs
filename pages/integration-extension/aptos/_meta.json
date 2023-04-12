@@ -1,0 +1,7 @@
+{
+  "provider": "Provider",
+  "connect-and-account":"Connect & Account",
+  "sign-and-submit-transaction":"Sign & Submit Transaction",
+  "network":"Network",
+  "event":"Event"
+}

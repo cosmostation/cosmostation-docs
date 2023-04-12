@@ -1,0 +1,20 @@
+{
+  "-- Overview": {
+    "type": "separator",
+    "title": "Overview"
+  },
+  "index": "Introduction",
+  "overview": "Overview",
+  "-- Integration": {
+    "type": "separator",
+    "title": "Integration"
+  },
+  "integration-extension":"Extension",
+  "integration-mobile":"Mobile Wallet",
+  "contact": {
+    "title": "Contact ↗",
+    "type": "page",
+    "href": "https://twitter.com/IBCwallet",
+    "newWindow": true
+  }
+}

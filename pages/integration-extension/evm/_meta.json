@@ -1,0 +1,7 @@
+{
+  "provider": "Provider",
+  "use-web3-js":"Use web3.js",
+  "use-ethers":"Use ethers",
+  "event":"Event",
+  "supported-rpc-methods":"Supported RPC Methods"
+}
