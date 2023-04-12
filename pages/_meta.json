@@ -1,8 +1,4 @@
 {
-  "-- Overview": {
-    "type": "separator",
-    "title": "Overview"
-  },
   "index": "Introduction",
   "overview": "Overview",
   "-- Integration": {
