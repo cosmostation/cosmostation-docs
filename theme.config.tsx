@@ -29,6 +29,12 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase:
     "https://github.com/cosmostation/cosmostation-wallet-docs",
+
+  useNextSeoProps() {
+    return {
+      titleTemplate: "%s – Cosmostation Docs",
+    };
+  },
 };
 
 export default config;

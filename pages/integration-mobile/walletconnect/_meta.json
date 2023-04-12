@@ -1,0 +1,8 @@
+{
+  "connect":"Connect",
+  "accounts":"Accounts",
+  "sign-tx":"Sign Transaction",
+  "integrate-cosmjs":"Integrate cosmjs",
+  "dapp-tab":"Dapp Tab",
+  "dapp-example":"Dapp Examples"
+}

@@ -1,0 +1,109 @@
+# WalletConnect 2.0
+
+Cosmostation Mobile Wallet implement WalletConnect 2.0 specs.
+
+[WalletConnect 2.0 Cosmos Guide](https://docs.walletconnect.com/2.0/advanced/rpc-reference/cosmos-rpc)
+
+[WalletConnect 2.0 Example Code](https://github.com/cosmostation/cosmostation-dapps-example/tree/main/examples/cosmos-wc-example)
+
+[WalletConnect 2.0 Example Page](https://cosmjs-example.dev.cosmostation.io/)
+
+### Connect
+
+```js
+import Client from "@walletconnect/sign-client";
+import {
+  PairingTypes,
+  ProposalTypes,
+  SessionTypes,
+} from "@walletconnect/types";
+
+function App() {
+  const [client, setClient] = useState<Client>();
+  const [pairings, setPairings] = useState<PairingTypes.Struct[]>([]);
+  const [session, setSession] = useState<SessionTypes.Struct>();
+  const [chains, setChains] = useState<string[]>([]);
+  const [accounts, setAccounts] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (client === undefined) {
+      createClient();
+    }
+  }, [client]);
+
+  const createClient = async () => {
+    try {
+      const _client = await Client.init({...});
+      setClient(_client);
+    } catch (err) {
+      throw err;
+    } finally {
+    }
+  };
+
+  async function connect() {
+    const modal = new Modal();
+    if (typeof client === "undefined") {
+      throw new Error("WalletConnect is not initialized");
+    }
+
+    try {
+      const requiredNamespaces = getRequiredNamespaces();
+      const { uri, approval } = await client.connect({
+        pairingTopic: undefined,
+        requiredNamespaces: {
+          cosmos: {
+            methods: ["cosmos_signDirect", "cosmos_signAmino"],
+            chains: ["cosmos:cosmoshub-4"],
+            events: [],
+          },
+        },
+      });
+
+      if (uri) {
+        const standaloneChains = Object.values(requiredNamespaces)
+          .map((namespace) => namespace.chains)
+          .flat();
+
+        modal.open(uri, standaloneChains);
+      }
+
+      const session = await approval();
+      console.log("Established session:", session);
+      await onSessionConnected(session);
+      setPairings(client.pairing.getAll({ active: true }));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      modal.close();
+    }
+  }
+
+  const getRequiredNamespaces = (): ProposalTypes.RequiredNamespaces => {
+    return Object.fromEntries(
+      chains.map((namespace) => [
+        namespace,
+        {
+          methods: ["cosmos_signDirect", "cosmos_signAmino"],
+          chains: chains.filter((chain) => chain.startsWith(namespace)),
+          events: [],
+        },
+      ])
+    );
+  };
+
+  const onSessionConnected = useCallback(
+    async (_session: SessionTypes.Struct) => {
+      const allNamespaceAccounts = Object.values(_session.namespaces)
+        .map((namespace) => namespace.accounts)
+        .flat();
+      const allNamespaceChains = Object.keys(_session.namespaces);
+
+      setSession(_session);
+      setChains(allNamespaceChains);
+      setAccounts(allNamespaceAccounts);
+    },
+    []
+  );
+}
+```

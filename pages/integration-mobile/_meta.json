@@ -1,9 +1,12 @@
 {
   "intro": "Introduction",
-  "connect":"Connect",
-  "accounts":"Accounts",
-  "sign-tx":"Sign Transaction",
-  "integrate-cosmjs":"Integrate cosmjs",
-  "accounts":"Accounts",
-  "accounts":"Accounts"
+  "cosmostation":"Cosmostation",
+  "cosmoskit":{
+    "title":"Cosmos-Kit ↗",
+    "href": "https://docs.cosmoskit.com/integrating-wallets/cosmostation",
+    "newWindow": true
+  },
+  "walletconnect":"WalletConnect 1.0",
+  "walletconnect2":"WalletConnect 2.0",
+  "cosmjs":"Cosmjs"
 }
