@@ -27,7 +27,7 @@ const response = await window.cosmostation.cosmos.request({
 
 #### Response
 
-```typescript filename=Model
+```typescript filename="Model"
 export type SendTransactionResponse = {
   tx_response: SendTransaction;
 };
@@ -56,7 +56,7 @@ export const SEND_TRANSACTION_MODE = {
 };
 ```
 
-```json filename=Example
+```json filename="Example"
 {
   "tx_response": {
     "code": 0,

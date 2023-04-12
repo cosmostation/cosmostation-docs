@@ -6,7 +6,7 @@
     "dev": "next dev",
     "start": "next start",
     "build": "next build && next export",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && cp CNAME ./out",
     "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
   },
   "repository": {

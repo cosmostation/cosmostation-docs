@@ -25,7 +25,7 @@ const response = await window.cosmostation.sui.executeMoveCall(payload);
 
 - [MoveCallTransaction](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/signers/txn-data-serializers/txn-data-serializer.ts#L88)
 
-```typescript filename=Model
+```typescript filename="Model"
 export interface MoveCallTransaction {
   packageObjectId: ObjectId;
   module: string;
@@ -42,14 +42,14 @@ export interface MoveCallTransaction {
 - [CertifiedTransaction](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L128)
 - [TransactionEffects](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L162)
 
-```typescript filename=Model
+```typescript filename="Model"
 export type SuiTransactionResponse = {
   certificate: CertifiedTransaction;
   effects: TransactionEffects;
 };
 ```
 
-```json filename=Example
+```json filename="Example"
 {
   "certificate": {
     "transactionDigest": "QTWZUMmBzPReVUPjxPRPs271Zve7C4rtCRHm8Cisz4x",

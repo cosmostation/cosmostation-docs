@@ -42,14 +42,14 @@ const response = await window.cosmostation.cosmos.request({
 
 #### Response
 
-```typescript filename=Model
+```typescript filename="Model"
 export type SignMessageResponse = {
   signature: string;
   pub_key: { type: string; value: string };
 };
 ```
 
-```json filename=Example
+```json filename="Example"
 {
   "pub_key": {
     "type": "tendermint/PubKeySecp256k1",
@@ -116,10 +116,10 @@ const result = await window.cosmostation.cosmos.request({
 
 #### Response
 
-```typescript filename=Model
+```typescript filename="Model"
 export type VerifyMessageResponse = boolean;
 ```
 
-```json filename=Example
+```json filename="Example"
 true
 ```

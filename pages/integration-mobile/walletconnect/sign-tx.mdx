@@ -13,7 +13,7 @@ export function getSignTxRequest(chainId, signer, signDoc) {
 }
 ```
 
-```js filename=Example
+```js filename="Example"
 const signDoc = makeAminoSignDoc(
   [message],
   fee,
@@ -42,4 +42,11 @@ connector
       console.error(rawLog);
     }
   });
+```
+
+```typescript filename="Model"
+type SignTxResponse = {
+  signed: StdSignDoc;
+  signature: { signature: string; pub_key: { type: string; value: string } };
+};
 ```
