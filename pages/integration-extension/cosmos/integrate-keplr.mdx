@@ -87,5 +87,7 @@ window.cosmostation.providers.keplr.defaultOptions = {
 ## Event
 
 ```javascript
-window.cosmostation.cosmos.on("accountChanged", () => console.log("changed"));
+window.addEventListener("cosmostation_keystorechange", () => {
+    console.log("Key store in Cosmostation is changed. You may need to refetch the account info.")
+})
 ```
