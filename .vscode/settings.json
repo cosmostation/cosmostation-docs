@@ -1,0 +1,29 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/tmp": true,
+    "**/.next": true,
+    "**/out": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true,
+    "**/tmp": true,
+    "**/.next/**": true,
+    "**/out/**": true
+  },
+  "search.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/*.svg": true,
+    "**/.next": true,
+    "**/out": true,
+    "**/yarn.lock": true
+  }
+}

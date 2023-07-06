@@ -1,0 +1,41 @@
+## Account Transactions
+
+import { TryAPI } from '@/components/try-api';
+
+<TryAPI
+  url="http://api.apiservice.com/:network/accounts/:address/transactions"
+  query={[
+    { key: 'take', type: 'number', optional: true, placeholder: '20' },
+    {
+      key: 'messageTypes[0]',
+      type: 'string',
+      optional: true,
+      placeholder: '/cosmos.gov.v1beta1.MsgVote',
+    },
+    {
+      key: 'messageTypes[1]',
+      type: 'string',
+      optional: true,
+      placeholder: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+    },
+    {
+      key: 'messageTypes[2]',
+      type: 'string',
+      optional: true,
+      placeholder: '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+    },
+    {
+      key: 'fromDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+  ]}
+  useBearerAuthorization
+/>
