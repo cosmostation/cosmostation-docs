@@ -29,6 +29,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-json-view-lite:
+    specifier: ^0.9.6
+    version: 0.9.6(react@18.2.0)
   sass:
     specifier: ^1.63.6
     version: 1.63.6
@@ -2621,6 +2624,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-json-view-lite@0.9.6(react@18.2.0):
+    resolution: {integrity: sha512-E5P4YnJPRubzzc0ekJcKRk31Ts/hVaph7XH8ZfsybhFB1gWaAzewoYLLO1SIa4g32LKlcpnqXP4MSPbJrgckng==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react@18.2.0:

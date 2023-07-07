@@ -1,2 +1,9 @@
 .button {
+  background-color: var(--shiki-color-ansi-black);
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+
+  &:active {
+    background-color: var(--shiki-color-ansi-black-dim);
+  }
 }

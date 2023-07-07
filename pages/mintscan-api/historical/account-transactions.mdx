@@ -3,7 +3,9 @@
 import { TryAPI } from '@/components/try-api';
 
 <TryAPI
-  url="http://api.apiservice.com/:network/accounts/:address/transactions"
+  method="GET"
+  host="http://api.apiservice.com"
+  url="/:network/accounts/:address/transactions"
   query={[
     { key: 'take', type: 'number', optional: true, placeholder: '20' },
     {

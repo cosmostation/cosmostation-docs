@@ -1,0 +1,58 @@
+.container {
+  background-color: rgba(34, 34, 34, var(--tw-bg-opacity));
+  max-height: 30rem;
+  overflow: auto;
+  padding: 0.5rem;
+
+  & > .basicChildStyle {
+    margin: 0;
+  }
+}
+
+.basicChildStyle {
+  margin-top: 0.2rem;
+  margin-left: 1.7rem;
+  color: rgba(226, 232, 240, var(--tw-text-opacity));
+  line-height: 1.1rem;
+}
+
+.expander {
+  margin-right: 0.3rem;
+}
+
+.label {
+  font-weight: bold;
+  margin-right: 0.3rem;
+}
+
+.nullValue {
+  color: var(--shiki-color-ansi-bright-blue);
+}
+
+.undefinedValue {
+  color: var(--shiki-color-ansi-bright-blue);
+}
+
+.numberValue {
+  color: var(--shiki-color-ansi-bright-red);
+}
+
+.stringValue {
+  color: var(--shiki-token-string);
+}
+
+.booleanValue {
+  color: var(--shiki-color-ansi-bright-magenta);
+}
+
+.otherValue {
+  color: var(--shiki-token-string-expression);
+}
+
+.punctuation {
+  font-weight: bold;
+}
+
+.pointer {
+  font-size: 1.3rem;
+}

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 
 import Input from '@/components/common/input';
 import { RequestInput } from '../interfaces/request-input';
@@ -6,36 +6,16 @@ import { clone } from 'ramda';
 import styles from './index.module.scss';
 
 interface IParameterSectionProps {
-  url: string;
+  parameters: RegExpMatchArray;
   inputParams: RequestInput[];
   setInputParams: (inputParams: RequestInput[]) => void;
 }
 
 const ParameterSection: React.FC<IParameterSectionProps> = ({
-  url,
+  parameters,
   inputParams,
   setInputParams,
 }) => {
-  const parameters = useMemo(() => {
-    const regex = /(?<=:)(\w+)/g;
-    const matches = url.match(regex);
-
-    return matches;
-  }, [url]);
-
-  useEffect(() => {
-    // 초기 params 입력값 초기화
-    const initParams = parameters.map<RequestInput>((param) => {
-      return {
-        key: param,
-        value: '',
-        optional: false,
-      };
-    });
-
-    setInputParams(initParams);
-  }, [parameters]);
-
   const parameterInputHandler = useCallback(
     (idx: number) => (event: ChangeEvent<HTMLInputElement>) => {
       const inputValue = event.target.value;
