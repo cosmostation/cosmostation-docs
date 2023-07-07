@@ -43,6 +43,35 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     return matches;
   }, [url]);
 
+  const initInputParams = useCallback(() => {
+    // 초기 params 입력값 초기화
+    const initParams = parameters.map<RequestInput>((param) => {
+      return {
+        key: param,
+        value: '',
+        optional: false,
+      };
+    });
+
+    setInputParams(initParams);
+  }, [parameters]);
+
+  const initInputQuery = useCallback(() => {
+    // 초기 query 입력값 초기화
+    const initQuery = query?.map<RequestInput>((queryProp) => {
+      return {
+        key: queryProp.key,
+        value: '',
+        optional: queryProp.optional || true,
+      };
+    });
+
+    setInputQuery(initQuery);
+  }, [query]);
+
+  useEffect(initInputParams, [parameters]);
+  useEffect(initInputQuery, [query]);
+
   const queryString = useMemo(() => {
     const queryObject = {};
 
@@ -81,8 +110,30 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     setBearerToken(inputValue);
   }, []);
 
+  const isValidRequest = useMemo(() => {
+    const invalidParams = inputParams.filter((param) => !param.optional && isEmpty(param.value));
+    const invalidQuery = inputQuery.filter((param) => !param.optional && isEmpty(param.value));
+
+    // 토큰 필수일때 token 입력이 없으면 invalid
+    if (useBearerAuthorization && isEmpty(bearerToken)) {
+      return false;
+    }
+
+    // 허용되지 않는 입력일 경우 invalid
+    if (!isEmpty(invalidParams) || !isEmpty(invalidQuery)) {
+      return false;
+    }
+
+    return true;
+  }, [useBearerAuthorization, bearerToken, inputParams, inputQuery]);
+
   const clickHandler = useCallback(async () => {
     try {
+      // 필수 파라미터 입력 여부 체크.
+      if (!isValidRequest) {
+        return false;
+      }
+
       const axiosOption = {
         method,
         url: callUrl,
@@ -101,36 +152,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     } catch (err) {
       setResult(err.response);
     }
-  }, [method, callUrl, useBearerAuthorization, bearerToken]);
-
-  const initInputParams = useCallback(() => {
-    // 초기 params 입력값 초기화
-    const initParams = parameters.map<RequestInput>((param) => {
-      return {
-        key: param,
-        value: '',
-        optional: false,
-      };
-    });
-
-    setInputParams(initParams);
-  }, [parameters]);
-
-  const initInputQuery = useCallback(() => {
-    // 초기 query 입력값 초기화
-    const initQuery = query?.map<RequestInput>((queryProp) => {
-      return {
-        key: queryProp.key,
-        value: '',
-        optional: queryProp.optional || true,
-      };
-    });
-
-    setInputQuery(initQuery);
-  }, [query]);
-
-  useEffect(initInputParams, [parameters]);
-  useEffect(initInputQuery, [query]);
+  }, [method, callUrl, useBearerAuthorization, bearerToken, isValidRequest]);
 
   const clearInput = useCallback(pipe(initInputParams, initInputQuery), [
     initInputParams,
@@ -142,7 +164,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
       <div>
         <div>Method: {method.toUpperCase()}</div>
         <div>Url: {url}</div>
-        <div>CallUrl: {callUrl}</div>
+        <div>CallUrl: {decodeURIComponent(callUrl)}</div>
       </div>
       <div>------------------</div>
       <HeaderSection
@@ -160,7 +182,9 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
       <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
       <BodySection />
       <div className={styles.buttonContainer}>
-        <Button onClick={clickHandler}>Execute</Button>
+        <Button onClick={clickHandler} disabled={!isValidRequest}>
+          Execute
+        </Button>
         <Button onClick={clearInput}>Clear</Button>
       </div>
       <div>------------------</div>

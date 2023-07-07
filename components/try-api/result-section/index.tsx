@@ -24,7 +24,6 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result }) => {
   const authorization = requestHeaders.Authorization;
   const accept = requestHeaders.Accept;
 
-  console.log(responseHeaders);
   const contentType = responseHeaders['content-type'];
   const contentLength = responseHeaders['content-length'];
 
@@ -34,7 +33,7 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result }) => {
     <section className={styles.container}>
       <div>
         <div>Request</div>
-        <div>Request URL: {url}</div>
+        <div>Request URL: {decodeURIComponent(url)}</div>
         {!!authorization && <div>Authorization: {authorization}</div>}
         <div>Accept: {accept}</div>
       </div>
@@ -49,7 +48,7 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result }) => {
       <div>------</div>
       <div>
         <div>Body Response</div>
-        <JsonViewer data={result.data} shouldInitiallyExpand={(level) => level < 1} />
+        <JsonViewer data={resultData} shouldInitiallyExpand={(level) => level < 1} />
       </div>
     </section>
   );

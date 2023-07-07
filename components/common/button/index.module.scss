@@ -6,4 +6,8 @@
   &:active {
     background-color: var(--shiki-color-ansi-black-dim);
   }
+
+  &:disabled {
+    background-color: var(--shiki-color-ansi-black-dim);
+  }
 }
