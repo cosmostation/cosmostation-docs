@@ -5,9 +5,9 @@
     "type": "separator",
     "title": "Integration"
   },
-  "integration-extension":"Extension",
-  "integration-mobile":"Mobile Wallet",
-  "mintscan-api":"Mintscan API",
+  "integration-extension": "Extension",
+  "integration-mobile": "Mobile Wallet",
+  "mintscan-api": "Mintscan API",
   "contact": {
     "title": "Contact ↗",
     "type": "page",

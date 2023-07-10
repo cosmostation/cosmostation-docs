@@ -1,13 +1,12 @@
 .button {
-  background-color: var(--shiki-color-ansi-black);
+  background-color: rgba(0, 0, 0, 0.05);
   border-radius: 0.3rem;
   padding: 0.3rem;
 
-  &:active {
-    background-color: var(--shiki-color-ansi-black-dim);
-  }
-
+  &:active,
   &:disabled {
     background-color: var(--shiki-color-ansi-black-dim);
+
+    color: var(--tw-ring-offset-color);
   }
 }

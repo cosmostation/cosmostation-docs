@@ -1,3 +1,6 @@
 {
-  "account-transactions": "Account Transactions"
+  "account-transactions": "Account Transactions",
+  "account-votes": "Account Votes",
+  "account-balance-history": "Account Balance History",
+  "validator-votes": "Validator Votes"
 }

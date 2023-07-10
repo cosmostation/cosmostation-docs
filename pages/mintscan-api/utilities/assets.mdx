@@ -1,0 +1,47 @@
+import { TryAPI } from '@/components/try-api';
+
+# Assets
+
+## [GET] /v1/:network/assets
+
+Get all assets of current chain
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+<TryAPI method="GET" host="http://3.88.109.66" url="/v1/:network/assets" useBearerAuthorization />
+
+## [GET] /v1/:network/assets/:symbol
+
+Get asset of specific symbol
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# Symbol of the asset to be queried
+# (string, required)
+symbol: uatom
+```
+
+<TryAPI
+  method="GET"
+  host="http://3.88.109.66"
+  url="/v1/:network/assets/:symbol"
+  useBearerAuthorization
+/>

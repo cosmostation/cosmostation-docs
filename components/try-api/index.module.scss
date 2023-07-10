@@ -1,5 +1,11 @@
 .container {
   display: block;
+
+  color: rgba(var(--shiki-color-text), var(--tw-text-opacity));
+
+  h3 {
+    font-size: 1.5rem;
+  }
 }
 
 .buttonContainer {

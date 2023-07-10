@@ -1,11 +1,48 @@
-## Account Transactions
-
 import { TryAPI } from '@/components/try-api';
+
+# Account Transactions
+
+## [GET] /v1/:network/accounts/:address/transactions
+
+Get transactions of account
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# The address of account
+# (string, required)
+address: cosmos1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep4tgu9q
+```
+
+```yaml filename="Queries"
+# Reqeust per page
+# (number, optional, default: 20)
+take: 20
+# Array of strings for filtering by message type
+# (array of string, optional)
+messageTypes[]: /cosmos.staking.v1beta1.MsgDelegate
+# Search start datetime
+# (datetime, optional)
+fromDateTime: 2023-04-20
+# Search end datetime
+# (datetime, optional)
+toDateTime: 2023-04-21 23:59:59
+# Value of `pagination.searchAfter` from previous request for pagination
+# (string, optional)
+searchAfter: MTY4MDUxNjI5NjAwMHwxNDczMjU5OQ==
+```
 
 <TryAPI
   method="GET"
-  host="http://api.apiservice.com"
-  url="/:network/accounts/:address/transactions"
+  host="http://3.88.109.66"
+  url="/v1/:network/accounts/:address/transactions"
   query={[
     { key: 'take', type: 'number', optional: true, placeholder: '20' },
     {
@@ -18,13 +55,13 @@ import { TryAPI } from '@/components/try-api';
       key: 'messageTypes[1]',
       type: 'string',
       optional: true,
-      placeholder: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+      placeholder: '/cosmos.bank.v1beta1.MsgSend',
     },
     {
       key: 'messageTypes[2]',
       type: 'string',
       optional: true,
-      placeholder: '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+      placeholder: '/cosmos.staking.v1beta1.MsgDelegate',
     },
     {
       key: 'fromDateTime',

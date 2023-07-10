@@ -1,0 +1,47 @@
+import { TryAPI } from '@/components/try-api';
+
+# Chain Staking APR
+
+## [GET] /v1/:network/apr
+
+Get default staking APR of chain
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+<TryAPI method="GET" host="http://3.88.109.66" url="/v1/:network/apr" useBearerAuthorization />
+
+## [GET] /v1/:network/apr/:validatorAddress
+
+Get staking APR when delegating to a specific validator
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# Validator address to delegate
+# (string, required)
+validatorAddress: cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn
+```
+
+<TryAPI
+  method="GET"
+  host="http://3.88.109.66"
+  url="/v1/:network/apr/:validatorAddress"
+  useBearerAuthorization
+/>

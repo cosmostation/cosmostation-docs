@@ -1,3 +1,7 @@
 {
-  "node-info": "Node Info"
+  "node-info": "Node Info",
+  "inflation": "Inflation",
+  "staking-apr": "Staking APR",
+  "assets": "Assets",
+  "prices": "Prices"
 }

@@ -8,9 +8,10 @@ import styles from './index.module.scss';
 
 interface IResultSectionProps {
   result?: AxiosResponse;
+  responseTime?: number;
 }
 
-const ResultSection: React.FC<IResultSectionProps> = ({ result }) => {
+const ResultSection: React.FC<IResultSectionProps> = ({ result, responseTime }) => {
   if (!result) {
     return null;
   }
@@ -44,6 +45,7 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result }) => {
         <div>Status Code: {statusCode}</div>
         <div>Content Type: {contentType}</div>
         <div>Content Length: {contentLength}</div>
+        {responseTime && <div>Response Time: {responseTime}ms</div>}
       </div>
       <div>------</div>
       <div>

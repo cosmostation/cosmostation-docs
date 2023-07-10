@@ -1,17 +1,18 @@
 import { Query, RequestInput } from './interfaces/request-input';
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
-import { clone, complement, filter, isEmpty, isNil, map, path, pathOr, pipe } from 'ramda';
+import { complement, filter, isEmpty, isNil, pipe } from 'ramda';
 
 import BodySection from './body-section';
 import Button from '../common/button';
 import HeaderSection from './header-section';
-import Input from '../common/input';
 import ParameterSection from './parameter-section';
 import QuerySection from './query-section';
 import ResultSection from './result-section';
+import dayjs from 'dayjs';
 import qs from 'qs';
 import styles from './index.module.scss';
+import { throttle } from 'lodash';
 
 interface ITryAPIProps {
   method: Method;
@@ -36,6 +37,9 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
 
   const [result, setResult] = useState<AxiosResponse>();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [responseTime, setResponseTime] = useState(0);
+
   const parameters = useMemo(() => {
     const regex = /(?<=:)(\w+)/g;
     const matches = url.match(regex);
@@ -58,13 +62,14 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
 
   const initInputQuery = useCallback(() => {
     // 초기 query 입력값 초기화
-    const initQuery = query?.map<RequestInput>((queryProp) => {
-      return {
-        key: queryProp.key,
-        value: '',
-        optional: queryProp.optional || true,
-      };
-    });
+    const initQuery =
+      query?.map<RequestInput>((queryProp) => {
+        return {
+          key: queryProp.key,
+          value: '',
+          optional: queryProp.optional || true,
+        };
+      }) || [];
 
     setInputQuery(initQuery);
   }, [query]);
@@ -127,32 +132,44 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     return true;
   }, [useBearerAuthorization, bearerToken, inputParams, inputQuery]);
 
-  const clickHandler = useCallback(async () => {
-    try {
-      // 필수 파라미터 입력 여부 체크.
-      if (!isValidRequest) {
-        return false;
+  const clickHandler = useCallback(
+    throttle(async () => {
+      try {
+        // 필수 파라미터 입력 여부 체크.
+        if (!isValidRequest) {
+          return false;
+        }
+
+        const axiosOption = {
+          method,
+          url: callUrl,
+          headers: {},
+        } as AxiosRequestConfig;
+
+        if (useBearerAuthorization) {
+          axiosOption.headers = {
+            ...axiosOption.headers,
+            Authorization: `Bearer ${bearerToken}`,
+          };
+        }
+
+        setIsLoading(true);
+        setResponseTime(0);
+        const startTime = dayjs();
+        const result = await axios(axiosOption);
+        const finishTime = dayjs();
+        const responseTime = finishTime.diff(startTime, 'milliseconds');
+
+        setResponseTime(responseTime);
+        setResult(result);
+      } catch (err) {
+        setResult(err.response);
+      } finally {
+        setIsLoading(false);
       }
-
-      const axiosOption = {
-        method,
-        url: callUrl,
-        headers: {},
-      } as AxiosRequestConfig;
-
-      if (useBearerAuthorization) {
-        axiosOption.headers = {
-          ...axiosOption.headers,
-          Authorization: `Bearer ${bearerToken}`,
-        };
-      }
-
-      const result = await axios(axiosOption);
-      setResult(result);
-    } catch (err) {
-      setResult(err.response);
-    }
-  }, [method, callUrl, useBearerAuthorization, bearerToken, isValidRequest]);
+    }, 1000),
+    [method, callUrl, useBearerAuthorization, bearerToken, isValidRequest],
+  );
 
   const clearInput = useCallback(pipe(initInputParams, initInputQuery), [
     initInputParams,
@@ -161,6 +178,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
 
   return (
     <div className={styles.container}>
+      <h3>Try API</h3>
       <div>
         <div>Method: {method.toUpperCase()}</div>
         <div>Url: {url}</div>
@@ -179,7 +197,9 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
         setInputParams={setInputParams}
       />
       <div>------------------</div>
-      <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
+      {!!query && !isEmpty(query) && (
+        <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
+      )}
       <BodySection />
       <div className={styles.buttonContainer}>
         <Button onClick={clickHandler} disabled={!isValidRequest}>
@@ -188,7 +208,8 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
         <Button onClick={clearInput}>Clear</Button>
       </div>
       <div>------------------</div>
-      <ResultSection result={result} />
+      {isLoading && <div>Loading...</div>}
+      {!isLoading && <ResultSection result={result} responseTime={responseTime} />}
     </div>
   );
 };

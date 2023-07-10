@@ -1,0 +1,36 @@
+import { TryAPI } from '@/components/try-api';
+
+# Account Votes
+
+## [GET] /v1/:network/validators/:validatorAddress/transactions
+
+Get votes list of validator
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# The address of validator
+# (string, required)
+validatorAddress: cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn
+```
+
+```yaml filename="Queries"
+# Whether to remove duplicates for the same proposal
+# (boolean, optional, default: false)
+distinct: true
+```
+
+<TryAPI
+  method="GET"
+  host="http://3.88.109.66"
+  url="/v1/:network/validators/:address/votes"
+  query={[{ key: 'distinct', type: 'boolean', optional: true, placeholder: 'true' }]}
+  useBearerAuthorization
+/>

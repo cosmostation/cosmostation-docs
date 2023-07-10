@@ -1,4 +1,5 @@
 {
   "utilities": "Utility API",
-  "historical": "Historical API"
+  "historical": "Historical API",
+  "custom": "Custom API"
 }

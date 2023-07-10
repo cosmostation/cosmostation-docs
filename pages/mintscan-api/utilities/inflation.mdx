@@ -1,8 +1,10 @@
-# Node Info
+import { TryAPI } from '@/components/try-api';
 
-## [GET] /v1/:network/node_info
+# Chain Inflation
 
-Get node informations with chain parameteres
+## [GET] /v1/:network/inflation
+
+Get inflation of chain
 
 ### Request
 
@@ -16,11 +18,9 @@ Authorization: Bearer {access_token}
 network: cosmos
 ```
 
-import { TryAPI } from '@/components/try-api';
-
 <TryAPI
   method="GET"
   host="http://3.88.109.66"
-  url="/v1/:network/node_info"
+  url="/v1/:network/inflation"
   useBearerAuthorization
 />

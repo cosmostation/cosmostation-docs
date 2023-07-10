@@ -21,8 +21,9 @@
 }
 
 .label {
-  font-weight: bold;
   margin-right: 0.3rem;
+
+  font-weight: bold;
 }
 
 .nullValue {
@@ -50,9 +51,16 @@
 }
 
 .punctuation {
+  margin-left: 0.8rem;
+
   font-weight: bold;
+
+  & + &,
+  span + & {
+    margin-left: 0;
+  }
 }
 
 .pointer {
-  font-size: 1.3rem;
+  font-size: 1rem;
 }

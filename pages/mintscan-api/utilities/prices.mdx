@@ -1,0 +1,110 @@
+import { TryAPI } from '@/components/try-api';
+
+# Prices
+
+## [GET] /v1/prices/:symbol/coingeckoId
+
+Get coingecko id via symbol
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# Symbol of the asset to be queried
+# (string, required)
+symbol: uatom
+```
+
+<TryAPI
+  method="GET"
+  host="http://3.88.109.66"
+  url="/v1/prices/:symbol/coingeckoId"
+  useBearerAuthorization
+/>
+
+## [GET] /v1/prices/symbol/:symbol
+
+Get hourly prices via symbol
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# Symbol of the asset to be queried
+# (string, required)
+symbol: uatom
+```
+
+```yaml filename="Queries"
+# End datetime for obtaining prices
+# (datetime, optional, default: CURRENT_TIMESTAMP)
+toDateTime: 2023-04-21 23:59:59
+
+# Reqeust per page
+# (number, optional, default: 24)
+ticks: 24
+```
+
+<TryAPI
+  method="GET"
+  host="http://3.88.109.66"
+  url="/v1/prices/symbol/:symbol"
+  query={[
+    { key: 'ticks', type: 'number', optional: true, placeholder: '24' },
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+  ]}
+  useBearerAuthorization
+/>
+
+## [GET] /v1/prices/coingeckoId/:geckoId
+
+Get hourly prices via coingeckoId
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# CoingeckoId of the asset to be queried
+# (string, required)
+geckoId: cosmos
+```
+
+```yaml filename="Queries"
+# End datetime for obtaining prices
+# (datetime, optional, default: CURRENT_TIMESTAMP)
+toDateTime: 2023-04-21 23:59:59
+
+# Reqeust per page
+# (number, optional, default: 24)
+ticks: 24
+```
+
+<TryAPI
+  method="GET"
+  host="http://3.88.109.66"
+  url="/v1/prices/coingeckoId/:geckoId"
+  query={[
+    { key: 'ticks', type: 'number', optional: true, placeholder: '24' },
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+  ]}
+  useBearerAuthorization
+/>
