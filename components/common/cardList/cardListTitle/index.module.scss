@@ -1,0 +1,19 @@
+@use '~@/styles/themes.scss' as *;
+
+.title {
+  margin-bottom: 1.25rem;
+
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(var(--shiki-color-text), var(--tw-text-opacity));
+
+  &.border {
+    padding-top: 1.25rem;
+    border-top: 0.1rem solid;
+    border-color: $lightBase03;
+
+    html:global(.dark) & {
+      border-color: $darkBase03;
+    }
+  }
+}

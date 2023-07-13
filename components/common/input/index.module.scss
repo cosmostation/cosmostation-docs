@@ -1,5 +1,27 @@
+@use '~@/styles/themes.scss' as *;
+
 .input {
-  background-color: rgba(125, 125, 125, 0.5);
+  width: 100%;
+  background-color: $lightBase04;
+  padding: 0.75rem;
+  border-radius: 0.4rem;
+  border: 0.1rem solid;
+  border-color: $lightBase03;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+    border-color: $lightBase01;
+
+    html:global(.dark) & {
+      border-color: $darkBase01;
+    }
+  }
+
+  html:global(.dark) & {
+    background-color: $darkBase04;
+    border-color: $darkBase03;
+  }
 }
 
 .input::-webkit-inner-spin-button {

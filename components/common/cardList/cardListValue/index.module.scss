@@ -1,0 +1,27 @@
+@use '~@/styles/themes.scss' as *;
+
+.contentValue {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 1.25rem;
+
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  .title {
+    width: 11.75rem;
+
+    .essential {
+      margin-left: 0.2rem;
+
+      color: var(--shiki-token-keyword);
+    }
+  }
+
+  .value {
+    width: 100%;
+
+    word-break: break-all;
+  }
+}

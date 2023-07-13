@@ -9,12 +9,14 @@ interface IParameterSectionProps {
   parameters: RegExpMatchArray;
   inputParams: RequestInput[];
   setInputParams: (inputParams: RequestInput[]) => void;
+  displayKey?: string;
 }
 
 const ParameterSection: React.FC<IParameterSectionProps> = ({
   parameters,
   inputParams,
   setInputParams,
+  displayKey,
 }) => {
   const parameterInputHandler = useCallback(
     (idx: number) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +38,11 @@ const ParameterSection: React.FC<IParameterSectionProps> = ({
 
   return (
     <section className={styles.container}>
-      <div>Parameters</div>
       {parameters.map((param, idx) => {
+        if (param !== displayKey) {
+          return;
+        }
+
         const currentInput = inputParams[idx];
 
         return (
@@ -47,6 +52,7 @@ const ParameterSection: React.FC<IParameterSectionProps> = ({
               value={currentInput?.value || ''}
               onChange={parameterInputHandler(idx)}
               optional={false}
+              placeholder={displayKey}
             />
           </div>
         );

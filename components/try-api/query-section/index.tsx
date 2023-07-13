@@ -1,9 +1,9 @@
 import { Query, RequestInput } from '../interfaces/request-input';
 import React, { ChangeEvent, useCallback, useEffect } from 'react';
 
+import CardListValue from '@/components/common/cardList/cardListValue';
 import Input from '@/components/common/input';
 import { clone } from 'ramda';
-import styles from './index.module.scss';
 
 interface IQuerySectionProps {
   query?: Query[];
@@ -43,13 +43,12 @@ const QuerySection: React.FC<IQuerySectionProps> = ({ query, inputQuery, setInpu
   );
 
   return (
-    <section className={styles.container}>
-      <div>Queries</div>
+    <div>
       {query?.map((q, idx) => {
         const currentInput = inputQuery[idx];
 
         return (
-          <div key={`${q.key}-${idx}`}>
+          <CardListValue key={`${q.key}-${idx}`} title={q.key} optional={!q.optional}>
             <Input
               label={q.key}
               value={currentInput?.value || ''}
@@ -58,10 +57,10 @@ const QuerySection: React.FC<IQuerySectionProps> = ({ query, inputQuery, setInpu
               type={q.type}
               placeholder={q.placeholder}
             />
-          </div>
+          </CardListValue>
         );
       })}
-    </section>
+    </div>
   );
 };
 

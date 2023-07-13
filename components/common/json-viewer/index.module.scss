@@ -1,8 +1,18 @@
+@use '~@/styles/themes.scss' as *;
+
 .container {
-  background-color: rgba(34, 34, 34, var(--tw-bg-opacity));
+  background-color: $lightBase04;
   max-height: 30rem;
   overflow: auto;
   padding: 0.5rem;
+  border: 0.1rem solid;
+  border-color: $lightBase03;
+  border-radius: 0.25rem;
+
+  html:global(.dark) & {
+    background-color: $darkBase04;
+    border-color: $darkBase03;
+  }
 
   & > .basicChildStyle {
     margin: 0;
@@ -12,7 +22,6 @@
 .basicChildStyle {
   margin-top: 0.2rem;
   margin-left: 1.7rem;
-  color: rgba(226, 232, 240, var(--tw-text-opacity));
   line-height: 1.1rem;
 }
 

@@ -1,2 +1,19 @@
+@use '~@/styles/themes.scss' as *;
+
 .container {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 0.1rem solid;
+  border-color: $lightBase03;
+
+  html:global(.dark) & {
+    border-color: $darkBase03;
+  }
+}
+
+.error {
+  margin-bottom: 1rem;
+
+  font-weight: 600;
+  color: $red01;
 }

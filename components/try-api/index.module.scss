@@ -1,3 +1,5 @@
+@use '~@/styles/themes.scss' as *;
+
 .container {
   display: block;
 
@@ -5,10 +7,43 @@
 
   h3 {
     font-size: 1.5rem;
+    font-weight: 700;
   }
 }
 
+.contentContainer {
+  border: 0.1rem solid;
+  border-color: $lightBase03;
+  border-radius: 0.625rem;
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  background-color: $lightBase05;
+
+  html:global(.dark) & {
+    background-color: $darkBase05;
+    border-color: $darkBase03;
+  }
+}
+
+.method {
+  color: var(--shiki-token-constant);
+}
+
 .buttonContainer {
-  display: flex;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+
+  width: 100%;
+}
+
+.loading {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 0.1rem solid;
+  border-color: $lightBase03;
+
+  html:global(.dark) & {
+    border-color: $darkBase03;
+  }
 }

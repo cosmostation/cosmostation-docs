@@ -1,12 +1,31 @@
+@use '~@/styles/themes.scss' as *;
+
 .button {
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 0.3rem;
-  padding: 0.3rem;
+  width: 100%;
+  background-color: $purple01;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+
+  font-weight: 500;
+  color: #f1f5f9;
 
   &:active,
   &:disabled {
-    background-color: var(--shiki-color-ansi-black-dim);
+    background-color: $lightBase03;
 
-    color: var(--tw-ring-offset-color);
+    html:global(.dark) & {
+      background-color: $darkBase03;
+    }
+  }
+
+  &.emptyColor {
+    border: 0.1rem solid;
+    border-color: $lightBase03;
+    background-color: $lightBase05;
+
+    html:global(.dark) & {
+      border-color: $darkBase03;
+      background-color: $darkBase05;
+    }
   }
 }

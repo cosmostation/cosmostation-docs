@@ -5,6 +5,8 @@ import { complement, filter, isEmpty, isNil, pipe } from 'ramda';
 
 import BodySection from './body-section';
 import Button from '../common/button';
+import CardListTitle from '../common/cardList/cardListTitle';
+import CardListValue from '../common/cardList/cardListValue';
 import HeaderSection from './header-section';
 import ParameterSection from './parameter-section';
 import QuerySection from './query-section';
@@ -179,37 +181,49 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
   return (
     <div className={styles.container}>
       <h3>Try API</h3>
-      <div>
-        <div>Method: {method.toUpperCase()}</div>
-        <div>Url: {url}</div>
-        <div>CallUrl: {decodeURIComponent(callUrl)}</div>
+      <div className={styles.contentContainer}>
+        <CardListTitle>
+          Method : <span className={styles.method}>{method.toUpperCase()}</span>
+        </CardListTitle>
+        <CardListValue title="URL">{url}</CardListValue>
+        <CardListValue title="CallURL">{decodeURIComponent(callUrl)}</CardListValue>
+        <CardListTitle border>Header</CardListTitle>
+        <CardListValue title="Bear Token" optional>
+          <HeaderSection
+            bearerToken={bearerToken}
+            useBearerAuthorization={useBearerAuthorization}
+            bearerTokenInputChangeHandler={bearerTokenInputChangeHandler}
+          />
+        </CardListValue>
+        <CardListTitle>Parameters</CardListTitle>
+        {parameters.map((v) => (
+          <CardListValue title={v} optional>
+            <ParameterSection
+              displayKey={v}
+              parameters={parameters}
+              inputParams={inputParams}
+              setInputParams={setInputParams}
+            />
+          </CardListValue>
+        ))}
+        {!!query && !isEmpty(query) && (
+          <>
+            <CardListTitle border>Queries</CardListTitle>
+            <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
+          </>
+        )}
+        <BodySection />
+        <div className={styles.buttonContainer}>
+          <Button onClick={clickHandler} disabled={!isValidRequest}>
+            Execute
+          </Button>
+          <Button onClick={clearInput} emptyColor={true}>
+            Clear
+          </Button>
+        </div>
+        {isLoading && <div className={styles.loading}>Loading...</div>}
+        {!isLoading && <ResultSection result={result} responseTime={responseTime} />}
       </div>
-      <div>------------------</div>
-      <HeaderSection
-        bearerToken={bearerToken}
-        useBearerAuthorization={useBearerAuthorization}
-        bearerTokenInputChangeHandler={bearerTokenInputChangeHandler}
-      />
-      <div>------------------</div>
-      <ParameterSection
-        parameters={parameters}
-        inputParams={inputParams}
-        setInputParams={setInputParams}
-      />
-      <div>------------------</div>
-      {!!query && !isEmpty(query) && (
-        <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
-      )}
-      <BodySection />
-      <div className={styles.buttonContainer}>
-        <Button onClick={clickHandler} disabled={!isValidRequest}>
-          Execute
-        </Button>
-        <Button onClick={clearInput}>Clear</Button>
-      </div>
-      <div>------------------</div>
-      {isLoading && <div>Loading...</div>}
-      {!isLoading && <ResultSection result={result} responseTime={responseTime} />}
     </div>
   );
 };

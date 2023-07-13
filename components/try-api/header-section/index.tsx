@@ -16,17 +16,13 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
 }) => {
   return (
     <section className={styles.container}>
-      <>
-        Header
-        {useBearerAuthorization && (
-          <Input
-            label="Bearer Token"
-            optional={false}
-            onChange={bearerTokenInputChangeHandler}
-            value={bearerToken}
-          />
-        )}
-      </>
+      {useBearerAuthorization && (
+        <Input
+          placeholder="Bear Token"
+          onChange={bearerTokenInputChangeHandler}
+          value={bearerToken}
+        />
+      )}
     </section>
   );
 };

@@ -2,6 +2,8 @@ import 'react-json-view-lite/dist/index.css';
 
 import { AxiosResponse, AxiosResponseHeaders } from 'axios';
 
+import CardListTitle from '@/components/common/cardList/cardListTitle';
+import CardListValue from '@/components/common/cardList/cardListValue';
 import JsonViewer from '@/components/common/json-viewer';
 import React from 'react';
 import styles from './index.module.scss';
@@ -32,26 +34,20 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result, responseTime }) 
 
   return (
     <section className={styles.container}>
-      <div>
-        <div>Request</div>
-        <div>Request URL: {decodeURIComponent(url)}</div>
-        {!!authorization && <div>Authorization: {authorization}</div>}
-        <div>Accept: {accept}</div>
-      </div>
-      <div>------</div>
-      <div>
-        <div>Response</div>
-        {isError && <div>Error Occured</div>}
-        <div>Status Code: {statusCode}</div>
-        <div>Content Type: {contentType}</div>
-        <div>Content Length: {contentLength}</div>
-        {responseTime && <div>Response Time: {responseTime}ms</div>}
-      </div>
-      <div>------</div>
-      <div>
-        <div>Body Response</div>
-        <JsonViewer data={resultData} shouldInitiallyExpand={(level) => level < 1} />
-      </div>
+      <CardListTitle>Request</CardListTitle>
+      <CardListValue title="Request URL">{decodeURIComponent(url)}</CardListValue>
+      {!!authorization && <CardListValue title="Authorization">{authorization}</CardListValue>}
+      <CardListValue title="Accept">{accept}</CardListValue>
+      <CardListTitle border>Response</CardListTitle>
+      {isError && <div className={styles.error}>Error Occured</div>}
+      <CardListValue title="Status Code">{statusCode}</CardListValue>
+      <CardListValue title="Content Type">{contentType}</CardListValue>
+      <CardListValue title="Content Length">{contentLength}</CardListValue>
+      {!isError && responseTime && (
+        <CardListValue title="Response Time">{responseTime}ms</CardListValue>
+      )}
+      <CardListTitle border>Body Response</CardListTitle>
+      <JsonViewer data={resultData} shouldInitiallyExpand={(level) => level < 1} />
     </section>
   );
 };
