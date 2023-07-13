@@ -208,7 +208,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
         ))}
         {!!query && !isEmpty(query) && (
           <>
-            <CardListTitle border>Queries</CardListTitle>
+            <CardListTitle>Queries</CardListTitle>
             <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
           </>
         )}

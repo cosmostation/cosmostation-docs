@@ -9,11 +9,22 @@
   html:global(.dark) & {
     border-color: $darkBase03;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+  }
 }
 
 .error {
-  margin-bottom: 1rem;
+  margin: 0 0.5rem 1rem;
 
   font-weight: 600;
   color: $red01;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.7rem;
+
+    font-size: 0.75rem;
+  }
 }

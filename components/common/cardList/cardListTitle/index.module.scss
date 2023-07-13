@@ -7,6 +7,12 @@
   font-weight: 600;
   color: rgba(var(--shiki-color-text), var(--tw-text-opacity));
 
+  @media (max-width: 768px) {
+    margin-bottom: 0.7rem;
+
+    font-size: 0.9rem;
+  }
+
   &.border {
     padding-top: 1.25rem;
     border-top: 0.1rem solid;
@@ -14,6 +20,10 @@
 
     html:global(.dark) & {
       border-color: $darkBase03;
+    }
+
+    @media (max-width: 768px) {
+      padding-top: 0.7rem;
     }
   }
 }

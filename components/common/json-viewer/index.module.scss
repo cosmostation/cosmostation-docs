@@ -9,9 +9,15 @@
   border-color: $lightBase03;
   border-radius: 0.25rem;
 
+  font-size: 0.875rem;
+
   html:global(.dark) & {
     background-color: $darkBase04;
     border-color: $darkBase03;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
   }
 
   & > .basicChildStyle {

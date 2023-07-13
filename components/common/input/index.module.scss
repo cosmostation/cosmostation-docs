@@ -22,6 +22,10 @@
     background-color: $darkBase04;
     border-color: $darkBase03;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+  }
 }
 
 .input::-webkit-inner-spin-button {

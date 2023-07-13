@@ -2,15 +2,35 @@
 
 .contentValue {
   display: flex;
-  align-items: center;
 
+  margin: 0 0.25rem 1.25rem;
   margin-bottom: 1.25rem;
 
   font-size: 0.875rem;
   font-weight: 500;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    margin-bottom: 0.7rem;
+
+    font-size: 0.75rem;
+  }
+
   .title {
     width: 11.75rem;
+
+    color: $lightBase02;
+
+    html:global(.dark) & {
+      color: $darkBase02;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      margin-bottom: 0.2rem;
+    }
 
     .essential {
       margin-left: 0.2rem;

@@ -3,7 +3,7 @@
 .button {
   width: 100%;
   background-color: $purple01;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
   padding: 0.75rem;
 
   font-weight: 500;
@@ -13,9 +13,19 @@
   &:disabled {
     background-color: $lightBase03;
 
+    color: $lightBase02;
+
     html:global(.dark) & {
       background-color: $darkBase03;
+
+      color: $darkBase02;
     }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+
+    font-size: 0.9rem;
   }
 
   &.emptyColor {
@@ -23,9 +33,13 @@
     border-color: $lightBase03;
     background-color: $lightBase05;
 
+    color: $lightBase02;
+
     html:global(.dark) & {
       border-color: $darkBase03;
       background-color: $darkBase05;
+
+      color: $darkBase02;
     }
   }
 }

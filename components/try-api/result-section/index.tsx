@@ -39,8 +39,10 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result, responseTime }) 
       {!!authorization && <CardListValue title="Authorization">{authorization}</CardListValue>}
       <CardListValue title="Accept">{accept}</CardListValue>
       <CardListTitle border>Response</CardListTitle>
-      {isError && <div className={styles.error}>Error Occured</div>}
-      <CardListValue title="Status Code">{statusCode}</CardListValue>
+      <CardListValue title="Status Code">
+        {statusCode}
+        {isError && <span className={styles.error}>(Error Occured)</span>}
+      </CardListValue>
       <CardListValue title="Content Type">{contentType}</CardListValue>
       <CardListValue title="Content Length">{contentLength}</CardListValue>
       {!isError && responseTime && (
