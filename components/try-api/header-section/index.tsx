@@ -21,6 +21,7 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
           placeholder="Bear Token"
           onChange={bearerTokenInputChangeHandler}
           value={bearerToken}
+          disabled
         />
       )}
     </section>

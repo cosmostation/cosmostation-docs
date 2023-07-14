@@ -2,6 +2,7 @@ import { Query, RequestInput } from './interfaces/request-input';
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 import { complement, filter, isEmpty, isNil, pipe } from 'ramda';
+import { includes, throttle } from 'lodash';
 
 import BodySection from './body-section';
 import Button from '../common/button';
@@ -14,7 +15,6 @@ import ResultSection from './result-section';
 import dayjs from 'dayjs';
 import qs from 'qs';
 import styles from './index.module.scss';
-import { throttle } from 'lodash';
 
 interface ITryAPIProps {
   method: Method;
@@ -52,9 +52,21 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
   const initInputParams = useCallback(() => {
     // 초기 params 입력값 초기화
     const initParams = parameters.map<RequestInput>((param) => {
+      const initValue = () => {
+        if (param === 'network') {
+          return 'osmosis';
+        } else if (param === 'address') {
+          const isValidatorAPI = includes(url, '/:network/validators/');
+
+          return isValidatorAPI
+            ? 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4'
+            : 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj';
+        }
+      };
+
       return {
         key: param,
-        value: '',
+        value: initValue(),
         optional: false,
       };
     });
@@ -197,7 +209,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
         </CardListValue>
         <CardListTitle>Parameters</CardListTitle>
         {parameters.map((v) => (
-          <CardListValue title={v} optional>
+          <CardListValue key={v} title={v} optional>
             <ParameterSection
               displayKey={v}
               parameters={parameters}
