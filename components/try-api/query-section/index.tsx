@@ -42,6 +42,10 @@ const QuerySection: React.FC<IQuerySectionProps> = ({ query, inputQuery, setInpu
     [inputQuery],
   );
 
+  if (!query) {
+    return null;
+  }
+
   return (
     <div>
       {query?.map((q, idx) => {

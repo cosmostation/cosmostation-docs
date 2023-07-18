@@ -1,0 +1,103 @@
+@use '~@/styles/themes.scss' as *;
+
+.container {
+  background-color: $lightBase04;
+  max-height: 30rem;
+  overflow: auto;
+  padding: 0.5rem;
+  border: 0.1rem solid;
+  border-color: $lightBase03;
+  border-radius: 0.25rem;
+
+  font-size: 0.875rem;
+
+  // editor 내부 스타일
+  & * {
+    border: none !important;
+
+    color: rgba(var(--shiki-color-text), var(--tw-text-opacity)) !important;
+    line-height: 1.1rem;
+
+    // 기본 행 정렬(모바일에서는 제외)
+    @media (min-width: 769px) {
+      & :global(.variable-row) {
+        display: flex;
+        align-items: center;
+
+        & :global(.click-to-edit-icon) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+
+    &:global(.object-key) {
+      font-weight: bold;
+    }
+
+    &:global(.data-type-label) {
+      color: var(--shiki-color-ansi-bright-magenta) !important;
+    }
+
+    // array 키 스타일
+    &:global(.array-key) {
+      color: var(--shiki-color-ansi-bright-red) !important;
+    }
+
+    // string value 스타일
+    &:global(.string-value) {
+      color: var(--shiki-token-string) !important;
+    }
+
+    // undefined, null, number value 스타일
+    &:global(.variable-value) {
+      color: var(--shiki-token-parameter) !important;
+
+      @media (min-width: 769px) {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    // textarea 스타일
+    &:global(.variable-editor) {
+      resize: none;
+      background-color: #e5e7eb !important;
+      border-radius: 0.4rem !important;
+      padding: 0.3rem !important;
+      min-width: 30rem !important;
+      max-height: 2rem;
+      margin-top: 0.3rem;
+
+      color: var(--shiki-color-text) !important;
+
+      html:global(.dark) & {
+        background-color: #1d2428 !important;
+      }
+    }
+
+    // 수정 취소 버튼
+    &:global(.edit-cancel) {
+      & > svg {
+        fill: var(--shiki-color-ansi-bright-red) !important;
+      }
+    }
+
+    // 수정 완료 버튼
+    &:global(.edit-check) {
+      & > svg {
+        fill: var(--shiki-token-string) !important;
+      }
+    }
+  }
+
+  html:global(.dark) & {
+    background-color: $darkBase04;
+    border-color: $darkBase03;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+}

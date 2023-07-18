@@ -1,0 +1,405 @@
+import { TryAPI } from '@/components/try-api';
+
+# Build Transactions
+
+## [POST] /v1/:network/tx-builder
+
+This API returns the SignDoc data for broadcasting transactions.  
+The response includes the `tx` for generating the signature, the original messages used to create the SignDoc, the `fee` value, and the basic information of the account.  
+Users can either generate the signature directly by excluding `0x` from the value of the tx and broadcast it themselves, or use the provided broadcast API to send the Tx.
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+Content-Type: application/json
+```
+
+### Response
+
+```json filename="Example"
+{
+  // SignDoc for generating the signature. Use this by excluding `0x`
+  "tx": "0x0aa6010a98010a232f636f736d6f732e7374616b696e612e763162657461312e4d736744656c656761746512710a2d636f736d6f73316772306533706a3379366671767a79666d3071787977396835647766727668387a76337839701234636f736d6f7376616c6f70657231636c707172346e726b346b68676b786a3738666377776836646c337577346570736c7566666e1a0a0a057561746f6d120131120974657374206d656d6f12660a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21034d09bdfbf996ebc038336238f20c6690d3592abbaafa0557c93ba6d76c0ea2d412040a020801185c12120a0c0a057561746f6d120337363010c7c5121a0b636f736d6f736875622d3420f1ca26",
+  // Original data that user transfer
+  "messages": [
+    {
+      "type": "cosmos.staking.v1beta1.MsgDelegate",
+      "delegatorAddress": "osmo1gr0e3pj3y6fqvzyam0qxyw9h5dwfrvh8zv3x9p",
+      "validatorAddress": "osmovaloper1clpqr4nrc4khgkxj78fcwwh6dl3uw4epsluffn",
+      "amount": { "denom": "uosmo", "amount": "1" }
+    }
+  ],
+  // Transaction fee
+  "fee": { "amount": [{ "denom": "uosmo", "amount": "760" }], "gas": "303815" },
+  // Account public key of signer
+  "publicKey": {
+    "@type": "/cosmos.crypto.secp256k1.PubKey",
+    "key": "A00Jvfv1luvAODaiOPIMZpDTWSq7qvoFV8k7ptdsDqLU"
+  },
+  // Account number of signer
+  "accountNumber": "63277",
+  // Account sequence of signer
+  "sequence": "12"
+}
+```
+
+## Build Send Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmos.bank.v1beta1.MsgSend",
+      // Sender Address
+      "fromAddress": string,
+      // Receiver Address
+      "toAddress": string,
+      // Amount Array
+      "amount": [
+        {
+          "denom": string,
+          "amount": string
+        }
+      ]
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+    memo: 'Send Memo',
+    messages: [
+      {
+        type: 'cosmos.bank.v1beta1.MsgSend',
+        fromAddress: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+        toAddress: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+        amount: [
+          {
+            denom: 'uosmo',
+            amount: '1',
+          },
+        ],
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Build Delegate Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmos.staking.v1beta1.MsgDelegate",
+      // Sender Address
+      "delegatorAddress": string,
+      // Validator Address to delegate
+      "validatorAddress": string,
+      // Amount
+      "amount": {
+        "denom": string,
+        "amount": string
+      }
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+    memo: 'Delegate Memo',
+    messages: [
+      {
+        type: 'cosmos.staking.v1beta1.MsgDelegate',
+        delegatorAddress: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+        validatorAddress: 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
+        amount: {
+          denom: 'uosmo',
+          amount: '1',
+        },
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Build Undelegate Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmos.staking.v1beta1.MsgUndelegate",
+      // Sender Address
+      "delegatorAddress": string,
+      // Validator Address to undelegate
+      "validatorAddress": string,
+      // Amount
+      "amount": {
+        "denom": string,
+        "amount": string
+      }
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+    memo: 'Undelegate Memo',
+    messages: [
+      {
+        type: 'cosmos.staking.v1beta1.MsgUndelegate',
+        delegatorAddress: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+        validatorAddress: 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
+        amount: {
+          denom: 'uosmo',
+          amount: '1',
+        },
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Build Begin Redelegate Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmos.staking.v1beta1.MsgBeginRedelegate",
+      // Sender Address
+      "delegatorAddress": string,
+      // From Validator Address to redelegate
+      "validatorSrcAddress": string,
+      // To Validator Address to redelegate
+      "validatorDstAddress": string,
+      // Amount
+      "amount": {
+        "denom": string,
+        "amount": string
+      }
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1des8hpaqnxgdjahelvhgecctpnq7gm04344cdf',
+    memo: 'Begin Redelegate Memo',
+    messages: [
+      {
+        type: 'cosmos.staking.v1beta1.MsgBeginRedelegate',
+        delegatorAddress: 'osmo1des8hpaqnxgdjahelvhgecctpnq7gm04344cdf',
+        validatorSrcAddress: 'osmovaloper14lzvt4gdwh2q4ymyjqma0p4j4aykpn92l4warr',
+        validatorDstAddress: 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
+        amount: {
+          denom: 'uosmo',
+          amount: '1',
+        },
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Build Claim Delegate Rewards Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+      // Sender Address
+      "delegatorAddress": string,
+      // Validator Address to claim rewards
+      "validatorAddress": string
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+    memo: 'Withdraw Delegate Reward Memo',
+    messages: [
+      {
+        type: 'cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        delegatorAddress: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+        validatorAddress: 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Build Claim Validator Commissions Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
+      // Validator Address to withdraw validator commission
+      "validatorAddress": string
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+    memo: 'Withdraw Validator Commission Memo',
+    messages: [
+      {
+        type: 'cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+        validatorAddress: 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Build Governance Vote Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmos.gov.v1beta1.MsgVote",
+      // Proposal ID
+      "proposalId": string,
+      // Voter
+      "voter": string,
+      // Vote Option("VOTE_OPTION_UNSPECIFIED" | "VOTE_OPTION_YES" | "VOTE_OPTION_ABSTAIN" | "VOTE_OPTION_NO" | "VOTE_OPTION_NO_WITH_VETO")
+      "option": string
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+    memo: 'Governance Vote Memo',
+    messages: [
+      {
+        type: 'cosmos.gov.v1beta1.MsgVote',
+        proposalId: '565',
+        voter: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+        option: 'VOTE_OPTION_YES',
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Build Multiple Message Type of Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": string,
+  // Tx Memo
+  "memo": string,
+  // Message Array
+  "messages": [
+    // The message types within the messages defined above
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+    memo: 'Withdraw Rewards And Commissions Memo',
+    messages: [
+      {
+        type: 'cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        delegatorAddress: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
+        validatorAddress: 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
+      },
+      {
+        type: 'cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
+        validatorAddress: 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4',
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>

@@ -1,5 +1,5 @@
 {
-  "intro": "Introduction",
+  "index": "Introduction",
   "utilities": "Utility API",
   "historical": "Historical API",
   "custom": "Custom API"

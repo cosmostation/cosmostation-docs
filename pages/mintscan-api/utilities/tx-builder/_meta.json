@@ -1,0 +1,5 @@
+{
+  "build": "Build Transaction",
+  "make-signature": "Sign Transaction",
+  "broadcast": "Broadcast Transaction"
+}

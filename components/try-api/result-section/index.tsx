@@ -35,21 +35,25 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result, responseTime }) 
   return (
     <section className={styles.container}>
       <CardListTitle>Request</CardListTitle>
-      <CardListValue title="Request URL">{decodeURIComponent(url)}</CardListValue>
-      {!!authorization && <CardListValue title="Authorization">{authorization}</CardListValue>}
-      <CardListValue title="Accept">{accept}</CardListValue>
+      <div className={styles.sectionContent}>
+        <CardListValue title="Request URL">{decodeURIComponent(url)}</CardListValue>
+        {!!authorization && <CardListValue title="Authorization">{authorization}</CardListValue>}
+        <CardListValue title="Accept">{accept}</CardListValue>
+      </div>
       <CardListTitle border>Response</CardListTitle>
-      <CardListValue title="Status Code">
-        {statusCode}
-        {isError && <span className={styles.error}>(Error Occured)</span>}
-      </CardListValue>
-      <CardListValue title="Content Type">{contentType}</CardListValue>
-      <CardListValue title="Content Length">{contentLength}</CardListValue>
-      {!isError && responseTime && (
-        <CardListValue title="Response Time">{responseTime}ms</CardListValue>
-      )}
+      <div className={styles.sectionContent}>
+        <CardListValue title="Status Code">
+          {statusCode}
+          {isError && <span className={styles.error}>(Error Occured)</span>}
+        </CardListValue>
+        <CardListValue title="Content Type">{contentType}</CardListValue>
+        <CardListValue title="Content Length">{contentLength}</CardListValue>
+        {!isError && responseTime && (
+          <CardListValue title="Response Time">{responseTime}ms</CardListValue>
+        )}
+      </div>
       <CardListTitle border>Body Response</CardListTitle>
-      <JsonViewer data={resultData} shouldInitiallyExpand={(level) => level < 1} />
+      <JsonViewer data={resultData} shouldInitiallyExpand={(level) => level < 3} />
     </section>
   );
 };

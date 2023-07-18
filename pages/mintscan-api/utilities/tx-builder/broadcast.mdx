@@ -1,0 +1,55 @@
+import { TryAPI } from '@/components/try-api';
+
+# Boradcast Transaction
+
+## [POST] /v1/:network/tx-builder/broadcast
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+Content-Type: application/json
+```
+
+```json filename="Body"
+{
+  // Original message of the tx among the results of the Build Transaction API call
+  "tx": string,
+  // Generated using the user's private key using the tx from the results of the Build Transaction API call
+  "signature": string
+}
+```
+
+### Response
+
+```json filename="Example"
+{
+  "tx_response": {
+    "height": "0",
+    "txhash": "0EC95A21CCA0851D22DBE12A8A2E8E13F6F0AB430BB7DD935E9B98C862EB7414",
+    "codespace": "",
+    "code": 0,
+    "data": "",
+    "raw_log": "[]",
+    "logs": [],
+    "info": "",
+    "gas_wanted": "0",
+    "gas_used": "0",
+    "tx": null,
+    "timestamp": "",
+    "events": []
+  }
+}
+```
+
+<TryAPI
+  method="POST"
+  host="http://3.88.109.66"
+  url="/v1/:network/tx-builder/broadcast"
+  body={{
+    tx: '0x01ae010ca0010a372f636f736d6f732e64697374788f545e01802023a12cb',
+    signature: '0x10d0688f545e01802023a12cba8d69be50ba6e504b20781d97e7',
+  }}
+  useBearerAuthorization
+  disabled
+/>

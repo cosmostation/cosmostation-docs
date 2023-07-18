@@ -1,10 +1,13 @@
+import JsonEditor from '@/components/common/json-editor';
 import React from 'react';
-import styles from './index.module.scss';
 
-interface IBodySectionProps {}
+interface IBodySectionProps {
+  payload: object;
+  onChangePayload: (payload: object) => void;
+}
 
-const BodySection: React.FC<IBodySectionProps> = () => {
-  return null;
+const BodySection: React.FC<IBodySectionProps> = ({ payload, onChangePayload }) => {
+  return <JsonEditor value={payload} onChange={onChangePayload} />;
 };
 
 export default BodySection;

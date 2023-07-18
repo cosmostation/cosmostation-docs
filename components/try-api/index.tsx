@@ -21,7 +21,9 @@ interface ITryAPIProps {
   host: string;
   url: string;
   query?: Query[];
+  body?: object;
   useBearerAuthorization?: boolean;
+  disabled?: boolean;
 }
 
 export const TryAPI: React.FC<ITryAPIProps> = ({
@@ -29,13 +31,16 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
   host,
   url,
   query,
+  body,
   useBearerAuthorization,
+  disabled,
 }) => {
   const [bearerToken, setBearerToken] = useState(
     'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg2ODE0NDM3fQ.craahQR9WtJOOxspvNtiQmnNxD7l05tCBStgSW6cLstJcCFBU54_Kpp_n7aPfgIop2hjOobuZn85LVq4VxuLGA',
   );
   const [inputParams, setInputParams] = useState<RequestInput[]>([]);
   const [inputQuery, setInputQuery] = useState<RequestInput[]>([]);
+  const [inputBody, setInputBody] = useState<object>(body);
 
   const [result, setResult] = useState<AxiosResponse>();
 
@@ -51,7 +56,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
 
   const initInputParams = useCallback(() => {
     // 초기 params 입력값 초기화
-    const initParams = parameters.map<RequestInput>((param) => {
+    const initParams = parameters?.map<RequestInput>((param) => {
       const initValue = () => {
         if (param === 'network') {
           return 'osmosis';
@@ -88,6 +93,10 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     setInputQuery(initQuery);
   }, [query]);
 
+  const initInputBody = useCallback(() => {
+    setInputBody(body);
+  }, [body]);
+
   useEffect(initInputParams, [parameters]);
   useEffect(initInputQuery, [query]);
 
@@ -108,7 +117,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     const regex = /:(\w+)/g;
 
     const replacedUrl = url.replace(regex, (match, capture) => {
-      const replacedValue = inputParams.find((param) => param.key === capture);
+      const replacedValue = inputParams?.find((param) => param.key === capture);
 
       if (isNil(replacedValue)) {
         return match;
@@ -130,8 +139,16 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
   }, []);
 
   const isValidRequest = useMemo(() => {
-    const invalidParams = inputParams.filter((param) => !param.optional && isEmpty(param.value));
-    const invalidQuery = inputQuery.filter((param) => !param.optional && isEmpty(param.value));
+    if (disabled) {
+      return false;
+    }
+
+    const invalidParams = inputParams?.filter(
+      (param) => !param.optional && (!param.value || isEmpty(param.value)),
+    );
+    const invalidQuery = inputQuery.filter(
+      (param) => !param.optional && (!param.value || isEmpty(param.value)),
+    );
 
     // 토큰 필수일때 token 입력이 없으면 invalid
     if (useBearerAuthorization && isEmpty(bearerToken)) {
@@ -143,8 +160,12 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
       return false;
     }
 
+    if (!isEmpty(body) && isEmpty(inputBody)) {
+      return false;
+    }
+
     return true;
-  }, [useBearerAuthorization, bearerToken, inputParams, inputQuery]);
+  }, [disabled, useBearerAuthorization, bearerToken, inputParams, inputQuery]);
 
   const clickHandler = useCallback(
     throttle(async () => {
@@ -159,6 +180,10 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
           url: callUrl,
           headers: {},
         } as AxiosRequestConfig;
+
+        if (method === 'POST') {
+          axiosOption.data = inputBody;
+        }
 
         if (useBearerAuthorization) {
           axiosOption.headers = {
@@ -182,12 +207,13 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
         setIsLoading(false);
       }
     }, 1000),
-    [method, callUrl, useBearerAuthorization, bearerToken, isValidRequest],
+    [method, callUrl, inputBody, useBearerAuthorization, bearerToken, isValidRequest],
   );
 
-  const clearInput = useCallback(pipe(initInputParams, initInputQuery), [
+  const clearInput = useCallback(pipe(initInputParams, initInputQuery, initInputBody), [
     initInputParams,
     initInputQuery,
+    initInputBody,
   ]);
 
   return (
@@ -207,24 +233,34 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
             bearerTokenInputChangeHandler={bearerTokenInputChangeHandler}
           />
         </CardListValue>
-        <CardListTitle>Parameters</CardListTitle>
-        {parameters.map((v) => (
-          <CardListValue key={v} title={v} optional>
-            <ParameterSection
-              displayKey={v}
-              parameters={parameters}
-              inputParams={inputParams}
-              setInputParams={setInputParams}
-            />
-          </CardListValue>
-        ))}
+        {!!parameters && !isEmpty(parameters) && (
+          <>
+            <CardListTitle>Parameters</CardListTitle>
+            {parameters.map((v) => (
+              <CardListValue key={v} title={v} optional>
+                <ParameterSection
+                  displayKey={v}
+                  parameters={parameters}
+                  inputParams={inputParams}
+                  setInputParams={setInputParams}
+                />
+              </CardListValue>
+            ))}
+          </>
+        )}
+
         {!!query && !isEmpty(query) && (
           <>
             <CardListTitle>Queries</CardListTitle>
             <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
           </>
         )}
-        <BodySection />
+        {!!body && (
+          <>
+            <CardListTitle>Body</CardListTitle>
+            <BodySection payload={inputBody} onChangePayload={setInputBody} />
+          </>
+        )}
         <div className={styles.buttonContainer}>
           <Button onClick={clickHandler} disabled={!isValidRequest}>
             Execute
