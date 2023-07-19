@@ -24,16 +24,17 @@
     "clsx": "^1.2.1",
     "dayjs": "^1.11.9",
     "lodash": "^4.17.21",
-    "next": "^13.0.6",
-    "nextra": "latest",
-    "nextra-theme-docs": "latest",
+    "next": "^13.2.4",
+    "nextra": "^2.10.0",
+    "nextra-theme-docs": "^2.10.0",
     "qs": "^6.11.2",
     "ramda": "^0.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-json-view": "^1.21.3",
     "react-json-view-lite": "^0.9.6",
-    "sass": "^1.63.6"
+    "sass": "^1.63.6",
+    "sharp": "^0.32.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",
