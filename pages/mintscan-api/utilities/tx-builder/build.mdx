@@ -5,8 +5,8 @@ import { TryAPI } from '@/components/try-api';
 ## [POST] /v1/:network/tx-builder
 
 This API returns the SignDoc data for broadcasting transactions.  
-The response includes the `tx` for generating the signature, the original messages used to create the SignDoc, the `fee` value, and the basic information of the account.  
-Users can either generate the signature directly by excluding `0x` from the value of the tx and broadcast it themselves, or use the provided broadcast API to send the Tx.
+The response includes tx for generating the signature, original messages used to create the SignDoc, fee value, and basic information of the account.  
+Users can either generate the signature directly without 0x from the value and broadcast it, or use the provided broadcast API to send the tx.
 
 ### Request
 
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ```json filename="Example"
 {
-  // SignDoc for generating the signature. Use this by excluding `0x`
+  // SignDoc for generating the signature. Use the data without '0x'
   "tx": "0x0aa6010a98010a232f636f736d6f732e7374616b696e612e763162657461312e4d736744656c656761746512710a2d636f736d6f73316772306533706a3379366671767a79666d3071787977396835647766727668387a76337839701234636f736d6f7376616c6f70657231636c707172346e726b346b68676b786a3738666377776836646c337577346570736c7566666e1a0a0a057561746f6d120131120974657374206d656d6f12660a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21034d09bdfbf996ebc038336238f20c6690d3592abbaafa0557c93ba6d76c0ea2d412040a020801185c12120a0c0a057561746f6d120337363010c7c5121a0b636f736d6f736875622d3420f1ca26",
   // Original data that user transfer
   "messages": [
@@ -44,7 +44,7 @@ Content-Type: application/json
 }
 ```
 
-## Build Send Transaction
+## Send Transaction
 
 ```json filename="Body"
 {
@@ -97,7 +97,7 @@ Content-Type: application/json
   useBearerAuthorization
 />
 
-## Build Delegate Transaction
+## Delegate Transaction
 
 ```json filename="Body"
 {
@@ -146,7 +146,7 @@ Content-Type: application/json
   useBearerAuthorization
 />
 
-## Build Undelegate Transaction
+## Undelegate Transaction
 
 ```json filename="Body"
 {
@@ -195,7 +195,7 @@ Content-Type: application/json
   useBearerAuthorization
 />
 
-## Build Begin Redelegate Transaction
+## Begin Redelegate Transaction
 
 ```json filename="Body"
 {
@@ -247,7 +247,7 @@ Content-Type: application/json
   useBearerAuthorization
 />
 
-## Build Claim Delegate Rewards Transaction
+## Claim Delegate Rewards Transaction
 
 ```json filename="Body"
 {
@@ -287,7 +287,7 @@ Content-Type: application/json
   useBearerAuthorization
 />
 
-## Build Claim Validator Commissions Transaction
+## Claim Validator Commissions Transaction
 
 ```json filename="Body"
 {
@@ -324,7 +324,7 @@ Content-Type: application/json
   useBearerAuthorization
 />
 
-## Build Governance Vote Transaction
+## Governance Vote Transaction
 
 ```json filename="Body"
 {
@@ -367,7 +367,7 @@ Content-Type: application/json
   useBearerAuthorization
 />
 
-## Build Multiple Message Type of Transaction
+## Multiple Message Type of Transaction
 
 ```json filename="Body"
 {

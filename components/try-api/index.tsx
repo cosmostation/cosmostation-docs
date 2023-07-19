@@ -224,8 +224,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
       {disabled && (
         <h5 className={styles.disabledDescription}>
           <img className={styles.cautionIcon} src={CautionInfoIconSVG.src} />
-          This Try feature has been disabled as it is based on real data and not intended for actual
-          usage.
+          You are unable to try executing API from this page.
         </h5>
       )}
       <div className={styles.contentContainer}>
