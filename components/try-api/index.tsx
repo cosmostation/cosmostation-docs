@@ -219,6 +219,12 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
   return (
     <div className={styles.container}>
       <h3>Try API</h3>
+      {disabled && (
+        <h5 className={styles.disabledDescription}>
+          This Try feature has been disabled as it is based on real data and not intended for actual
+          usage.
+        </h5>
+      )}
       <div className={styles.contentContainer}>
         <CardListTitle>
           Method : <span className={styles.method}>{method.toUpperCase()}</span>

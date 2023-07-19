@@ -11,6 +11,11 @@
   }
 }
 
+.disabledDescription {
+  font-style: italic;
+  color: rgba(var(--shiki-color-text), var(--tw-text-opacity));
+}
+
 .contentContainer {
   border: 0.1rem solid;
   border-color: $lightBase03;
