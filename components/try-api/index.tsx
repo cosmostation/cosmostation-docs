@@ -8,6 +8,7 @@ import BodySection from './body-section';
 import Button from '../common/button';
 import CardListTitle from '../common/cardList/cardListTitle';
 import CardListValue from '../common/cardList/cardListValue';
+import CautionInfoIconSVG from '@/assets/CautionInfoIcon.svg';
 import HeaderSection from './header-section';
 import ParameterSection from './parameter-section';
 import QuerySection from './query-section';
@@ -60,8 +61,9 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
       const initValue = () => {
         if (param === 'network') {
           return 'osmosis';
-        } else if (param === 'address') {
-          const isValidatorAPI = includes(url, '/:network/validators/');
+        } else if (param === 'validatorAddress' || param === 'address') {
+          const isValidatorAPI =
+            includes(url, '/:network/validators/') || includes(url, '/:network/apr/');
 
           return isValidatorAPI
             ? 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4'
@@ -221,26 +223,31 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
       <h3>Try API</h3>
       {disabled && (
         <h5 className={styles.disabledDescription}>
+          <img className={styles.cautionIcon} src={CautionInfoIconSVG.src} />
           This Try feature has been disabled as it is based on real data and not intended for actual
           usage.
         </h5>
       )}
       <div className={styles.contentContainer}>
-        <CardListTitle>
-          Method : <span className={styles.method}>{method.toUpperCase()}</span>
-        </CardListTitle>
-        <CardListValue title="URL">{url}</CardListValue>
-        <CardListValue title="CallURL">{decodeURIComponent(callUrl)}</CardListValue>
-        <CardListTitle border>Header</CardListTitle>
-        <CardListValue title="Bear Token" optional>
-          <HeaderSection
-            bearerToken={bearerToken}
-            useBearerAuthorization={useBearerAuthorization}
-            bearerTokenInputChangeHandler={bearerTokenInputChangeHandler}
-          />
-        </CardListValue>
+        <div className={styles.sectionContent}>
+          <CardListTitle>
+            Method : <span className={styles.method}>{method.toUpperCase()}</span>
+          </CardListTitle>
+          <CardListValue title="URL">{url}</CardListValue>
+          <CardListValue title="CallURL">{decodeURIComponent(callUrl)}</CardListValue>
+        </div>
+        <div className={styles.sectionContent}>
+          <CardListTitle border>Header</CardListTitle>
+          <CardListValue title="Bear Token" optional>
+            <HeaderSection
+              bearerToken={bearerToken}
+              useBearerAuthorization={useBearerAuthorization}
+              bearerTokenInputChangeHandler={bearerTokenInputChangeHandler}
+            />
+          </CardListValue>
+        </div>
         {!!parameters && !isEmpty(parameters) && (
-          <>
+          <div className={styles.sectionContent}>
             <CardListTitle>Parameters</CardListTitle>
             {parameters.map((v) => (
               <CardListValue key={v} title={v} optional>
@@ -252,20 +259,20 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
                 />
               </CardListValue>
             ))}
-          </>
+          </div>
         )}
 
         {!!query && !isEmpty(query) && (
-          <>
+          <div className={styles.sectionContent}>
             <CardListTitle>Queries</CardListTitle>
             <QuerySection query={query} inputQuery={inputQuery} setInputQuery={setInputQuery} />
-          </>
+          </div>
         )}
         {!!body && (
-          <>
+          <div className={styles.sectionContent}>
             <CardListTitle>Body</CardListTitle>
             <BodySection payload={inputBody} onChangePayload={setInputBody} />
-          </>
+          </div>
         )}
         <div className={styles.buttonContainer}>
           <Button onClick={clickHandler} disabled={!isValidRequest}>

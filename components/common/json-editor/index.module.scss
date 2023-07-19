@@ -5,9 +5,10 @@
   max-height: 30rem;
   overflow: auto;
   padding: 0.5rem;
+  margin: 0 0.25rem;
   border: 0.1rem solid;
   border-color: $lightBase03;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
 
   font-size: 0.875rem;
 
@@ -15,6 +16,9 @@
   & * {
     border: none !important;
 
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+      Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, sans-serif, Apple Color Emoji,
+      Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
     color: rgba(var(--shiki-color-text), var(--tw-text-opacity)) !important;
     line-height: 1.1rem;
 
