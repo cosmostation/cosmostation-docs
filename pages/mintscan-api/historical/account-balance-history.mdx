@@ -2,7 +2,7 @@ import { TryAPI } from '@/components/try-api';
 
 # Account Balance History
 
-## **[GET]** /v1/:network/accounts/:address/bank_histories/:symbol
+## **[GET]** /v1/:network/accounts/:address/balances
 
 Get balance history of an account
 
@@ -19,18 +19,15 @@ network: cosmos
 # The address of account
 # (string, required)
 address: cosmos1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep4tgu9q
-# Symbol of the asset to be queried
-# (string, reequired)
-symbol: uatom
 ```
 
 ```yaml filename="Queries"
 # Reqeust per page
 # (number, optional, default: 20)
 take: 20
-# Value used to skipping a certain number of items
-# (string, optional, default: 0)
-skip: 0
+# Value of `pagination.searchAfter` from previous request for pagination
+# (string, optional)
+searchAfter: MTY4OTc1NTU4NjAwMA==
 # Search start datetime
 # (datetime, optional, default: 30 days ago)
 fromDateTime: 2023-06-20
@@ -42,144 +39,14 @@ toDateTime: 2023-06-21 23:59:59
 <TryAPI
   method="GET"
   host="http://3.88.109.66"
-  url="/v1/:network/accounts/:address/bank_histories/:symbol"
+  url="/v1/:network/accounts/:address/balances"
   query={[
     { key: 'take', type: 'number', optional: true, placeholder: '20' },
     {
-      key: 'skip',
-      type: 'number',
+      key: 'searchAfter',
+      type: 'string',
       optional: true,
-      placeholder: '0',
-    },
-    {
-      key: 'fromDateTime',
-      type: 'datetime',
-      optional: true,
-      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
-    },
-    {
-      key: 'toDateTime',
-      type: 'datetime',
-      optional: true,
-      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
-    },
-  ]}
-  useBearerAuthorization
-/>
-
-## **[GET]** /v1/:network/accounts/:address/delegation_histories/:symbol
-
-Get delegation balance history
-
-### Request
-
-```yaml filename="Headers"
-Authorization: Bearer {access_token}
-```
-
-```yaml filename="Parameters"
-# The name of network
-# (string, required)
-network: cosmos
-# The address of account
-# (string, required)
-address: cosmos1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep4tgu9q
-# Symbol of the asset to be queried
-# (string, reequired)
-symbol: uatom
-```
-
-```yaml filename="Queries"
-# Reqeust per page
-# (number, optional, default: 20)
-take: 20
-# Value used to skipping a certain number of items
-# (string, optional, default: 0)
-skip: 0
-# Search start datetime
-# (datetime, optional, default: 30 days ago)
-fromDateTime: 2023-06-20
-# Search end datetime
-# (datetime, optional, default: CURRENT_TIMESTAMP)
-toDateTime: 2023-06-21 23:59:59
-```
-
-<TryAPI
-  method="GET"
-  host="http://3.88.109.66"
-  url="/v1/:network/accounts/:address/delegation_histories/:symbol"
-  query={[
-    { key: 'take', type: 'number', optional: true, placeholder: '20' },
-    {
-      key: 'skip',
-      type: 'number',
-      optional: true,
-      placeholder: '0',
-    },
-    {
-      key: 'fromDateTime',
-      type: 'datetime',
-      optional: true,
-      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
-    },
-    {
-      key: 'toDateTime',
-      type: 'datetime',
-      optional: true,
-      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
-    },
-  ]}
-  useBearerAuthorization
-/>
-
-## **[GET]** /v1/:network/accounts/:address/reward_histories/:symbol
-
-Get reward balance history
-
-### Request
-
-```yaml filename="Headers"
-Authorization: Bearer {access_token}
-```
-
-```yaml filename="Parameters"
-# The name of network
-# (string, required)
-network: cosmos
-# The address of account
-# (string, required)
-address: cosmos1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep4tgu9q
-# Symbol of the asset to be queried
-# (string, reequired)
-symbol: uatom
-```
-
-```yaml filename="Queries"
-# Reqeust per page
-# (number, optional, default: 20)
-take: 20
-# Value used to skipping a certain number of items
-# (string, optional, default: 0)
-skip: 0
-# Search start datetime
-# (datetime, optional, default: 30 days ago)
-fromDateTime: 2023-06-20
-# Search end datetime
-# (datetime, optional, default: CURRENT_TIMESTAMP)
-toDateTime: 2023-06-21 23:59:59
-```
-
-<TryAPI
-  method="GET"
-  host="http://3.88.109.66"
-  url="/v1/:network/accounts/:address/reward_histories/:symbol"
-  query={[
-    { key: 'take', type: 'number', optional: true, placeholder: '20' },
-    {
-      key: 'skip',
-      type: 'number',
-      optional: true,
-      placeholder: '0',
+      placeholder: 'MTY4OTc1NTU4NjAwMA==',
     },
     {
       key: 'fromDateTime',
