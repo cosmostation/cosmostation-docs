@@ -53,7 +53,7 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result, responseTime }) 
         )}
       </div>
       <CardListTitle border>Body Response</CardListTitle>
-      <JsonViewer data={resultData} shouldInitiallyExpand={(level) => level < 3} />
+      <JsonViewer data={resultData} />
     </section>
   );
 };
