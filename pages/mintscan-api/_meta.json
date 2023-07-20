@@ -1,5 +1,6 @@
 {
   "index": "Introduction",
+  "proxy": "Proxy",
   "utilities": "Utility API",
   "historical": "Historical API",
   "custom": "Custom API"

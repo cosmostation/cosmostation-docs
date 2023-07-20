@@ -1,0 +1,27 @@
+import { TryAPI } from '@/components/try-api';
+
+# LCD Proxy
+
+Proxy API for making LCD requests to BlockChain Node
+
+## **[GET][POST]** /v1/:network/lcd/\*
+
+You can directly access the Node LCD API by referring to the Swagger or document of the Network you want to make requests to.  
+_However, please note that certain requests are blocked as they may have a negative impact on the server._
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# The url of lcd API. See details in Swagger or document of the network
+# (string, required)
+*: /cosmos/bank/v1beta1/balances/cosmos1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep4tgu9q
+```
+
+<TryAPI method="GET" host="http://3.88.109.66" url="/:network/lcd/:url" useBearerAuthorization />
