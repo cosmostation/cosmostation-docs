@@ -17,7 +17,9 @@ provider.onAccountChanged(() => console.log("changed"));
 ### Vanilla Code
 
 ```javascript
-window.cosmostation.cosmos.on("accountChanged", () => console.log("changed"));
+window.addEventListener("cosmostation_keystorechange", () => {
+    console.log("Key store in Cosmostation is changed. You may need to refetch the account info.")
+})
 ```
 
 ## offAccountChanged
@@ -32,8 +34,5 @@ provider.offAccountChanged(event);
 ### Vanilla Code
 
 ```javascript
-const event = window.cosmostation.cosmos.on("accountChanged", () =>
-  console.log("changed")
-);
-window.cosmostation.cosmos.off(event);
+window.removeEventListener("cosmostation_keystorechange", handler)
 ```
