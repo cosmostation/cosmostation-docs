@@ -2,5 +2,6 @@
   "account-transactions": "Account Transactions",
   "account-votes": "Account Votes",
   "account-balances": "Account Balance History",
-  "validator-votes": "Validator Votes"
+  "validator-votes": "Validator Votes",
+  "validator-commissions": "Validator Commission Balance History"
 }
