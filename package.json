@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
+    "prebuild": "rm -rf ./.next ./out",
     "build": "next build && next export",
     "predeploy": "npm run build && cp CNAME ./out",
     "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
