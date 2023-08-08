@@ -58,22 +58,9 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
   const initInputParams = useCallback(() => {
     // 초기 params 입력값 초기화
     const initParams = parameters?.map<RequestInput>((param) => {
-      const initValue = () => {
-        if (param === 'network') {
-          return 'osmosis';
-        } else if (param === 'validatorAddress' || param === 'address') {
-          const isValidatorAPI =
-            includes(url, '/:network/validators/') || includes(url, '/:network/apr/');
-
-          return isValidatorAPI
-            ? 'osmovaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4ep88n0y4'
-            : 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj';
-        }
-      };
-
       return {
         key: param,
-        value: initValue(),
+        value: '',
         optional: false,
       };
     });
