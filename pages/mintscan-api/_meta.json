@@ -3,5 +3,6 @@
   "proxy": "Proxy",
   "utilities": "Utility API",
   "historical": "Historical API",
+  "statistics": "Statistics API",
   "custom": "Custom API"
 }

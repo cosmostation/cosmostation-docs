@@ -1,0 +1,114 @@
+import { TryAPI } from '@/components/try-api';
+
+# Transactions Counts
+
+## **[GET]** /v1/:network/statistics/txs/hourly
+
+Get The Number of Transactions Per Hour
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+```yaml filename="Queries"
+# Search end datetime
+# (datetime, optional, default: CURRENT_TIMESTAMP)
+toDateTime: 2023-07-21 23:59:59
+```
+
+<TryAPI
+  method="GET"
+  host="http://148.113.165.91"
+  url="/v1/:network/statistics/txs/hourly"
+  query={[
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+  ]}
+  useBearerAuthorization
+/>
+
+## **[GET]** /v1/:network/statistics/txs/daily
+
+Get The Number of Transactions Per Day
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+```yaml filename="Queries"
+# Search end datetime
+# (datetime, optional, default: CURRENT_TIMESTAMP)
+toDateTime: 2023-07-21 23:59:59
+```
+
+<TryAPI
+  method="GET"
+  host="http://148.113.165.91"
+  url="/v1/:network/statistics/txs/daily"
+  query={[
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+  ]}
+  useBearerAuthorization
+/>
+
+## **[GET]** /v1/:network/statistics/txs/weekly
+
+Get The Number of Transactions Per Week
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+```yaml filename="Queries"
+# Search end datetime
+# (datetime, optional, default: CURRENT_TIMESTAMP)
+toDateTime: 2023-07-21 23:59:59
+```
+
+<TryAPI
+  method="GET"
+  host="http://148.113.165.91"
+  url="/v1/:network/statistics/txs/weekly"
+  query={[
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+  ]}
+  useBearerAuthorization
+/>

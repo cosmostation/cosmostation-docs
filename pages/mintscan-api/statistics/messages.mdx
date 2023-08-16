@@ -1,0 +1,42 @@
+import { TryAPI } from '@/components/try-api';
+
+# Message Counts
+
+/v1/:network/statistics/messages
+
+## **[GET]**
+
+Get The Number of Transactions per each message type over the last 30 days
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+```yaml filename="Queries"
+# Search end datetime
+# (datetime, optional, default: CURRENT_TIMESTAMP)
+toDateTime: 2023-07-21 23:59:59
+```
+
+<TryAPI
+  method="GET"
+  host="http://148.113.165.91"
+  url="/v1/:network/statistics/messages"
+  query={[
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      optional: true,
+      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
+    },
+  ]}
+  useBearerAuthorization
+/>

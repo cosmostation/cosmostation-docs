@@ -1,0 +1,29 @@
+import { TryAPI } from '@/components/try-api';
+
+# Validator Latest Block Sign
+
+## **[GET]** /v1/:network/validators/:validatorAddress/latestUptime
+
+Get latest blocks signature of validator
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# The address of account
+# (string, required)
+validatorAddress: cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn
+```
+
+<TryAPI
+  method="GET"
+  host="http://148.113.165.91"
+  url="/v1/:network/validators/:validatorAddress/latestUptime"
+  useBearerAuthorization
+/>

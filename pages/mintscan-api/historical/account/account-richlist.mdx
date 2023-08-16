@@ -1,0 +1,56 @@
+import { TryAPI } from '@/components/try-api';
+
+# Account Balance History
+
+## **[GET]** /v1/:network/accounts/richlist/:symbol
+
+Get richlist for the given symbol
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# Symbol of the asset to be queried
+# (string, required)
+symbol: uatom
+```
+
+```yaml filename="Queries"
+# Reqeust per page
+# (number, optional, default: 20)
+take: 20
+# Value of `pagination.searchAfter` from previous request for pagination
+# (string, optional)
+searchAfter: MTY4OTc1NTU4NjAwMA==
+# To display detailed information of the balance
+# (boolean, optional, default: false)
+detail: true
+```
+
+<TryAPI
+  method="GET"
+  host="http://148.113.165.91"
+  url="/v1/:network/accounts/richlist/:symbol"
+  query={[
+    { key: 'take', type: 'number', optional: true, placeholder: '20' },
+    {
+      key: 'searchAfter',
+      type: 'string',
+      optional: true,
+      placeholder: 'MTY4OTc1NTU4NjAwMA==',
+    },
+    {
+      key: 'detail',
+      type: 'boolean',
+      optional: true,
+      placeholder: 'true',
+    },
+  ]}
+  useBearerAuthorization
+/>
