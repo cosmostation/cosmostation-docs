@@ -8,6 +8,11 @@ This API returns the SignDoc data for broadcasting transactions.
 The response includes tx for generating the signature, original messages used to create the SignDoc, fee value, and basic information of the account.  
 Users can either generate the signature directly without 0x from the value and broadcast it, or use the provided broadcast API to send the tx.
 
+<br />
+<span style={{ color: 'var(--shiki-token-keyword)' }}>
+  Multi sign account is not supported yet.
+</span>
+
 ### Request
 
 ```yaml filename="Headers"
@@ -44,28 +49,47 @@ Content-Type: application/json
 }
 ```
 
+### How to make a public key from private key
+
+```javascript filename="Make Public Key"
+const privateKey = Buffer.from(
+  '1acbcaf3fec7fcbe93afa3cafd8bacf8b1fbcaccc0accdb9ef896fd8eafc135a',
+  'hex',
+);
+const pubKeyUint8Array = TinySecp256k1.pointFromScalar(privateKey, true);
+if (!pubKeyUint8Array) {
+  throw new Error('Invalid private key');
+}
+
+// Use this publicKey when sending a transaction (tx) for the first time.
+const publicKey = Buffer.from(pubKeyUint8Array).toString('base64');
+```
+
 ## Send Transaction
 
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{"type": "string", "key": "string"}],
   // Message Array
   "messages": [
     {
       // Message Type
       "type": "cosmos.bank.v1beta1.MsgSend",
       // Sender Address
-      "fromAddress": string,
+      "fromAddress": "string",
       // Receiver Address
-      "toAddress": string,
+      "toAddress": "string",
       // Amount Array
       "amount": [
         {
-          "denom": string,
-          "amount": string
+          "denom": "string",
+          "amount"": string"
         }
       ]
     }
@@ -80,6 +104,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     memo: 'Send Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.bank.v1beta1.MsgSend',
@@ -102,22 +132,25 @@ Content-Type: application/json
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{"type": "string", "key": "string"}],
   // Message Array
   "messages": [
     {
       // Message Type
       "type": "cosmos.staking.v1beta1.MsgDelegate",
       // Sender Address
-      "delegatorAddress": string,
+      "delegatorAddress": "string",
       // Validator Address to delegate
-      "validatorAddress": string,
+      "validatorAddress": "string",
       // Amount
       "amount": {
-        "denom": string,
-        "amount": string
+        "denom": "string",
+        "amount"": string"
       }
     }
   ]
@@ -131,6 +164,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     memo: 'Delegate Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.staking.v1beta1.MsgDelegate',
@@ -151,22 +190,25 @@ Content-Type: application/json
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{"type": "string", "key": "string"}],
   // Message Array
   "messages": [
     {
       // Message Type
       "type": "cosmos.staking.v1beta1.MsgUndelegate",
       // Sender Address
-      "delegatorAddress": string,
+      "delegatorAddress": "string",
       // Validator Address to undelegate
-      "validatorAddress": string,
+      "validatorAddress": "string",
       // Amount
       "amount": {
-        "denom": string,
-        "amount": string
+        "denom": "string",
+        "amount"": string"
       }
     }
   ]
@@ -180,6 +222,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     memo: 'Undelegate Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.staking.v1beta1.MsgUndelegate',
@@ -200,24 +248,27 @@ Content-Type: application/json
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{"type": "string", "key": "string"}],
   // Message Array
   "messages": [
     {
       // Message Type
       "type": "cosmos.staking.v1beta1.MsgBeginRedelegate",
       // Sender Address
-      "delegatorAddress": string,
+      "delegatorAddress": "string",
       // From Validator Address to redelegate
-      "validatorSrcAddress": string,
+      "validatorSrcAddress": "string",
       // To Validator Address to redelegate
-      "validatorDstAddress": string,
+      "validatorDstAddress": "string",
       // Amount
       "amount": {
-        "denom": string,
-        "amount": string
+        "denom": "string",
+        "amount"": string"
       }
     }
   ]
@@ -231,6 +282,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1des8hpaqnxgdjahelvhgecctpnq7gm04344cdf',
     memo: 'Begin Redelegate Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.staking.v1beta1.MsgBeginRedelegate',
@@ -252,18 +309,21 @@ Content-Type: application/json
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{"type": "string", "key": "string"}],
   // Message Array
   "messages": [
     {
       // Message Type
       "type": "cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
       // Sender Address
-      "delegatorAddress": string,
+      "delegatorAddress": "string",
       // Validator Address to claim rewards
-      "validatorAddress": string
+      "validatorAddress"": string"
     }
   ]
 }
@@ -276,6 +336,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     memo: 'Withdraw Delegate Reward Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
@@ -292,16 +358,19 @@ Content-Type: application/json
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{"type": "string", "key": "string"}],
   // Message Array
   "messages": [
     {
       // Message Type
       "type": "cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission",
       // Validator Address to withdraw validator commission
-      "validatorAddress": string
+      "validatorAddress"": string"
     }
   ]
 }
@@ -314,6 +383,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     memo: 'Withdraw Validator Commission Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission',
@@ -329,20 +404,23 @@ Content-Type: application/json
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{"type": "string", "key": "string"}],
   // Message Array
   "messages": [
     {
       // Message Type
       "type": "cosmos.gov.v1beta1.MsgVote",
       // Proposal ID
-      "proposalId": string,
+      "proposalId": "string",
       // Voter
-      "voter": string,
+      "voter": "string",
       // Vote Option("VOTE_OPTION_UNSPECIFIED" | "VOTE_OPTION_YES" | "VOTE_OPTION_ABSTAIN" | "VOTE_OPTION_NO" | "VOTE_OPTION_NO_WITH_VETO")
-      "option": string
+      "option"": string"
     }
   ]
 }
@@ -355,6 +433,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     memo: 'Governance Vote Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.gov.v1beta1.MsgVote',
@@ -372,9 +456,12 @@ Content-Type: application/json
 ```json filename="Body"
 {
   // Signer Address
-  "signer": string,
+  "signer": "string",
   // Tx Memo
-  "memo": string,
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{ "type": "string", "key": "string" }],
   // Message Array
   "messages": [
     // The message types within the messages defined above
@@ -389,6 +476,12 @@ Content-Type: application/json
   body={{
     signer: 'osmo1clpqr4nrk4khgkxj78fcwwh6dl3uw4epasmvnj',
     memo: 'Withdraw Rewards And Commissions Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
     messages: [
       {
         type: 'cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
