@@ -1,0 +1,11 @@
+{
+  "cosmostation": "Cosmostation Specs",
+  "walletconnect2": "WalletConnect 2.0",
+  "cosmoskit": {
+    "title": "Cosmos-Kit ↗",
+    "href": "https://docs.cosmoskit.com/integrating-wallets/cosmostation",
+    "newWindow": true
+  },
+  "cosmjs": "Cosmjs",
+  "walletconnect": "WalletConnect 1.0(Deprecated)"
+}

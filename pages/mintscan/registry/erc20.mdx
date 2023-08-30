@@ -1,0 +1,75 @@
+# How to add your ERC20 token info
+
+To add erc20 asset metadata on mintscan assets.
+
+> ![Erc20](/img/mintscan/mintscan-erc.png)
+
+[Evmos Erc20](https://github.com/cosmostation/chainlist/blob/main/chain/evmos/contract.json) list supporting
+
+1. Fork this repo to your own github account
+2. Clone fork and create new branch
+
+```shell
+git clone git@github.com:YOUR_ACCOUNT/chainlist.git
+cd chainlist
+git branch <branch_name>
+git checkout <branch_name>
+```
+
+3.  Add the info of your token in the chain that your token needs to be displayed
+    If there is no chain in the list, create a folder for the chain and add info in the folder
+    Then add the name of the folder in: supports.json
+    Changes will be updated within 24 hours after merged to master
+
+| key                      | value                                                                                                             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `chainId`                | ChainId of the chain                                                                                              |
+| `address`                | Token's contract_address                                                                                          |
+| `chainName`              | Name of the displayed token                                                                                       |
+| `symbol`                 | Name of token's symbol                                                                                            |
+| `decimals`               | Decimal of the token                                                                                              |
+| `image`                  | Image route of the token<br/>`/${targetChain}/asset` add image in the folder<br/> Make sure to upload a `png`file |
+| `default`                | default value is `false`                                                                                          |
+| `coinGeckoId` (optional) | Coin gecko site's API ID<br/> Empty string if none                                                                |
+
+---
+
+- ERC20 Token
+  `/${targetChain}/contract.json`
+
+  ```json
+  [
+    {
+      "chainId": 9001,
+      "chainName": "evmos",
+      "address": "0xD4949664cD82660AaE99bEdc034a0deA8A0bd517",
+      "symbol": "WEVMOS",
+      "description": "Wrapped Evmos",
+      "decimals": 18,
+      "image": "evmos/asset/wevmos.png",
+      "default": true,
+      "coinGeckoId": "evmos"
+    },
+    {
+      "chainId": 9001,
+      "chainName": "evmos",
+      "address": "0xb72A7567847abA28A2819B855D7fE679D4f59846",
+      "symbol": "ceUSDT",
+      "description": "Tether USD (Celer)",
+      "decimals": 6,
+      "image": "ethereum/asset/usdt.png",
+      "default": false,
+      "coinGeckoId": "tether"
+    }
+  ]
+  ```
+
+  4. Commit and push to your fork
+
+  ```shell
+  git add -A
+  git commit -m “Add <YOUR TOKEN NAME>”
+  git push origin <branch_name>
+  ```
+
+  5. From your repository, make pull request (PR)

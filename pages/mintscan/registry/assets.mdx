@@ -1,0 +1,224 @@
+# How to add your token info
+
+To add asset metadata on mintscan.
+
+> ![Assets](/img/mintscan/mintscan-asset.png)
+
+‼️ Please be noted that tokens of Testnets and unverified networks may not be merged to master.
+
+1. Fork this repo to your own github account
+2. Clone fork and create new branch
+
+   ```shell
+   git clone git@github.com:YOUR_ACCOUNT/chainlist.git
+   cd chainlist
+   git branch <branch_name>
+   git checkout <branch_name>
+   ```
+
+3. Add the info of your token in the chain that your token needs to be displayed
+
+- Common info to fill
+  | Field | Description |
+  |-----------------|-----------------------------------------------------------------------------------------------------------------|
+  | `denom` | Token's denom. |
+  | `type` | Type of the token: |
+  | | - `staking`: Native staking token of a chain. |
+  | | - `native`: Native token issued on a chain, not the staking token. |
+  | | - `ibc`: Token transferred via IBC. |
+  | | - `pool`: Token representing a liquidity pool. |
+  | | - `bridge`: Token bridged from another network. |
+  | | - `cw20`: CW20 token type. |
+  | | - `erc20`: ERC20 token type. |
+  | `origin_chain` | The origin chain where this token was issued. |
+  | `origin_denom` | Original denom of the token. |
+  | `origin_type` | Original type of the token (staking, native, pool, ibc, bridge, cw20, erc20). |
+  | `symbol` | Displayed name of the token in the list. |
+  | `decimals` | Token's decimals. |
+  | `image` | Image route of the token (optional). |
+  | | Place image in `${targetchain}/asset` folder. Ensure it's a `png` file. |
+  | `coinGeckoId` | CoinGecko site's API ID. Leave empty if none. |
+
+- If the type is staking, provide the info below
+  | Field | Description |
+  |-----------------|-----------------------------------------------------------------------------------------------------------------|
+  |`description`|A brief summary of the token|
+
+- If the type is ibc, provide the info below:
+  | Field | Description |
+  |-----------------|-----------------------------------------------------------------------------------------------------------------|
+  | `enable` | `true` if IBC transmission is possible (optional). |
+  | `channel` | Token's IBC channel (optional). |
+  | `port` | Token's IBC port (optional). |
+  | | Add the token's channel and port. |
+  | `counter_party` | Counter party's IBC channel and port (optional). |
+  | | - `channel`. |
+  | | - `port`. |
+  | | - `denom`: Token's denom before IBC transfer. |
+  | `path` | Path of token transfer (optional). |
+  | | Provide full details if transferred via IBC, bridge, or other path. |
+  | `path` | Path details for bridge tokens (optional). |
+  | | Provide details if transferred via IBC, bridge, or other path. |
+  | `contract` | Contract address for token transfer via contract (optional). |
+
+---
+
+- Native Token
+  `/assets/v2/${chain}/assets.json`
+
+  ```json
+  // example OSMOSIS
+  [
+    {
+      "denom": "uosmo",
+      "type": "staking",
+      "origin_chain": "osmosis",
+      "origin_denom": "uosmo",
+      "origin_type": "staking",
+      "symbol": "OSMO",
+      "decimals": 6,
+      "description": "Osmosis Staking Coin",
+      "image": "osmosis/asset/osmo.png",
+      "coinGeckoId": "osmosis"
+    },
+    {
+      "denom": "uion",
+      "type": "native",
+      "origin_chain": "osmosis",
+      "origin_denom": "uion",
+      "origin_type": "native",
+      "symbol": "ION",
+      "decimals": 6,
+      "description": "Native Coin",
+      "image": "osmosis/asset/ion.png",
+      "coinGeckoId": "ion"
+    },
+    // example KUJIRA
+    {
+      "denom": "factory/kujira1qk00h5atutpsv900x202pxx42npjr9thg58dnqpa72f2p7m2luase444a7/uusk",
+      "type": "native",
+      "origin_chain": "kujira",
+      "origin_denom": "factory/kujira1qk00h5atutpsv900x202pxx42npjr9thg58dnqpa72f2p7m2luase444a7/uusk",
+      "origin_type": "native",
+      "symbol": "USK",
+      "decimals": 6,
+      "description": "USK Stable Asset",
+      "image": "kujira/asset/usk.png",
+      "coinGeckoId": "usk"
+    }
+  ]
+  ```
+
+- IBC Token
+
+  ```json
+  [
+    // example COSMOS
+    {
+      "denom": "ibc/14F9BC3E44B8A9C1BE1FB08980FAB87034C9905EF17CF2F5008FC085218811CC",
+      "type": "ibc",
+      "origin_chain": "osmosis",
+      "origin_denom": "uosmo",
+      "origin_type": "staking",
+      "symbol": "OSMO",
+      "decimals": 6,
+      "enable": true,
+      "path": "osmosis>cosmos",
+      "channel": "channel-141",
+      "port": "transfer",
+      "counter_party": {
+        "channel": "channel-0",
+        "port": "transfer",
+        "denom": "uosmo"
+      },
+      "image": "osmosis/asset/osmo.png", // Set image route for base_denom
+      "coinGeckoId": "osmosis"
+    },
+    // example IRIS
+    {
+      "denom": "ibc/E244B968EE0D1EC047E7516F6ABECE7B68E9FD93B4BD8D08D13642247416BB17",
+      "type": "ibc",
+      "origin_denom": "weth",
+      "origin_type": "erc20",
+      "symbol": "WETH",
+      "origin_chain": "ethereum",
+      "decimals": 18,
+      "enable": true,
+      "path": "ethereum>gravity-bridge>iris",
+      "channel": "channel-29",
+      "port": "transfer",
+      "counter_party": {
+        "channel": "channel-47",
+        "port": "transfer",
+        "denom": "gravity0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+      },
+      "image": "ethereum/asset/weth.png", // Set image route for base_denom
+      "coinGeckoId": "weth",
+      "contract": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+    }
+  ]
+  ```
+
+- Bridge Token
+
+  ```json
+  [
+    // example GRAVITY-BRIDGE
+    {
+      "denom": "gravity0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+      "type": "bridge",
+      "origin_chain": "ethereum",
+      "origin_denom": "wbtc",
+      "origin_type": "erc20",
+      "symbol": "WBTC",
+      "decimals": 8,
+      "path": "ethereum>gravity-bridge",
+      "image": "ethereum/asset/wbtc.png",
+      "coinGeckoId": "wrapped-bitcoin",
+      "contract": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+    },
+    // example IRIS
+    {
+      "denom": "htltbcbusd",
+      "type": "bridge",
+      "origin_chain": "bnb-beacon-chain",
+      "origin_denom": "busd",
+      "origin_type": "bep2",
+      "symbol": "BUSD",
+      "decimals": 8,
+      "path": "bnb-beacon-chain>iris",
+      "image": "bnb-beacon-chain/asset/busd.png",
+      "coinGeckoId": "binance-usd"
+    }
+  ]
+  ```
+
+- Pool Token
+
+  ```json
+  // example COSMOS
+  [
+    {
+      "denom": "poolDFB8434D5A80B4EAFA94B6878BD5B85265AC6C5D37204AB899B1C3C52543DA7E",
+      "type": "pool",
+      "origin_chain": "cosmos",
+      "origin_denom": "poolDFB8434D5A80B4EAFA94B6878BD5B85265AC6C5D37204AB899B1C3C52543DA7E",
+      "origin_type": "pool",
+      "symbol": "GDEX-1",
+      "decimals": 6,
+      "description": "pool/1",
+      "image": "cosmos/asset/pool.png", // Add pool image in the target chain’s folder
+      "coinGeckoId": ""
+    }
+  ]
+  ```
+
+4. Commit and push to your fork
+
+   ```shell
+   git add -A
+   git commit -m “Add <YOUR TOKEN NAME>”
+   git push origin <branch_name>
+   ```
+
+5. From your repository, make pull request (PR)

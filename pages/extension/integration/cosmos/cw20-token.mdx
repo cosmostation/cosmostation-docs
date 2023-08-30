@@ -11,17 +11,14 @@ CW20 token via Cosmostation Extension
 ```typescript
 // ...
 
-const response = await provider.addCW20Tokens("juno", [
+const response = await provider.addCW20Tokens('mint', [
   {
-    contractAddress:
-      "juno168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr",
-    imageURL:
-      "https://pbs.twimg.com/profile_images/1465777324859826197/RUXx0equ_400x400.jpg", // optional
-    coinGeckoId: "neta", // optional
+    contractAddress: 'mint168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr',
+    imageURL: 'https://pbs.twimg.com/profile_images/1465777324859826197/RUXx0equ_400x400.jpg', // optional
+    coinGeckoId: 'neta', // optional
   },
   {
-    contractAddress:
-      "juno1g2g7ucurum66d42g8k5twk34yegdq8c82858gz0tq2fc75zy7khssgnhjl",
+    contractAddress: 'mint1g2g7ucurum66d42g8k5twk34yegdq8c82858gz0tq2fc75zy7khssgnhjl',
   },
 ]);
 ```
@@ -30,20 +27,17 @@ const response = await provider.addCW20Tokens("juno", [
 
 ```javascript
 const response = await window.cosmostation.cosmos.request({
-  method: "cos_addTokensCW20",
+  method: 'cos_addTokensCW20',
   params: {
-    chainName: "juno",
+    chainName: 'mint',
     tokens: [
       {
-        contractAddress:
-          "juno168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr",
-        imageURL:
-          "https://pbs.twimg.com/profile_images/1465777324859826197/RUXx0equ_400x400.jpg", // optional
-        coinGeckoId: "neta", // optional
+        contractAddress: 'mint168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr',
+        imageURL: 'https://pbs.twimg.com/profile_images/1465777324859826197/RUXx0equ_400x400.jpg', // optional
+        coinGeckoId: 'neta', // optional
       },
       {
-        contractAddress:
-          "juno1g2g7ucurum66d42g8k5twk34yegdq8c82858gz0tq2fc75zy7khssgnhjl",
+        contractAddress: 'mint1g2g7ucurum66d42g8k5twk34yegdq8c82858gz0tq2fc75zy7khssgnhjl',
       },
     ],
   },
@@ -68,9 +62,9 @@ null
 // ...
 
 const response = await provider.getCW20TokenBalance(
-  "juno",
-  "juno168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr", // contract address
-  "juno14xgdfdnpjtulj6p7rkc75ekxqjq8hc5cg5evx3" // address
+  'mint',
+  'mint168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr', // contract address
+  'mint14xgdfdnpjtulj6p7rkc75ekxqjq8hc5cg5evx3', // address
 );
 ```
 
@@ -78,12 +72,11 @@ const response = await provider.getCW20TokenBalance(
 
 ```javascript
 const response = await window.cosmostation.cosmos.request({
-  method: "cos_getBalanceCW20",
+  method: 'cos_getBalanceCW20',
   params: {
-    chainName: "juno",
-    contractAddress:
-      "juno168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr",
-    address: "juno14xgdfdnpjtulj6p7rkc75ekxqjq8hc5cg5evx3",
+    chainName: 'mint',
+    contractAddress: 'mint168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr',
+    address: 'mint14xgdfdnpjtulj6p7rkc75ekxqjq8hc5cg5evx3',
   },
 });
 ```
@@ -106,8 +99,8 @@ export type getCW20TokenBalanceResponse = string;
 // ...
 
 const response = await provider.getCW20TokenInfo(
-  "juno",
-  "juno168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr" // contract address
+  'mint',
+  'mint168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr', // contract address
 );
 ```
 
@@ -115,11 +108,10 @@ const response = await provider.getCW20TokenInfo(
 
 ```javascript
 const response = await window.cosmostation.cosmos.request({
-  method: "cos_getTokenInfoCW20",
+  method: 'cos_getTokenInfoCW20',
   params: {
-    chainName: "juno",
-    contractAddress:
-      "juno168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr",
+    chainName: 'mint',
+    contractAddress: 'mint168ctmpyppk90d34p3jjy658zf5a5l3w8wk35wht6ccqj4mr0yv8s4j5awr',
   },
 });
 ```

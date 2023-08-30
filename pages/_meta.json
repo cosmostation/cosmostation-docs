@@ -1,17 +1,23 @@
 {
-  "index": "Introduction",
-  "overview": "Overview",
-  "-- Integration": {
-    "type": "separator",
-    "title": "Integration"
+  "index": {
+    "title": "Cosmostation",
+    "display": "hidden",
+    "type": "page"
   },
-  "integration-extension": "Extension",
-  "integration-mobile": "Mobile Wallet",
-  "mintscan-api": "Mintscan API",
-  "contact": {
-    "title": "Contact ↗",
+  "mintscan": {
     "type": "page",
-    "href": "https://twitter.com/IBCwallet",
-    "newWindow": true
+    "title": "Mintscan"
+  },
+  "apis": {
+    "type": "page",
+    "title": "API"
+  },
+  "extension": {
+    "type": "page",
+    "title": "Extension Wallet"
+  },
+  "mobile": {
+    "type": "page",
+    "title": "Mobile Wallets"
   }
 }
