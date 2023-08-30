@@ -37,7 +37,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
   disabled,
 }) => {
   const [bearerToken, setBearerToken] = useState(
-    'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg2ODE0NDM3fQ.craahQR9WtJOOxspvNtiQmnNxD7l05tCBStgSW6cLstJcCFBU54_Kpp_n7aPfgIop2hjOobuZn85LVq4VxuLGA',
+    '',
   );
   const [inputParams, setInputParams] = useState<RequestInput[]>([]);
   const [inputQuery, setInputQuery] = useState<RequestInput[]>([]);
