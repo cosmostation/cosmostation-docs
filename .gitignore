@@ -3,6 +3,7 @@
 node_modules/
 yarn-error.log
 .pnpm-debug.log
+pmpn-lock.yaml
 dist/
 */**/.turbo
 # Theme styles
