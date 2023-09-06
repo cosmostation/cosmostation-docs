@@ -451,6 +451,275 @@ const publicKey = Buffer.from(pubKeyUint8Array).toString('base64');
   useBearerAuthorization
 />
 
+## Wasm Contract Execute Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": "string",
+  // Tx Memo
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{ "type": "string", "key": "string" }],
+  // Message Array
+  "messages": [
+    {
+      // Message Type
+      "type": "cosmwasm.wasm.v1.MsgExecuteContract",
+      // Sender
+      "sender": "string",
+      // Contract Address
+      "contract": "string",
+      // Execute Messages
+      "msg": {},
+      // Funds
+      "funds": []
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'neutron1aaaaaaaaaaah3rrtmhmp5aymz808mn2vqpgu0l',
+    memo: 'Wasm Contract Execute Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
+    messages: [
+      {
+        type: 'cosmwasm.wasm.v1.MsgExecuteContract',
+        sender: 'neutron1aaaaaaaaaaah3rrtmhmp5aymz808mn2vqpgu0l',
+        contract: 'neutron1kkwp7pd4ts6gukm3e820kyftz4vv5jqtmal8pwqezrnq2ddycqasr87x9p',
+        msg: { claim: {} },
+        funds: [],
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Authz Grant Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": "string",
+  // Tx Memo
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{ "type": "string", "key": "string" }],
+  // Message Array
+  "messages": [
+    {
+      // GeneraicAuthorization
+      "type": "cosmos.authz.v1beta1.MsgGrant",
+      "granter": "string",
+      "grantee": "string",
+      "grant": {
+        "authorization": {
+          // Auth Type("GenericAuthorization" | "StakeAuthorization" | "SendAuthorization")
+          "type": "GenericAuthorization",
+          "msg": "string"
+        },
+        "expiration": "datetime"
+      }
+    },
+    {
+      // StakeAuthorization
+      "type": "cosmos.authz.v1beta1.MsgGrant",
+      "granter": "string",
+      "grantee": "string",
+      "grant": {
+        "authorization": {
+          // Auth Type("GenericAuthorization" | "StakeAuthorization" | "SendAuthorization")
+          "type": "StakeAuthorization",
+          "maxTokens": { "denom": "string", "amount": "string" },
+          // When used in conjunction with a denyList, the allowList is not applied
+          "allowList": { "address": ["string"] },
+          "denyList": { "address": ["string"] },
+          // Authorization Type("AUTHORIZATION_TYPE_DELEGATE" | "AUTHORIZATION_TYPE_UNDELEGATE" | "AUTHORIZATION_TYPE_REDELEGATE")
+          "authorizationType": "string"
+        },
+        "expiration": "datetime"
+      }
+    },
+    {
+      // SendAuthorization
+      "type": "cosmos.authz.v1beta1.MsgGrant",
+      "granter": "string",
+      "grantee": "string",
+      "grant": {
+        "authorization": {
+          // Auth Type("GenericAuthorization" | "StakeAuthorization" | "SendAuthorization")
+          "type": "SendAuthorization",
+          "spendLimit": [{ "denom": "string", "amount": "string" }]
+        },
+        "expiration": "datetime"
+      }
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    memo: 'Authz Grant Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
+    messages: [
+      {
+        type: 'cosmos.authz.v1beta1.MsgGrant',
+        granter: 'osmo1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        grantee: 'osmo1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        grant: {
+          authorization: {
+            type: 'GenericAuthorization',
+            msg: '/cosmos.gov.v1beta1.MsgVote',
+          },
+          expiration: '2023-12-31 00:00:00',
+        },
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Authz Execute Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": "string",
+  // Tx Memo
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{ "type": "string", "key": "string" }],
+  // Message Array
+  "messages": [
+    {
+      "type": "cosmos.authz.v1beta1.MsgExec",
+      "grantee": "string",
+      "msgs": [
+        {
+          // type_url excluding '/' (ex: cosmos.bank.v1beta1.MsgSend)
+          "type": "string"
+          // the values included in the corresponding type message
+        }
+      ]
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+    memo: 'Authz Exec Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
+    messages: [
+      {
+        type: 'cosmos.authz.v1beta1.MsgExec',
+        grantee: 'osmo1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        msgs: [
+          {
+            type: 'cosmos.bank.v1beta1.MsgSend',
+            fromAddress: 'osmo1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            toAddress: 'osmo1cccccccccccccccccccccccccccccccccccccc',
+            amount: [
+              {
+                denom: 'uosmo',
+                amount: '1',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
+## Authz Revoke Transaction
+
+```json filename="Body"
+{
+  // Signer Address
+  "signer": "string",
+  // Tx Memo
+  "memo": "string",
+  // !!! When sending a transaction (tx) for the first time, must provide the public key
+  // pubkey type ("tendermint/PubKeySecp256k1" | "ethermint/PubKeyEthSecp256k1" | "injective/PubKeyEthSecp256k1")
+  "pubkey": [{ "type": "string", "key": "string" }],
+  // Message Array
+  "messages": [
+    {
+      "type": "cosmos.authz.v1beta1.MsgRevoke",
+      "granter": "string",
+      "grantee": "string",
+      // msgTypeUrl
+      // GenericAuthorization, you can simply use the msg value of that authorization as it is
+      // SendAuthorization, you should use /cosmos.bank.v1beta1.MsgSend
+      // StakeAuthorization, you should provide values based on the Authorization Type granted.
+      //   - AUTHORIZATION_TYPE_DELEGATE, use /cosmos.staking.v1beta1.MsgDelegate.
+      //   - AUTHORIZATION_TYPE_UNDELEGATE, use /cosmos.staking.v1beta1.MsgUndelegate
+      //   - AUTHORIZATION_TYPE_REDELEGATE, use /cosmos.staking.v1beta1.MsgBeginRedelegate
+      "msgTypeUrl": "string"
+    }
+  ]
+}
+```
+
+<TryAPI
+  method="POST"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/tx-builder"
+  body={{
+    signer: 'osmo1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    memo: 'Authz Revoke Memo',
+    pubkey: [
+      {
+        type: 'tendermint/PubKeySecp256k1',
+        key: 'An0yrOygz23oiJQZg63gJSbg4nkrWmHBC02/6Am2oDrS',
+      },
+    ],
+    messages: [
+      {
+        type: 'cosmos.authz.v1beta1.MsgRevoke',
+        granter: 'osmo1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        grantee: 'osmo1bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        msgTypeUrl: '/cosmos.bank.v1beta1.MsgSend',
+      },
+    ],
+  }}
+  useBearerAuthorization
+/>
+
 ## Multiple Message Type of Transaction
 
 ```json filename="Body"
