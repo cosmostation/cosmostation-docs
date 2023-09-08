@@ -1,0 +1,35 @@
+import ConnectButton from '@/components/extension/hook/connect-button';
+
+# React hook
+
+## Installation
+
+The Cosmostation wallet hook package lives in npm. To install the latest stable version, run the following command:
+
+```bash
+npm install @cosmostation/use-wallets
+```
+
+Or if you're using yarn:
+
+```bash
+yarn add @cosmostation/use-wallets
+```
+
+## CosmosProvider
+
+Components that use cosmos wallet state need `CosmosProvider` to appear somewhere in the parent tree. A good place to put this is in your root component:
+
+```jsx
+import { CosmosProvider } from '@cosmostation/use-wallets';
+
+function App() {
+  return (
+    <CosmosProvider>
+      <MyApp />
+    </CosmosProvider>
+  );
+}
+```
+
+<ConnectButton />

@@ -1,0 +1,53 @@
+@use '~@/styles/themes.scss' as *;
+
+.container {
+  border: 0;
+}
+
+.background {
+  position: fixed;
+
+  border: 0;
+
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 100;
+
+  opacity: 1;
+
+  background-color: rgba($lightBase05, 0.4);
+
+  color: $lightBase02;
+
+  html:global(.dark) & {
+    background-color: rgba($darkBase05, 0.4);
+  }
+}
+
+.content {
+  position: absolute;
+  border: 0;
+
+  z-index: 105;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: fit-content;
+  height: fit-content;
+
+  border-radius: 0.4rem;
+
+  background-color: $lightBase05;
+
+  color: $lightBase02;
+
+  html:global(.dark) & {
+    background-color: $darkBase05;
+    color: $darkBase02;
+  }
+}

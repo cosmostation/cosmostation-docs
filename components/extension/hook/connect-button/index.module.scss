@@ -1,0 +1,27 @@
+@use '~@/styles/themes.scss' as *;
+
+.container {
+  padding: 1rem;
+}
+
+.buttonContainer {
+  margin: 0.5rem 0;
+}
+
+.wallet {
+  display: flex;
+
+  margin: 0 1rem;
+}
+
+.walletName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 0.5rem;
+}
+
+.a {
+  color: $blue01;
+}
