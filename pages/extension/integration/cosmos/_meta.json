@@ -1,15 +1,8 @@
 {
-  "provider": "Provider",
-  "chains":"Chains",
-  "accounts":"Accounts",
-  "sign-tx":"Sign Transaction",
-  "sign-message":"Sign Message",
-  "send-tx":"Send Transaction",
-  "cw20-token":"CW20 Tokens",
-  "auto-sign":"Auto Sign",
-  "disconnect":"Disconnect",
-  "event":"Event",
-  "error":"Error",
-  "integrate-cosmjs":"Integrate Cosmjs",
-  "integrate-keplr":"Integrate Keplr"
+  "vanilla": "Vanilla",
+  "typescript": "Typescript",
+  "react-hook": "React Hook",
+  "integrate-cosmjs": "Integrate Cosmjs",
+  "integrate-keplr": "Integrate Keplr",
+  "proto": "Protobuf json"
 }

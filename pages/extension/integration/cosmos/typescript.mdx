@@ -1,0 +1,257 @@
+import Account from '@/components/extension/typescript/account';
+import SignAmino from '@/components/extension/typescript/sign-amino';
+import SignDirect from '@/components/extension/typescript/sign-direct';
+import SignAndSendTransaction from '@/components/extension/typescript/sign-and-send';
+import AddCustomChain from '@/components/extension/typescript/add-custom-chain';
+import SignMessage from '@/components/extension/typescript/sign-message';
+import VerifyMessage from '@/components/extension/typescript/verify-message';
+
+# Typescript
+
+## Installation
+
+The Cosmostation wallet package lives in npm. To install the latest stable version, run the following command:
+
+```bash
+npm install @cosmostation/extension
+```
+
+Or if you're using yarn:
+
+```bash
+yarn add @cosmostation/extension
+```
+
+## Account
+
+Get account information
+
+```jsx filename="example"
+import { cosmos } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const provider = cosmos('cosmoshub-4');
+      const account = await provider.requestAccount();
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Request Account
+</button>;
+```
+
+<Account />
+
+## Sign
+
+### SignAmino
+
+Signing with amino in the legacy way.
+
+```jsx filename="example"
+import { cosmos } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const provider = cosmos('cosmoshub-4');
+
+      const doc = {
+        //  ...
+      };
+
+      const response = await provider.signAmino(doc);
+
+      console.log(response.signatures);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Sign Amino
+</button>;
+```
+
+<SignAmino />
+
+### SignDirect
+
+Signing based on protobuf
+
+```jsx filename="example"
+import { cosmos } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const provider = cosmos('cosmoshub-4');
+
+      const doc = {
+        //  ...
+      };
+
+      const response = await provider.signDirect(doc);
+
+      console.log(response.signatures);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Sign Direct
+</button>;
+```
+
+<SignDirect />
+
+### SignAndSendTransaction
+
+A method that combines sign and send using `signDirect`  
+Receives message as json and automates creation of protobuf
+
+[JSON e.g.](proto)
+
+```jsx filename="example"
+import { cosmos } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const provider = await cosmos('cosmoshub-4');
+      const account = await provider.requestAccount();
+
+      const response = await provider.signAndSendTransaction({
+        messages: [
+          {
+            type_url: '/cosmos.bank.v1beta1.MsgSend',
+            value: {
+              from_address: account.address,
+              to_address: account.address,
+              amount: [
+                {
+                  denom: 'uatom',
+                  amount: '1',
+                },
+              ],
+            },
+          },
+        ],
+        memo: 'Test (Sign And Send Transaction)',
+      });
+
+      console.log(response.tx_response.txhash);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Sign And Send Transaction
+</button>;
+```
+
+### SignMessage
+
+sign arbitrary bytes
+
+```jsx filename="example"
+import { cosmos } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const provider = await cosmos('cosmoshub-4');
+
+      const response = await provider.signMessage('Test (Sign Message)');
+
+      console.log(response.signature);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Sign Message
+</button>;
+```
+
+<SignMessage />
+
+### verifyMessage
+
+verify arbitrary bytes
+
+```jsx filename="example"
+import { cosmos } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const provider = await cosmos('cosmoshub-4');
+
+      const text = 'Test (Sign Message)';
+
+      const signResponse = await provider.signMessage(text);
+
+      const verifyResponse = await provider.verifyMessage(text, signResponse.signature);
+
+      console.log(verifyResponse ? 'verified' : 'not verified');
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Sign & Verify Message
+</button>;
+```
+
+<VerifyMessage />
+
+## AddCustomChain
+
+Add a chain or testnet chain that is not officially provided by the extension.
+
+```jsx filename="example"
+import { cosmosFunctions } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const response = cosmosFunctions.addCosmosChain({
+        chainId: 'custom-chain-1',
+        chainName: 'custom-chain',
+        addressPrefix: 'custom',
+        baseDenom: 'ucustom',
+        displayDenom: 'CUSTOM',
+        restURL: 'https://rpc.custom-chain.com',
+        decimals: 6, // optional
+        coinType: "118'", // optional
+      });
+      console.log(response.tx_response.txhash);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Add a custom chain
+</button>;
+```
+
+<AddCustomChain />
+
+## Event
+
+### addEventListener
+
+```jsx filename="example"
+window.addEventListener('cosmostation_keystorechange', () => {
+  console.log('Key store in Cosmostation is changed. You may need to refetch the account info.');
+});
+```
+
+### removeEventListener
+
+```jsx filename="example"
+window.removeEventListener('cosmostation_keystorechange', handler);
+```

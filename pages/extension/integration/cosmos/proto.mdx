@@ -1,0 +1,167 @@
+# Protobuf JSON e.g.
+
+## Send
+
+```json
+{
+  "type_url": "/cosmos.bank.v1beta1.MsgSend",
+  "value": {
+    "from_address": "[input]",
+    "to_address": "[input]",
+    "amount": [
+      {
+        "denom": "[input]",
+        "amount": "[input]"
+      }
+    ]
+  }
+}
+```
+
+## MultiSend
+
+```json
+{
+  "type_url": "/cosmos.bank.v1beta1.MsgMultiSend",
+  "value": {
+    "inputs": [
+      {
+        "address": "[input]",
+        "coins": [
+          {
+            "denom": "[input]",
+            "amount": "[input]"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "address": "[input]",
+        "coins": [
+          {
+            "denom": "[input]",
+            "amount": "[input]"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Delegate
+
+```json
+{
+  "type_url": "/cosmos.staking.v1beta1.MsgDelegate",
+  "value": {
+    "delegator_address": "[input]",
+    "validator_address": "[input]",
+    "amount": {
+      "denom": "[input]",
+      "amount": "[input]"
+    }
+  }
+}
+```
+
+## Redelegate
+
+```json
+{
+  "type_url": "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+  "value": {
+    "delegator_address": "[input]",
+    "validator_src_address": "[input]",
+    "validator_dst_address": "[input]",
+    "amount": {
+      "denom": "[input]",
+      "amount": "[input]"
+    }
+  }
+}
+```
+
+## Undelegate
+
+```json
+{
+  "type_url": "/cosmos.staking.v1beta1.MsgUndelegate",
+  "value": {
+    "delegator_address": "[input]",
+    "validator_address": "[input]",
+    "amount": {
+      "denom": "[input]",
+      "amount": "[input]"
+    }
+  }
+}
+```
+
+## Reward
+
+```json
+{
+  "type_url": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
+  "value": {
+    "delegator_address": "[input]",
+    "validator_address": "[input]"
+  }
+}
+```
+
+## Grant
+
+### Delegate Grant
+
+```json
+{
+  "type_url": "/cosmos.authz.v1beta1.MsgGrant",
+  "value": {
+    "granter": "[input]",
+    "grantee": "[input]",
+    "grant": {
+      "authorization": {
+        "type_url": "/cosmos.staking.v1beta1.StakeAuthorization",
+        "value": {
+          "allow_list": {
+            "address": ["[input]", "[input]"]
+          },
+          "authorization_type": 1 // [input]: number
+        }
+      },
+      "expiration": {
+        "type_url": "/google.protobuf.Timestamp",
+        "value": {
+          "seconds": 5325252355 // [input]: number
+        }
+      }
+    }
+  }
+}
+```
+
+### Revoke Delegate Grant
+
+```json
+{
+  "type_url": "/cosmos.authz.v1beta1.MsgRevoke",
+  "value": {
+    "granter": "[input]",
+    "grantee": "[input]",
+    "msg_type_url": "/cosmos.staking.v1beta1.MsgDelegate"
+  }
+}
+```
+
+#### Authorization Type
+
+```js
+type AuthorizationType = {
+    AUTHORIZATION_TYPE_UNSPECIFIED = 0,
+    AUTHORIZATION_TYPE_DELEGATE = 1,
+    AUTHORIZATION_TYPE_UNDELEGATE = 2,
+    AUTHORIZATION_TYPE_REDELEGATE = 3
+}
+```
