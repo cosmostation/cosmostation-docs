@@ -1,0 +1,12 @@
+{
+  "provider": "Provider",
+  "chains": "Chains",
+  "accounts": "Accounts",
+  "sign-tx": "Sign Transaction",
+  "sign-message": "Sign Message",
+  "send-tx": "Send Transaction",
+  "cw20-token": "CW20 Tokens",
+  "disconnect": "Disconnect",
+  "event": "Event",
+  "error": "Error"
+}

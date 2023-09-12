@@ -21,17 +21,24 @@
   resolved "https://registry.yarnpkg.com/@braintree/sanitize-url/-/sanitize-url-6.0.4.tgz#923ca57e173c6b232bbbb07347b1be982f03e783"
   integrity sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==
 
-"@cosmostation/use-wallets@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@cosmostation/use-wallets/-/use-wallets-2.0.0.tgz#9efe933d1425dca30f5488bf2970835dd45750b3"
-  integrity sha512-rCwfbhKIoM0rGR4kwT62pmXrQjALflSbdzJVR29ysrkfHMDEC/e68M8+wcUmAijfBSnmiklHZV3q55I1/fnN7g==
+"@cosmostation/extension@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@cosmostation/extension/-/extension-0.0.8.tgz#e6c778b4dab4941b7de6703ed8cc76e4df94e7af"
+  integrity sha512-jWgoOzXXaFeGCrT3u5tkfZLBG7/Gws2pd6ks5gr/yTUMbn5y5/jm5q2UuIx2G3T92FqFmEJe/2Buss+TP4aQJg==
   dependencies:
-    "@cosmostation/wallets" "^2.0.0"
+    "@cosmostation/wallets" "^2.0.1"
 
-"@cosmostation/wallets@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@cosmostation/wallets/-/wallets-2.0.0.tgz#0402317fb9d9ea4c47f7ecf1a128157bcfd86bdd"
-  integrity sha512-epguw6kHna/mbRONKo136TLLio8HMtY730Ms2omulJEMYyG15IGYosXh77iJtneauanetHhFjyn9lAk0s+Yvhw==
+"@cosmostation/use-wallets@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@cosmostation/use-wallets/-/use-wallets-2.0.2.tgz#c534a5631452e61f485a45033a53cb05e476bcae"
+  integrity sha512-y3RLv+KRYaMnCeSnaEbiwdEJsBvdEolehYifjsEps/e/+75RoNWClge85e3JHAnnGOw13bkeZStWfo+48Lv6Kg==
+  dependencies:
+    "@cosmostation/wallets" "^2.0.1"
+
+"@cosmostation/wallets@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@cosmostation/wallets/-/wallets-2.0.1.tgz#783d5a5fdca99e5e0bbbe3066afe520069963b46"
+  integrity sha512-D8P/B9aX99oCSwgwqo5mIk4PlaxeXfna3toRGsX+QQq2PxfjfsvsOHYusdcKnTo/p4ck1EAwhS//IEq0p51VQw==
 
 "@headlessui/react@^1.7.10":
   version "1.7.13"

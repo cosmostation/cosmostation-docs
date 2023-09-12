@@ -5,12 +5,14 @@ import Button from '@/components/common/button';
 import Dialog from '@/components/common/dialog';
 import Image from 'next/image';
 
+import { Callout } from 'nextra-theme-docs';
+
 import styles from './index.module.scss';
 
-export default function ConnectButton() {
+export default function Connect() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { cosmosWallets, selectWallet } = useCosmosWallets();
+  const { cosmosWallets, selectWallet, currentWallet } = useCosmosWallets();
 
   return (
     <>
@@ -22,6 +24,7 @@ export default function ConnectButton() {
               <Button
                 onClick={() => {
                   selectWallet(wallet.id);
+                  setIsOpen(false);
                 }}
               >
                 <div className={styles.wallet}>
@@ -45,6 +48,7 @@ export default function ConnectButton() {
           )}
         </div>
       </Dialog>
+      {currentWallet && <Callout>'{currentWallet.name}' is selected</Callout>}
     </>
   );
 }
