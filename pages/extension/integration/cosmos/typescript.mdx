@@ -32,7 +32,7 @@ import { cosmos } from '@cosmostation/extension';
 <button
   onClick={async () => {
     try {
-      const provider = cosmos('cosmoshub-4');
+      const provider = await cosmos('cosmoshub-4');
       const account = await provider.requestAccount();
     } catch (e) {
       console.log(e.message);
@@ -57,7 +57,7 @@ import { cosmos } from '@cosmostation/extension';
 <button
   onClick={async () => {
     try {
-      const provider = cosmos('cosmoshub-4');
+      const provider = await cosmos('cosmoshub-4');
 
       const doc = {
         //  ...
@@ -87,7 +87,7 @@ import { cosmos } from '@cosmostation/extension';
 <button
   onClick={async () => {
     try {
-      const provider = cosmos('cosmoshub-4');
+      const provider = await cosmos('cosmoshub-4');
 
       const doc = {
         //  ...
