@@ -3,6 +3,10 @@ import Account from '@/components/extension/hook/account';
 import SignAmino from '@/components/extension/hook/sign-amino';
 import SignDirect from '@/components/extension/hook/sign-direct';
 import SignAndSend from '@/components/extension/hook/sign-and-send';
+import SignMessage from '@/components/extension/hook/sign-message';
+import VerifyMessage from '@/components/extension/hook/verify-message';
+import Disconnect from '@/components/extension/hook/disconnect';
+import AddCustomChain from '@/components/extension/hook/add-custom-chain';
 
 # React hook
 
@@ -41,6 +45,10 @@ function App() {
 With `useCosmosWallets`, you can select a list of wallets, the wallet you are currently using, and the wallet you want to use.
 The wallet list is automatically inserted in extensions.
 
+If you would like to add a wallet, [click here](wallet#add-wallet)
+
+### selectWallet
+
 ```jsx filename="example"
 import { useCosmosWallets } from '@cosmostation/use-wallets';
 
@@ -54,6 +62,7 @@ function Connect() {
           onClick={() => {
             selectWallet(wallet.id);
           }}
+          key={wallet.id}
         >
           <img src={wallet.logo} alt={wallet.name} width={40} height={40} /> {wallet.name}
         </button>
@@ -64,6 +73,51 @@ function Connect() {
 ```
 
 <Connect />
+
+---
+
+### addChain
+
+```jsx filename="example"
+import { useCosmosWallets } from '@cosmostation/use-wallets';
+
+function AddCustomChain() {
+  const { currentWallet } = useCosmosWallets();
+
+  return (
+    <div>
+      <button
+        onClick={() => {
+          try {
+            if (!currentWallet) {
+              throw new Error('No Selected Wallet');
+            }
+
+            await currentWallet.methods.addChain({
+              chain_id: 'custom-chain-1',
+              chain_name: 'custom-chain',
+              address_prefix: 'custom',
+              base_denom: 'ucustom',
+              display_denom: 'CUSTOM',
+              lcd_url: 'https://rpc.custom-chain.com',
+              decimals: 6, // optional
+              coin_type: '118', // optional
+            });
+          } catch (e) {
+            console.log(e.message);
+          }
+        }}
+      >
+        Add Custom Chain
+      </button>
+    </div>
+  );
+}
+```
+
+<AddCustomChain />
+
+---
 
 ## useCosmosAccount
 
@@ -98,7 +152,7 @@ the available methods in the selected account. (e.g. sign)
 
 - [Type](#cosmosmethods)
 
-#### requestAccount
+#### disconnect
 
 ```jsx filename="example"
 import { useCosmosAccount } from '@cosmostation/use-wallets';
@@ -106,9 +160,11 @@ import { useCosmosAccount } from '@cosmostation/use-wallets';
 export default function Account() {
   const { data } = useCosmosAccount('cosmoshub-4');
 
-  return <button onClick={() => mutate()}>Request Account</button>;
+  return <button onClick={() => data?.method.disconnect()}>Disconnect</button>;
 }
 ```
+
+<Disconnect />
 
 ---
 
@@ -130,6 +186,10 @@ export default function SignAmino() {
     <button
       onClick={async () => {
         try {
+          if (!data) {
+            throw new Error('No data');
+          }
+
           console.dir(await data?.methods.signAmino(sendExampleDoc), { depth: 100 });
         } catch (e) {
           console.log(e.message);
@@ -164,7 +224,12 @@ export default function SignDirect() {
     <button
       onClick={async () => {
         try {
-          const result = await data?.methods.signDirect(sendExampleDoc);
+          if (!data) {
+            throw new Error('No data');
+          }
+
+          const result = await data.methods.signDirect(sendExampleDoc);
+
           console.dir(result, { depth: 100 });
         } catch (e) {
           console.log(e.message);
@@ -198,6 +263,10 @@ export default function SignAndSendTransaction() {
     <Button
       onClick={async () => {
         try {
+          if (!data) {
+            throw new Error('No data');
+          }
+
           console.dir(
             await data?.methods.signAndSendTransaction({
               messages: [
@@ -231,6 +300,94 @@ export default function SignAndSendTransaction() {
 ```
 
 <SignAndSend />
+
+---
+
+#### signMessage
+
+sign arbitrary bytes
+
+```jsx filename="example"
+import { useCosmosAccount } from '@cosmostation/use-wallets';
+
+export default function SignAndSendTransaction() {
+  const { data } = useCosmosAccount('cosmoshub-4');
+
+  return (
+    <Button
+      onClick={async () => {
+        try {
+          if (!data) {
+            throw new Error('No data');
+          }
+
+          if (!data.methods.signMessage) {
+            throw new Error('No signMessage method');
+          }
+
+          const message = '(test) sign message';
+
+          console.dir(await data.methods.signMessage(message));
+        } catch (e) {
+          console.log(e.message);
+        }
+      }}
+    >
+      Sign Message
+    </Button>
+  );
+}
+```
+
+<SignMessage />
+
+---
+
+#### verifyMessage
+
+verify arbitrary bytes
+
+```jsx filename="example"
+import { useCosmosAccount } from '@cosmostation/use-wallets';
+
+export default function SignAndSendTransaction() {
+  const { data } = useCosmosAccount('cosmoshub-4');
+
+  return (
+    <Button
+      onClick={async () => {
+        try {
+          if (!data) {
+            throw new Error('No data');
+          }
+
+          if (!data.methods.signMessage) {
+            throw new Error('No signMessage method');
+          }
+
+          if (!data.methods.verifyMessage) {
+            throw new Error('No verifyMessage method');
+          }
+
+          const message = '(test) sign message';
+
+          const response = await data.methods.signMessage(message);
+
+          const verify = await data.methods.verifyMessage(message, response.signature);
+
+          console.log(verify ? 'verified' : 'not verified');
+        } catch (e) {
+          console.log(e.message);
+        }
+      }}
+    >
+      Verify Message
+    </Button>
+  );
+}
+```
+
+<VerifyMessage />
 
 ## Type
 
@@ -271,7 +428,6 @@ type CosmosPublicKeyType = 'secp256k1' | 'ethsecp256k1';
 
 ```typescript
 interface CosmosMethods {
-  requestAccount: (chainId: string) => Promise<CosmosAccount>;
   signAndSendTransaction: (
     props: SignAndSendTransactionProps,
     options?: SignOptions,
@@ -340,28 +496,6 @@ interface CosmosSignDirectDoc {
 interface CosmosSignDirectResponse {
   signature: string;
   signed_doc: CosmosSignedDoc;
-}
-```
-
-### CosmosSendTransactionResponse
-
-```typescript
-interface CosmosSendTransactionResponse {
-  tx_response: {
-    code: number;
-    txhash: string;
-    raw_log?: unknown;
-    codespace?: unknown;
-    tx?: unknown;
-    log?: unknown;
-    info?: unknown;
-    height?: unknown;
-    gas_wanted?: unknown;
-    gas_used?: unknown;
-    events?: unknown;
-    data?: unknown;
-    timestamp?: unknown;
-  };
 }
 ```
 

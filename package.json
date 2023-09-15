@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/cosmostation/splcosmostation-wallet-docs#readme",
   "dependencies": {
-    "@cosmostation/extension": "^0.0.8",
-    "@cosmostation/use-wallets": "^2.0.2",
-    "@cosmostation/wallets": "^2.0.1",
+    "@cosmostation/extension": "^0.0.11",
+    "@cosmostation/use-wallets": "2.0.4",
+    "@cosmostation/wallets": "2.0.2",
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.9",

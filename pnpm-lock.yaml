@@ -6,14 +6,14 @@ settings:
 
 dependencies:
   '@cosmostation/extension':
-    specifier: ^0.0.8
-    version: 0.0.8
+    specifier: ^0.0.11
+    version: 0.0.11
   '@cosmostation/use-wallets':
-    specifier: ^2.0.2
-    version: 2.0.2(react@18.2.0)
+    specifier: 2.0.4
+    version: 2.0.4(react@18.2.0)
   '@cosmostation/wallets':
-    specifier: ^2.0.1
-    version: 2.0.1
+    specifier: 2.0.2
+    version: 2.0.2
   axios:
     specifier: ^1.4.0
     version: 1.5.0
@@ -96,25 +96,25 @@ packages:
     resolution: {integrity: sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==}
     dev: false
 
-  /@cosmostation/extension@0.0.8:
-    resolution: {integrity: sha512-jWgoOzXXaFeGCrT3u5tkfZLBG7/Gws2pd6ks5gr/yTUMbn5y5/jm5q2UuIx2G3T92FqFmEJe/2Buss+TP4aQJg==}
+  /@cosmostation/extension@0.0.11:
+    resolution: {integrity: sha512-K6RDDoTFMrvjng/pk7iWWSYUi2qMjlwzG4PAErLiGL+g/QYKav1to3MjgApZhsQYEjayKSCWkvC46y/1R6k3kw==}
     engines: {node: '>= 16.0.0'}
     dependencies:
-      '@cosmostation/wallets': 2.0.1
+      '@cosmostation/wallets': 2.0.2
     dev: false
 
-  /@cosmostation/use-wallets@2.0.2(react@18.2.0):
-    resolution: {integrity: sha512-y3RLv+KRYaMnCeSnaEbiwdEJsBvdEolehYifjsEps/e/+75RoNWClge85e3JHAnnGOw13bkeZStWfo+48Lv6Kg==}
+  /@cosmostation/use-wallets@2.0.4(react@18.2.0):
+    resolution: {integrity: sha512-HztkR9nWpoYul7YVjKXcacucwOZcXW2oD/o6GK4t9MgEJ6mYc4S8azN1lSAIuY2pdYMcOxSMXN6eSA8OKkChWg==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
-      '@cosmostation/wallets': 2.0.1
+      '@cosmostation/wallets': 2.0.2
       react: 18.2.0
     dev: false
 
-  /@cosmostation/wallets@2.0.1:
-    resolution: {integrity: sha512-D8P/B9aX99oCSwgwqo5mIk4PlaxeXfna3toRGsX+QQq2PxfjfsvsOHYusdcKnTo/p4ck1EAwhS//IEq0p51VQw==}
+  /@cosmostation/wallets@2.0.2:
+    resolution: {integrity: sha512-pjRzfr47txu5kQe8qrqGz+5MdpWgTACX5HC5CRmV+6Z9MRTR/8+1v+lzk9FCZDYdTFG4XryXJRb6WfqHQv3Znw==}
     engines: {node: '>= 16.0.0'}
     dev: false
 

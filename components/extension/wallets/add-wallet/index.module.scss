@@ -1,0 +1,28 @@
+@use '~@/styles/themes.scss' as *;
+
+.container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonContainer {
+  width: 18rem;
+  margin: 0.5rem 0;
+}
+
+.wallet {
+  display: flex;
+
+  margin: 0 1rem;
+}
+
+.walletName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 0.5rem;
+}
