@@ -38,7 +38,7 @@ export default function SignAndSend() {
               memo: 'Test (Sign And Send Transaction)',
             });
 
-            setSuccess(response.tx_response.txhash);
+            setSuccess(response);
             setError('');
           } catch (e) {
             setSuccess('');
