@@ -25,6 +25,11 @@ import { registCosmosWallet, CosmosRegistWallet } from '@cosmostation/wallets';
 
 <button
   onClick={() => {
+    if (!window.keplr) {
+      alert('Keplr extension is not installed');
+      return;
+    }
+
     const wallet: CosmosRegistWallet = {
       name: 'Keplr',
       logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo.svg',

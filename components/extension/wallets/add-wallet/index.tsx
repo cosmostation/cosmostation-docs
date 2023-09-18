@@ -16,6 +16,11 @@ export default function AddWallet() {
     <>
       <Button
         onClick={() => {
+          if (!window.keplr) {
+            alert('Keplr extension is not installed');
+            return;
+          }
+
           const wallet: CosmosRegistWallet = {
             name: 'Keplr',
             logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo.svg',
