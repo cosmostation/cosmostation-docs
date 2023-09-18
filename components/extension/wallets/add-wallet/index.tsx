@@ -185,10 +185,10 @@ export default function AddWallet() {
           registCosmosWallet(wallet);
         }}
       >
-        Regist Keplr Wallet
+        Register Keplr Wallet
       </Button>
       <div className={styles.container}>
-        <div>Registed Wallets</div>
+        <div>Registered Wallets</div>
         {cosmosWallets.map((wallet) => (
           <div className={styles.buttonContainer} key={wallet.id}>
             <Button onClick={() => {}}>
