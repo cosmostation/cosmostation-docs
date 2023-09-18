@@ -91,11 +91,16 @@ export default function AddWallet() {
                 }
 
                 if (typeof options?.is_check_balance === 'boolean') {
-                  window.keplr.defaultOptions.sign.disableBalanceCheck = options.is_check_balance;
+                  window.keplr.defaultOptions.sign.disableBalanceCheck = !options.is_check_balance;
                 }
 
-                const signer =
-                  options?.signer || (await wallet.methods.getAccount(chainId)).address;
+                const account = await wallet.methods.getAccount(chainId);
+
+                if (account.is_ledger) {
+                  throw new Error('Ledger is not supported');
+                }
+
+                const signer = options?.signer || account.address;
 
                 const signingDoc = {
                   accountNumber: document.account_number,
