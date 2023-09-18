@@ -1,8 +1,13 @@
 import { useCosmosAccount } from '@cosmostation/use-wallets';
 import Button from '@/components/common/button';
+import { useState } from 'react';
+import { Callout } from 'nextra-theme-docs';
 
 export default function SignAmino() {
   const { data } = useCosmosAccount('cosmoshub-4');
+
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const doc = {
     account_number: '1',
@@ -40,14 +45,24 @@ export default function SignAmino() {
       <Button
         onClick={async () => {
           try {
-            console.dir(await data?.methods.signAmino(doc), { depth: 100 });
+            if (!data) {
+              throw new Error('No data');
+            }
+
+            const success = await data.methods.signAmino(doc);
+
+            setSuccess(success.signature);
+            setError('');
           } catch (e) {
-            console.log(e.message);
+            setError(e.message);
+            setSuccess('');
           }
         }}
       >
         Sign Amino
       </Button>
+      {success && <Callout>{success}</Callout>}
+      {error && <Callout type="error">{error}</Callout>}
     </>
   );
 }

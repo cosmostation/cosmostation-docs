@@ -1,16 +1,25 @@
 import { useCosmosAccount } from '@cosmostation/use-wallets';
 import { getCosmosTxProto } from '@cosmostation/wallets';
 import Button from '@/components/common/button';
+import { useState } from 'react';
+import { Callout } from 'nextra-theme-docs';
 
 export default function SignAmino() {
   const chainId = 'cosmoshub-4';
   const { data } = useCosmosAccount(chainId);
+
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   return (
     <>
       <Button
         onClick={async () => {
           try {
+            if (!data) {
+              throw new Error('No data');
+            }
+
             const docs = await getCosmosTxProto({
               chain_id: chainId,
               public_key: {
@@ -35,14 +44,23 @@ export default function SignAmino() {
               ],
               memo: 'Test (Sign Direct)',
             });
-            console.dir(await data?.methods.signDirect(docs), { depth: 100 });
+
+            const response = await data?.methods.signDirect(docs);
+
+            console.log(response);
+
+            setSuccess(response.signature);
+            setError('');
           } catch (e) {
-            console.log(e.message);
+            setSuccess('');
+            setError(e.message);
           }
         }}
       >
         Sign Direct
       </Button>
+      {success && <Callout>{success}</Callout>}
+      {error && <Callout type="error">{error}</Callout>}
     </>
   );
 }

@@ -20,7 +20,7 @@ export default function Connect() {
       <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div className={styles.container}>
           {cosmosWallets.map((wallet) => (
-            <div className={styles.buttonContainer}>
+            <div className={styles.buttonContainer} key={wallet.id}>
               <Button
                 onClick={() => {
                   selectWallet(wallet.id);

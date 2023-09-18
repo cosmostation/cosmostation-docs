@@ -5,6 +5,7 @@ import SignAndSendTransaction from '@/components/extension/typescript/sign-and-s
 import AddCustomChain from '@/components/extension/typescript/add-custom-chain';
 import SignMessage from '@/components/extension/typescript/sign-message';
 import VerifyMessage from '@/components/extension/typescript/verify-message';
+import Disconnect from '@/components/extension/typescript/disconnect';
 
 # Typescript
 
@@ -23,6 +24,8 @@ yarn add @cosmostation/extension
 ```
 
 ## Account
+
+### Request account
 
 Get account information
 
@@ -44,6 +47,31 @@ import { cosmos } from '@cosmostation/extension';
 ```
 
 <Account />
+
+---
+
+### Disconnect
+
+Disconnect from the extension
+
+```jsx filename="example"
+import { cosmos } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const provider = await cosmos('cosmoshub-4');
+      const account = await provider.requestAccount();
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Disconnect
+</button>;
+```
+
+<Disconnect />
 
 ## Sign
 
