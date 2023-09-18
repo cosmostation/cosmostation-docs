@@ -21,7 +21,7 @@ yarn add @cosmostation/wallets
 To detect a wallet, it is ideal to inject it directly from the extension, but it is also possible to manually inject a wallet that has not been injected into a dapp.
 
 ```jsx
-import { registCosmosWallet, CosmosRegistWallet } from '@cosmostation/wallets';
+import { registerCosmosWallet, CosmosRegisterWallet } from '@cosmostation/wallets';
 
 <button
   onClick={() => {
@@ -30,7 +30,7 @@ import { registCosmosWallet, CosmosRegistWallet } from '@cosmostation/wallets';
       return;
     }
 
-    const wallet: CosmosRegistWallet = {
+    const wallet: CosmosRegisterWallet = {
       name: 'Keplr',
       logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo.svg',
       events: {
@@ -196,7 +196,7 @@ import { registCosmosWallet, CosmosRegistWallet } from '@cosmostation/wallets';
       },
     };
 
-    registCosmosWallet(wallet);
+    registerCosmosWallet(wallet);
   }}
 >
   Register Keplr Wallet

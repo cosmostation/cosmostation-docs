@@ -6,14 +6,14 @@ settings:
 
 dependencies:
   '@cosmostation/extension':
-    specifier: ^0.0.11
-    version: 0.0.11
+    specifier: ^0.0.13
+    version: 0.0.13
   '@cosmostation/use-wallets':
-    specifier: 2.0.4
-    version: 2.0.4(react@18.2.0)
+    specifier: 2.0.5
+    version: 2.0.5(react@18.2.0)
   '@cosmostation/wallets':
-    specifier: 2.0.2
-    version: 2.0.2
+    specifier: 2.0.5
+    version: 2.0.5
   axios:
     specifier: ^1.4.0
     version: 1.5.0
@@ -96,25 +96,25 @@ packages:
     resolution: {integrity: sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==}
     dev: false
 
-  /@cosmostation/extension@0.0.11:
-    resolution: {integrity: sha512-K6RDDoTFMrvjng/pk7iWWSYUi2qMjlwzG4PAErLiGL+g/QYKav1to3MjgApZhsQYEjayKSCWkvC46y/1R6k3kw==}
+  /@cosmostation/extension@0.0.13:
+    resolution: {integrity: sha512-qRSX4hG0Jnnq/0DOfi6DLvvmfqEvVQxnZJeHgUYaV/AHBpGEXZNNj5feh+XhliG/oC+YWy7hfzbsePQtMGWkNQ==}
     engines: {node: '>= 16.0.0'}
     dependencies:
-      '@cosmostation/wallets': 2.0.2
+      '@cosmostation/wallets': 2.0.5
     dev: false
 
-  /@cosmostation/use-wallets@2.0.4(react@18.2.0):
-    resolution: {integrity: sha512-HztkR9nWpoYul7YVjKXcacucwOZcXW2oD/o6GK4t9MgEJ6mYc4S8azN1lSAIuY2pdYMcOxSMXN6eSA8OKkChWg==}
+  /@cosmostation/use-wallets@2.0.5(react@18.2.0):
+    resolution: {integrity: sha512-KcOBynszfi7PqmaMVrxCXJIhLB2aMFUwpsM6a3q4S52NWeHJT4mjq8QRnp2a9I5sLWBEVVcYxdOOmyvfn/YC7A==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
-      '@cosmostation/wallets': 2.0.2
+      '@cosmostation/wallets': 2.0.5
       react: 18.2.0
     dev: false
 
-  /@cosmostation/wallets@2.0.2:
-    resolution: {integrity: sha512-pjRzfr47txu5kQe8qrqGz+5MdpWgTACX5HC5CRmV+6Z9MRTR/8+1v+lzk9FCZDYdTFG4XryXJRb6WfqHQv3Znw==}
+  /@cosmostation/wallets@2.0.5:
+    resolution: {integrity: sha512-Z0KbGhB3E1/vBlye1XUmz79YHywthNnm7Syb1TnGWbtZKl86CXtJHggz/dqCQ6i3gxmo4fr8UEckJ/Wkak8yAw==}
     engines: {node: '>= 16.0.0'}
     dev: false
 

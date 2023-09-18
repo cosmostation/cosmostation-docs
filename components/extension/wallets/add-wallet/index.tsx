@@ -5,7 +5,7 @@ declare global {
 }
 
 import Button from '@/components/common/button';
-import { registCosmosWallet, CosmosRegistWallet } from '@cosmostation/wallets';
+import { registerCosmosWallet, CosmosRegisterWallet } from '@cosmostation/wallets';
 import { useCosmosWallets } from '@cosmostation/use-wallets';
 import styles from './index.module.scss';
 import Image from 'next/image';
@@ -21,7 +21,7 @@ export default function AddWallet() {
             return;
           }
 
-          const wallet: CosmosRegistWallet = {
+          const wallet: CosmosRegisterWallet = {
             name: 'Keplr',
             logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo.svg',
             events: {
@@ -192,7 +192,7 @@ export default function AddWallet() {
             },
           };
 
-          registCosmosWallet(wallet);
+          registerCosmosWallet(wallet);
         }}
       >
         Register Keplr Wallet
