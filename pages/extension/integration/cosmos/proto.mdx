@@ -259,6 +259,37 @@ enum VoteOption {
 }
 ```
 
+#### ParameterChangeProposal
+
+```json
+{
+  "type_url": "/cosmos.gov.v1beta1.MsgSubmitProposal",
+  "value": {
+    "content": {
+      "type_url": "/cosmos.params.v1beta1.ParameterChangeProposal",
+      "value": {
+        "title": "title", // [input]: string
+        "description": "description", // [input]: string
+        "changes": [
+          {
+            "subspace": "subspace", // [input]: string
+            "key": "key", // [input]: string
+            "value": "value" // [input]: string
+          }
+        ]
+      }
+    },
+    "initial_deposit": [
+      {
+        "denom": "denom", // [input]: string
+        "amount": "amount" // [input]: string
+      }
+    ],
+    "proposer": "proposer" // [input]: string
+  }
+}
+```
+
 ---
 
 ### Grant
