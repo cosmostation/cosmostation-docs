@@ -26,7 +26,7 @@ export default function AddCustomChain() {
               display_denom: 'CUSTOM',
               lcd_url: 'https://rpc.custom-chain.com',
               decimals: 6, // optional
-              coin_type: '118', // optional
+              coin_type: "118'", // optional
             });
 
             setSuccess('Added');
