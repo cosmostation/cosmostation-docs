@@ -181,6 +181,86 @@ enum VoteOption {
 
 ---
 
+### Proposal
+
+#### TextProposal
+
+```json
+{
+  "type_url": "/cosmos.gov.v1beta1.MsgSubmitProposal",
+  "value": {
+    "content": {
+      "type_url": "/cosmos.gov.v1beta1.TextProposal",
+      "value": {
+        "title": "title", // [input]: string
+        "description": "description" // [input]: string
+      }
+    },
+    "initial_deposit": [
+      {
+        "denom": "denom", // [input]: string
+        "amount": "amount" // [input]: string
+      }
+    ],
+    "proposer": "proposer" // [input]: string
+  }
+}
+```
+
+#### ClientUpdateProposal
+
+```json
+{
+  "type_url": "/cosmos.gov.v1beta1.MsgSubmitProposal",
+  "value": {
+    "content": {
+      "type_url": "/ibc.core.client.v1.ClientUpdateProposal",
+      "value": {
+        "title": "title", // [input]: string
+        "description": "description", // [input]: string
+        "subject_client_id": "subject_client_id", // [input]: string
+        "substitute_client_id": "substitute_client_id" // [input]: string
+      }
+    },
+    "initial_deposit": [],
+    "proposer": "proposer" // [input]: string
+  }
+}
+```
+
+#### CommunityPoolSpendProposal
+
+```json
+{
+  "type_url": "/cosmos.gov.v1beta1.MsgSubmitProposal",
+  "value": {
+    "content": {
+      "type_url": "/cosmos.distribution.v1beta1.CommunityPoolSpendProposal",
+      "value": {
+        "title": "title", // [input]: string
+        "description": "description", // [input]: string
+        "recipient": "recipient", // [input]: string
+        "amount": [
+          {
+            "denom": "denom", // [input]: string
+            "amount": "amount" // [input]: string
+          }
+        ]
+      }
+    },
+    "initial_deposit": [
+      {
+        "denom": "denom", // [input]: string
+        "amount": "amount" // [input]: string
+      }
+    ],
+    "proposer": "proposer" // [input]: string
+  }
+}
+```
+
+---
+
 ### Grant
 
 #### Delegate Grant
@@ -227,7 +307,7 @@ enum VoteOption {
 
 ##### Authorization Type
 
-```js
+```typescript
 type AuthorizationType = {
     AUTHORIZATION_TYPE_UNSPECIFIED = 0,
     AUTHORIZATION_TYPE_DELEGATE = 1,
