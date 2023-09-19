@@ -21,9 +21,12 @@
   },
   "homepage": "https://github.com/cosmostation/splcosmostation-wallet-docs#readme",
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
     "@cosmostation/extension": "^0.0.13",
     "@cosmostation/use-wallets": "2.0.5",
     "@cosmostation/wallets": "2.0.5",
+    "@uiw/codemirror-theme-github": "^4.21.13",
+    "@uiw/react-codemirror": "^4.21.13",
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.9",

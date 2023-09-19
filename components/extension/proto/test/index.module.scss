@@ -1,0 +1,16 @@
+@use '~@/styles/themes.scss' as *;
+
+.container {
+  width: 100%;
+  height: fit-content;
+}
+
+.textarea {
+  width: 100%;
+
+  border: solid 0.1rem $purple01;
+  border-radius: 0.5rem;
+
+  padding: 1rem;
+  resize: vertical;
+}

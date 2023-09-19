@@ -1,6 +1,6 @@
 import Button from '@/components/common/button';
 
-import { cosmos, cosmosFunctions } from '@cosmostation/extension';
+import { cosmos } from '@cosmostation/extension';
 import { useState } from 'react';
 import { Callout } from 'nextra-theme-docs';
 
@@ -24,7 +24,7 @@ export default function Disconnect() {
           }
         }}
       >
-        Request Account
+        Disconnect
       </Button>
       {address && <Callout>{address}</Callout>}
       {error && <Callout type="error">{error}</Callout>}

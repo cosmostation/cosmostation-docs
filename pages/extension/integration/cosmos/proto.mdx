@@ -1,24 +1,56 @@
-# Protobuf JSON e.g.
+import Test from '@/components/extension/proto/test';
+import Connect from '@/components/extension/hook/connect';
+import Account from '@/components/extension/hook/account';
 
-## Send
+# Protobuf JSON
+
+Automatically creates json as a transaction in protobuf format.
+When using `signAndTransaction`, send a message as shown below.
+
+This is an example. You can request it by filling in the value in `[input]`.
+
+## Test
+
+You can test it by connecting directly to your wallet. Please refer to the example below and send a transaction.  
+It will be sent directly to the cosmoshub-4 mainnet, so don't sign if you don't want to.
+
+### 1. Connect
+
+<Connect />
+
+### 2. Get Account
+
+<Account />
+
+### 3. Sign And Send Transaction
+
+It is editable.
+
+<Test />
+
+## example
+
+### Send
 
 ```json
 {
   "type_url": "/cosmos.bank.v1beta1.MsgSend",
   "value": {
-    "from_address": "[input]",
-    "to_address": "[input]",
+    "from_address": "from_address", // [input]: string
+    "to_address": "to_address", // [input]: string
     "amount": [
       {
-        "denom": "[input]",
-        "amount": "[input]"
+        "denom": "denom", // [input]: string
+        "amount": "amount" // [input]: string
       }
     ]
   }
 }
 ```
 
-## MultiSend
+---
+
+### MultiSend
 
 ```json
 {
@@ -26,22 +58,22 @@
   "value": {
     "inputs": [
       {
-        "address": "[input]",
+        "address": "address", // [input]: string
         "coins": [
           {
-            "denom": "[input]",
-            "amount": "[input]"
+            "denom": "denom", // [input]: string
+            "amount": "amount" // [input]: string
           }
         ]
       }
     ],
     "outputs": [
       {
-        "address": "[input]",
+        "address": "address", // [input]: string
         "coins": [
           {
-            "denom": "[input]",
-            "amount": "[input]"
+            "denom": "denom", // [input]: string
+            "amount": "amount" // [input]: string
           }
         ]
       }
@@ -50,83 +82,120 @@
 }
 ```
 
-## Delegate
+---
+
+### Delegate
 
 ```json
 {
   "type_url": "/cosmos.staking.v1beta1.MsgDelegate",
   "value": {
-    "delegator_address": "[input]",
-    "validator_address": "[input]",
+    "delegator_address": "delegator_address", // [input]: string
+    "validator_address": "validator_address", // [input]: string
     "amount": {
-      "denom": "[input]",
-      "amount": "[input]"
+      "denom": "denom", // [input]: string
+      "amount": "amount" // [input]: string
     }
   }
 }
 ```
 
-## Redelegate
+---
+
+### Redelegate
 
 ```json
 {
   "type_url": "/cosmos.staking.v1beta1.MsgBeginRedelegate",
   "value": {
-    "delegator_address": "[input]",
-    "validator_src_address": "[input]",
-    "validator_dst_address": "[input]",
+    "delegator_address": "[input]", // [input]: string
+    "validator_src_address": "[input]", // [input]: string
+    "validator_dst_address": "[input]", // [input]: string
     "amount": {
-      "denom": "[input]",
-      "amount": "[input]"
+      "denom": "[input]", // [input]: string
+      "amount": "[input]" // [input]: string
     }
   }
 }
 ```
 
-## Undelegate
+---
+
+### Undelegate
 
 ```json
 {
   "type_url": "/cosmos.staking.v1beta1.MsgUndelegate",
   "value": {
-    "delegator_address": "[input]",
-    "validator_address": "[input]",
+    "delegator_address": "delegator_address", // [input]: string
+    "validator_address": "validator_address", // [input]: string
     "amount": {
-      "denom": "[input]",
-      "amount": "[input]"
+      "denom": "denom", // [input]: string
+      "amount": "amount" // [input]: string
     }
   }
 }
 ```
 
-## Reward
+---
+
+### Reward
 
 ```json
 {
   "type_url": "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward",
   "value": {
-    "delegator_address": "[input]",
-    "validator_address": "[input]"
+    "delegator_address": "delegator_address", // [input]: string
+    "validator_address": "validator_address" // [input]: string
   }
 }
 ```
 
-## Grant
+---
 
-### Delegate Grant
+### Vote
+
+```json
+{
+  "type_url": "/cosmos.gov.v1beta1.MsgVote",
+  "value": {
+    "proposal_id": 823, // [input]: number
+    "voter": "voter", // [input]: string
+    "option": 1 // [input]: number (yes: 1, abstain: 2, no: 3, no_with_veto: 4)
+  }
+}
+```
+
+#### Vote Options
+
+```javascript
+enum VoteOption {
+  VOTE_OPTION_UNSPECIFIED = 0,
+  VOTE_OPTION_YES = 1,
+  VOTE_OPTION_ABSTAIN = 2,
+  VOTE_OPTION_NO = 3,
+  VOTE_OPTION_NO_WITH_VETO = 4
+}
+```
+
+---
+
+### Grant
+
+#### Delegate Grant
 
 ```json
 {
   "type_url": "/cosmos.authz.v1beta1.MsgGrant",
   "value": {
-    "granter": "[input]",
-    "grantee": "[input]",
+    "granter": "granter", // [input]: string
+    "grantee": "grantee", // [input]: string
     "grant": {
       "authorization": {
         "type_url": "/cosmos.staking.v1beta1.StakeAuthorization",
         "value": {
           "allow_list": {
-            "address": ["[input]", "[input]"]
+            "address": ["address", "address"] // [input]: string[]
           },
           "authorization_type": 1 // [input]: number
         }
@@ -134,7 +203,7 @@
       "expiration": {
         "type_url": "/google.protobuf.Timestamp",
         "value": {
-          "seconds": 5325252355 // [input]: number
+          "seconds": 5325252355 // [input]: number (unix time)
         }
       }
     }
@@ -142,20 +211,20 @@
 }
 ```
 
-### Revoke Delegate Grant
+#### Revoke Delegate Grant
 
 ```json
 {
   "type_url": "/cosmos.authz.v1beta1.MsgRevoke",
   "value": {
-    "granter": "[input]",
-    "grantee": "[input]",
+    "granter": "granter", // [input]: string
+    "grantee": "grantee", // [input]: string
     "msg_type_url": "/cosmos.staking.v1beta1.MsgDelegate"
   }
 }
 ```
 
-#### Authorization Type
+##### Authorization Type
 
 ```js
 type AuthorizationType = {
