@@ -18,3 +18,4 @@ packages/nextra-theme-*/style.css
 .eslintcache
 .env
 out/
+yarn.lock

@@ -23,7 +23,7 @@
   "dependencies": {
     "@codemirror/lang-json": "^6.0.1",
     "@cosmostation/extension": "^0.0.13",
-    "@cosmostation/use-wallets": "2.0.5",
+    "@cosmostation/use-wallets": "2.0.6",
     "@cosmostation/wallets": "2.0.5",
     "@uiw/codemirror-theme-github": "^4.21.13",
     "@uiw/react-codemirror": "^4.21.13",
@@ -40,6 +40,7 @@
     "react-dom": "^18.2.0",
     "react-json-view": "^1.21.3",
     "react-json-view-lite": "^0.9.6",
+    "react-singleton-hook": "^4.0.1",
     "sass": "^1.63.6",
     "sharp": "^0.32.3"
   },

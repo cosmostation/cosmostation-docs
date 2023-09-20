@@ -12,8 +12,8 @@ dependencies:
     specifier: ^0.0.13
     version: 0.0.13
   '@cosmostation/use-wallets':
-    specifier: 2.0.5
-    version: 2.0.5(react@18.2.0)
+    specifier: 2.0.6
+    version: 2.0.6(react-dom@18.2.0)(react@18.2.0)
   '@cosmostation/wallets':
     specifier: 2.0.5
     version: 2.0.5
@@ -62,6 +62,9 @@ dependencies:
   react-json-view-lite:
     specifier: ^0.9.6
     version: 0.9.8(react@18.2.0)
+  react-singleton-hook:
+    specifier: ^4.0.1
+    version: 4.0.1(react-dom@18.2.0)(react@18.2.0)
   sass:
     specifier: ^1.63.6
     version: 1.66.1
@@ -190,14 +193,18 @@ packages:
       '@cosmostation/wallets': 2.0.5
     dev: false
 
-  /@cosmostation/use-wallets@2.0.5(react@18.2.0):
-    resolution: {integrity: sha512-KcOBynszfi7PqmaMVrxCXJIhLB2aMFUwpsM6a3q4S52NWeHJT4mjq8QRnp2a9I5sLWBEVVcYxdOOmyvfn/YC7A==}
+  /@cosmostation/use-wallets@2.0.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-hILhjIs5oupjLInQKePSgDlK60kpT6Ok/R7afxlVzAXB3+MC4p+IgdWa5Ac9KHLewucWgizIZstiJ052hV0B/w==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       react: '>=16.8.0'
     dependencies:
       '@cosmostation/wallets': 2.0.5
+      '@tanstack/react-query': 4.35.3(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
+    transitivePeerDependencies:
+      - react-dom
+      - react-native
     dev: false
 
   /@cosmostation/wallets@2.0.5:
@@ -483,6 +490,28 @@ packages:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
       tslib: 2.6.2
+    dev: false
+
+  /@tanstack/query-core@4.35.3:
+    resolution: {integrity: sha512-PS+WEjd9wzKTyNjjQymvcOe1yg8f3wYc6mD+vb6CKyZAKvu4sIJwryfqfBULITKCla7P9C4l5e9RXePHvZOZeQ==}
+    dev: false
+
+  /@tanstack/react-query@4.35.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-UgTPioip/rGG3EQilXfA2j4BJkhEQsR+KAbF+KIuvQ7j4MkgnTCJF01SfRpIRNtQTlEfz/+IL7+jP8WA8bFbsw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 4.35.3
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /@theguild/remark-mermaid@0.0.4(react@18.2.0):
@@ -3351,6 +3380,22 @@ packages:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
     dev: false
 
+  /react-singleton-hook@4.0.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-fWuk8VxcZPChrkQasDLM8pgd/7kyi+Cr/5FfCiD99FicjEru+JmtEZNnN4lJ8Z7KbqAST5CYPlpz6lmNsZFGNw==}
+    peerDependencies:
+      react: '18'
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /react-textarea-autosize@8.5.3(@types/react@18.2.21)(react@18.2.0):
     resolution: {integrity: sha512-XT1024o2pqCuZSuBt9FwHlaDeNtVrtCXu0Rnz88t1jUGheCLa3PhjE1GH8Ctm2axEtvdCl5SUHYschyQ0L5QHQ==}
     engines: {node: '>=10'}
@@ -4019,6 +4064,14 @@ packages:
       '@types/react': 18.2.21
       react: 18.2.0
       use-isomorphic-layout-effect: 1.1.2(@types/react@18.2.21)(react@18.2.0)
+    dev: false
+
+  /use-sync-external-store@1.2.0(react@18.2.0):
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /util-deprecate@1.0.2:
