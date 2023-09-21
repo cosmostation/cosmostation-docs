@@ -12,7 +12,7 @@ import { Callout } from 'nextra-theme-docs';
 import { useCosmosAccount } from '@cosmostation/use-wallets';
 
 export default function Test() {
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
 
   const [messages, setMessage] = useState([
     {
@@ -60,7 +60,15 @@ export default function Test() {
         <CodeMirror
           extensions={[json()]}
           height="20rem"
-          theme={theme === 'dark' ? githubDark : githubLight}
+          theme={
+            theme === 'system'
+              ? systemTheme === 'dark'
+                ? githubDark
+                : githubLight
+              : theme === 'dark'
+              ? githubDark
+              : githubLight
+          }
           onChange={onChange}
           value={JSON.stringify(messages, null, 2)}
         />
