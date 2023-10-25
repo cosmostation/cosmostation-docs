@@ -1,0 +1,34 @@
+# Useful command for Validators
+
+## Upgrade to a validator
+
+**Do not attempt to upgrade your node to a validator until the node is fully in sync as per the previous step.**
+
+To upgrade the node to a validator, you will need to submit a `create-validator` transaction:
+
+```bash
+mintstationd tx staking create-validator \
+  --amount 1000000umint \
+  --commission-max-change-rate "0.1" \
+  --commission-max-rate "0.20" \
+  --commission-rate "0.1" \
+  --min-self-delegation "1" \
+  --details "validators write bios too" \
+  --pubkey=$(mintstationd tendermint show-validator) \
+  --moniker "$MONIKER_NAME" \
+  --chain-id $CHAIN_ID \
+  --gas-prices 0.025umint \
+  --from <key-name>
+```
+
+The above transaction is just an example. There are many more flags that can be set to customise your validator, such as your validator website, or keybase.io id, etc. To see a full list:
+
+```bash
+mintstationd tx staking create-validator --help
+```
+
+## Unjail
+
+```bash
+stationd tx slashing unjail --from <account> --keyring-backend test  --chain-id mintstation-1 --fees 100umint
+```
