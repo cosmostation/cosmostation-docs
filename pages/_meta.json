@@ -19,5 +19,9 @@
   "mobile": {
     "type": "page",
     "title": "Mobile Wallets"
+  },
+  "mintstation": {
+    "type": "page",
+    "title": "Mintstation"
   }
 }

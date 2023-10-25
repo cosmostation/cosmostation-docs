@@ -1,0 +1,7 @@
+{
+  "create": "Create Contract",
+  "compile": "Compile Contract",
+  "deploy": "Store Code",
+  "query": "Query to Contract",
+  "execute": "Execute with Contract"
+}
