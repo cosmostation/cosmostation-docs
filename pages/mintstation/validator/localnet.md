@@ -2,7 +2,7 @@
 
 To set up a single local network easily, you can directly run the script below, and it will start working immediately:
 
-To get up and running with the mintstationd binary, please follow the instructions [here](../cli/setup.md).
+To get up and running with the mintstationd binary, please follow the instructions [here](/mintstation/cli/setup.md).
 
 ```bash
 APP_HOME="$HOME/.mintstationd"
