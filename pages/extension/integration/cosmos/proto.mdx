@@ -181,6 +181,31 @@ enum VoteOption {
 
 ---
 
+### IBC
+
+```json
+{
+  "type_url": "/ibc.applications.transfer.v1.MsgTransfer",
+  "value": {
+    "source_port": "source_port", // [input]: string
+    "source_channel": "source_channel", // [input]: string
+    "token": {
+      "denom": "denom", // [input]: string
+      "amount": "amount" // [input]: string
+    },
+    "sender": "sender", // [input]: string
+    "receiver": "receiver", // [input]: string
+    "timeout_height": {
+      "revision_height": 13594714, // [input]: number
+      "revision_number": 2 // [input]: number
+    },
+    "memo": "" // [input]: string
+  }
+}
+```
+
+---
+
 ### Proposal
 
 #### TextProposal
