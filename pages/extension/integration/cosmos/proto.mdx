@@ -204,6 +204,20 @@ enum VoteOption {
 }
 ```
 
+### Cosmwasm ExecuteContract
+
+```json
+{
+  "type_url": "/cosmwasm.wasm.v1.MsgExecuteContract",
+  "value": {
+    "sender": "sender", // [input]: string
+    "contract": "contract", // [input]: string
+    "funds": [], // [input]: unknown[]
+    "msg": [1, 2] // [input]: Buffer or Uint8Array
+  }
+}
+```
+
 ---
 
 ### Proposal
