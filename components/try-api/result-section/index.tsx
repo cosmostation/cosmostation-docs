@@ -44,7 +44,7 @@ const ResultSection: React.FC<IResultSectionProps> = ({ result, responseTime }) 
       <div className={styles.sectionContent}>
         <CardListValue title="Status Code">
           {statusCode}
-          {isError && <span className={styles.error}>(Error Occured)</span>}
+          {isError && <span className={styles.error}>(Error Occurred)</span>}
         </CardListValue>
         <CardListValue title="Content Type">{contentType}</CardListValue>
         <CardListValue title="Content Length">{contentLength}</CardListValue>
