@@ -8,7 +8,7 @@ See [here](cli/setup.md) for instructions on installing `mintstationd`.
 
 ### Working Directory <a href="#working-directory" id="working-directory"></a>
 
-The default working directory for the `mintstationd` is `$HOME/.mintstationd`, which is mainly used to store configuration files and blockchain data. The Mintstation `key` data is saved in the working directory of `mintstationd`. You can also specify the `mintstationd` working directory by using the `--home` flag when executing `mintstationd`.
+The default working directory for the `mintstationd` is `$HOME/.mintstation`, which is mainly used to store configuration files and blockchain data. The Mintstation `key` data is saved in the working directory of `mintstationd`. You can also specify the `mintstationd` working directory by using the `--home` flag when executing `mintstationd`.
 
 ### Connecting to a Full-Node
 

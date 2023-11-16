@@ -1,4 +1,4 @@
-# Compile a Contract
+# Compile Contracts
 
 [This guide is from the official CosmWasm/rust-optimizer repository](https://github.com/CosmWasm/rust-optimizer). This method of compiling the contract will optimize the final build so that it reduces gas consumption.
 

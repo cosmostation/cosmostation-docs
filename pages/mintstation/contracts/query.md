@@ -1,4 +1,4 @@
-# Query A Contract
+# Query Contracts
 
 ## Command Line Interface
 

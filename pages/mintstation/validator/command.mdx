@@ -1,4 +1,4 @@
-# Useful command for Validators
+# Useful commands
 
 ## Upgrade to a validator
 
@@ -27,8 +27,26 @@ The above transaction is just an example. There are many more flags that can be 
 mintstationd tx staking create-validator --help
 ```
 
-## Unjail
+Unjail
 
 ```bash
-stationed tx slashing unjail --from <account> --keyring-backend test  --chain-id mintstation-1 --fees 100umint
+stationed tx slashing unjail --from <key-name> --chain-id mintstation-1 --fees 100umint
+```
+
+To track your validator's signing history, copy the validator public key:
+
+```bash
+mintstationd tendermint show-validator
+```
+
+Use your validators public key queried above as the validator-pubkey below:
+
+```bash
+mintstationd query slashing signing-info <validator-pubkey>
+```
+
+Example:
+
+```bash
+mintstationd query slashing signing-info '{"@type":"/cosmos.crypto.ed25519.PubKey","key":"HlixoxNZBPq4pBOYEimtSq9Ak4peBISVsIbI5ZHrEAU="}'
 ```

@@ -1,7 +1,7 @@
 {
-  "localnet": "Setup Local network",
-  "mainnet": "Setup Fullnode",
+  "localnet": "Setup Local Network",
+  "mainnet": "Joining Mainnet",
   "delegations": "Delegations",
-  "upgrade": "Node Upgrade",
+  "upgrade": "Node Upgrades",
   "command": "Useful Commands"
 }

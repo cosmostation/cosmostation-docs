@@ -2,6 +2,6 @@
   "index": "Introduction",
   "cli": "CLI",
   "validator": "Node & Validator",
-  "module": "Custom Module",
+  "module": "Building Modules",
   "contracts": "Smart Contracts"
 }

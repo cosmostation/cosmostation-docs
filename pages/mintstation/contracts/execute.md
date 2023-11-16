@@ -1,4 +1,4 @@
-# Send Tokens to a Contract
+# Execute Contracts
 
 ## Command Line Interface
 

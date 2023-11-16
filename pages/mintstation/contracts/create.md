@@ -1,4 +1,4 @@
-# Code a Contract
+# Create Contracts
 
 To implement a wasm smart contract, it is highly recommended to learn Rust first. Rust is the language commonly used for wasm development and is well-regarded for its stability and performance. You can begin your Rust learning journey by referring to the following link:
 

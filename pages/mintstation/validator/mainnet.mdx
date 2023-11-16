@@ -14,7 +14,7 @@ MONIKER_NAME=<moniker-name>
 mintstationd init "$MONIKER_NAME" --chain-id $CHAIN_ID
 ```
 
-This will generate the following files in `~/.mintstationd/config/`
+This will generate the following files in `~/.mintstation/config/`
 
 - `genesis.json`
 - `node_key.json`
@@ -26,33 +26,34 @@ Download the the geneis file.
 
 ```bash
 # Download genesis.json file (https://github.com/cosmostation/mintstation)
-rm ~/.mintstationd/config/genesis.json
-mv genesis.json $HOME/.mintstationd/config/genesis.json
+rm ~/.mintstation/config/genesis.json
+mv genesis.json $HOME/.mintstation/config/genesis.json
 ```
 
 This will replace the genesis file created using `mintstationd init` command with the mainnet `genesis.json`.
 
 ### **Set seeds**
 
-We can set the `seeds` by retrieving the list of seeds from the mintstation repo and using `sed` to inject into `~/.mintstationd/config/config.toml`:
+We can set the `seeds` by retrieving the list of seeds from the mintstation repo and using `sed` to inject into `~/.mintstation/config/config.toml`:
 
 ```bash
 # Set the base repo URL for mainnet & retrieve seeds
+CHAIN_ID=mintstation-1
 CHAIN_REPO="https://raw.githubusercontent.com/cosmostation/mintstation/main/$CHAIN_ID" && \
 export SEEDS="$(curl -sL "$CHAIN_REPO/seeds.txt")"
 
 # Add seeds to config.toml
-sed -i.bak -e "s/^seeds *=.*/seeds = \"$SEEDS\"/" ~/.mintstationd/config/config.toml
+sed -i.bak -e "s/^seeds *=.*/seeds = \"$SEEDS\"/" ~/.mintstation/config/config.toml
 ```
 
 ### Set minimum gas prices
 
 For RPC nodes and Validator nodes we recommend setting the following `minimum-gas-prices`. As we are a permissionless wasm chain, this setting will help protect against contract spam and potential wasm contract attack vectors.
 
-In `$HOME/.mintstationd/config/app.toml`, set minimum gas prices:
+In `$HOME/.mintstation/config/app.toml`, set minimum gas prices:
 
 ```bash
-sed -i.bak -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025umint\"/" ~/.mintstationd/config/app.toml
+sed -i.bak -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025umint\"/" ~/.mintstation/config/app.toml
 ```
 
 ### **Create (or restore) a local key pair**
@@ -69,7 +70,7 @@ mintstationd keys add <key-name>
 mintstationd keys add <key-name> --recover
 
 # Query the keystore for your public address
-mintstationd keys show <key-name> -a
+mintstationd keys show <key-name> --bech val -a
 ```
 
 Replace `<key-name>` with a key name of your choosing.
@@ -99,7 +100,7 @@ When syncing from genesis, you will need to perform upgrades while catching up t
 
 ## Backup critical files
 
-There are certain files that you need to backup to be able to restore your validator if, for some reason, it damaged or lost in some way. Please make a secure backup of the following files located in `~/.mintstationd/config/`:
+There are certain files that you need to backup to be able to restore your validator if, for some reason, it damaged or lost in some way. Please make a secure backup of the following files located in `~/.mintstation/config/`:
 
 - `priv_validator_key.json`
 - `node_key.json`

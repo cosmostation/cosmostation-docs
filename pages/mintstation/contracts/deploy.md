@@ -1,4 +1,4 @@
-# Deploy a Contract
+# Deploy Contracts
 
 ## PreRequisite
 
