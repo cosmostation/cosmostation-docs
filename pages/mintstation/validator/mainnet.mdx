@@ -27,7 +27,7 @@ Download the the geneis file.
 ```bash
 # Download genesis.json file (https://github.com/cosmostation/mintstation)
 rm ~/.mintstation/config/genesis.json
-mv genesis.json $HOME/.mintstation/config/genesis.json
+curl -sS "https://rpc-mintstation.cosmostation.io/genesis" | jq .result.genesis > $HOME/.mintstation/config/genesis.json
 ```
 
 This will replace the genesis file created using `mintstationd init` command with the mainnet `genesis.json`.
@@ -79,7 +79,17 @@ After creating a new key, the key information and seed phrase will be shown. It 
 
 ### **Get some tokens**
 
-Delegations [here](delegations.md).
+We are serving only a few tokens for you to test or do somehting what you want.
+
+```bash
+# check your address which you've generated & copy the address
+mintstationd keys show <key-name> -a
+
+# Go to minstation faucet and paste your address on it
+https://faucet-mintstation.cosmostation.io
+```
+
+If you want to get more tokens or delegations, Please contact us from [here](delegations.md).
 
 ## Syncing the node
 
