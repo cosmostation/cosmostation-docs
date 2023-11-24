@@ -27,7 +27,7 @@ Download the the geneis file.
 ```bash
 # Download genesis.json file (https://github.com/cosmostation/mintstation)
 rm ~/.mintstation/config/genesis.json
-mv genesis.json $HOME/.mintstation/config/genesis.json
+curl -sS "https://rpc-mintstation.cosmostation.io/genesis" | jq .result.genesis > $HOME/.mintstation/config/genesis.json
 ```
 
 This will replace the genesis file created using `mintstationd init` command with the mainnet `genesis.json`.
@@ -79,17 +79,30 @@ After creating a new key, the key information and seed phrase will be shown. It 
 
 ### **Get some tokens**
 
-Delegations [here](delegations.md).
+We are serving only a few tokens for you to test or do somehting what you want.
+
+```bash
+# Check your address which you've generated & copy the address
+mintstationd keys show <key-name> -a
+
+# Go to minstation faucet and paste your address on it
+https://faucet-mintstation.cosmostation.io
+```
+
+If you want to get more tokens or delegations, Please contact us from [here](delegations.md).
 
 ## Syncing the node
 
 There are methods to sync a node to the network:
 
-### From genesis
+### Sync from genesis
 
 After starting the `mintstationd` daemon, the chain will begin to sync to the network. The time to sync to the network will vary depending on your setup and the current size of the blockchain, but could take a very long time. To query the status of your node:
 
 ```bash
+# Start for your node to sync from genesis
+mintstationd start
+
 # Query via the RPC (default port: 26657)
 curl http://localhost:26657/status | jq .result.sync_info.catching_up
 ```
@@ -97,6 +110,32 @@ curl http://localhost:26657/status | jq .result.sync_info.catching_up
 If this command returns `true` then your node is still catching up. If it returns `false` then your node has caught up to the network current block and you are safe to proceed to upgrade to a validator node.
 
 When syncing from genesis, you will need to perform upgrades while catching up to the head. `mintstation-1` upgrades are detailed in [node-upgrade.md](upgrade.md) along with a description of each type of upgrade.
+
+### Sync with statesync
+
+When a cosmos-sdk based chain already started to make a new consensus, you need some time to sync from genesis with your node.
+
+So, you can resolve this problem by using [statesync](https://docs.tendermint.com/v0.34/tendermint-core/state-sync.html) functionality, which is general characteristic in cosoms-sdk based chain. And then we recommend to sync with statesync by using our snapshot provider rpc endpoint.
+
+```bash
+# Setup statesync in your config.toml
+SNAP_RPC="https://rpc-mintstation.cosmostation.io:443"
+
+LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height); \
+BLOCK_HEIGHT=$((LATEST_HEIGHT - 1500)); \
+TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
+
+sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
+s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
+s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/.mintstation/config/config.toml
+
+# Check diff between before and after
+diff $HOME/.mintstation/config/config.toml $HOME/.mintstation/config/config.toml.bak
+
+# Start for your node to sync with statesync
+mintstationd start
+```
 
 ## Backup critical files
 
