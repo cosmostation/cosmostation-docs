@@ -3,5 +3,6 @@
   "cli": "CLI",
   "validator": "Node & Validator",
   "module": "Building Modules",
-  "contracts": "Smart Contracts"
+  "contracts": "Smart Contracts",
+  "playground": "Playground"
 }
