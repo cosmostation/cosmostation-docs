@@ -2,7 +2,7 @@
 
 ## Introduction
 
-`mintstaiond` is a command line client for the Mintstation. Mintstation users can use `mintstationd` to send transactions to the Mintstation network and query the blockchain data.
+`mintstationd` is a command line client for the Mintstation. Mintstation users can use `mintstationd` to send transactions to the Mintstation network and query the blockchain data.
 
 See [here](cli/setup.md) for instructions on installing `mintstationd`.
 
