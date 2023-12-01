@@ -1,4 +1,5 @@
 {
   "account": "Account",
-  "validator": "Validator"
+  "validator": "Validator",
+  "txs": "Transactions"
 }

@@ -1,0 +1,28 @@
+import { TryAPI } from '@/components/try-api';
+
+# Search Transactions
+
+## **[GET]** /v1/search/transactions/:hash
+
+Get search transactions data by querying hash
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The hash of transaction
+# Can use Cosmos, Evm hash both
+# (string, required)
+hash: (Cosmos type) -> 8D986219413DFAC97530F5624B700EDFDFACED134AD2E9644803B8D072142C5E
+hash: (EVM type) -> 0x7bc48397df3cb663ab1b652efc002caf49398ce1bea0e5b76baa49db022481ac
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/search/transactions/:hash"
+  useBearerAuthorization
+/>

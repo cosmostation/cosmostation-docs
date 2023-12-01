@@ -1,0 +1,36 @@
+import { TryAPI } from '@/components/try-api';
+
+# Transactions Data
+
+## **[GET]** /v1/:network/txs/:hash
+
+Get transactions data by querying hash
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# The hash of transaction
+# (string, required)
+hash: 8D986219413DFAC97530F5624B700EDFDFACED134AD2E9644803B8D072142C5E
+```
+
+```yaml filename="Queries"
+# Search end datetime
+# (height, optional)
+height: 10086235
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/txs/:hash"
+  query={[{ key: 'height', type: 'string', optional: true, placeholder: '10086235' }]}
+  useBearerAuthorization
+/>
