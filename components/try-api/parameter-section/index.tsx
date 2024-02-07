@@ -26,9 +26,11 @@ const ParameterSection: React.FC<IParameterSectionProps> = ({
       const buildInputParams = clone(inputParams);
       const targetInputParam = buildInputParams[idx];
 
+      const encodedValue = encodeURIComponent(decodeURIComponent(inputValue));
+
       buildInputParams[idx] = {
         key: targetInputParam.key,
-        value: inputValue,
+        value: encodedValue,
         optional: targetInputParam.optional,
       };
 

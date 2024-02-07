@@ -31,9 +31,11 @@ const QuerySection: React.FC<IQuerySectionProps> = ({ query, inputQuery, setInpu
       const buildInputQuery = clone(inputQuery);
       const targetInputQuery = buildInputQuery[idx];
 
+      const encodedValue = encodeURIComponent(decodeURIComponent(inputValue));
+
       buildInputQuery[idx] = {
         key: targetInputQuery.key,
-        value: inputValue,
+        value: encodedValue,
         optional: targetInputQuery.optional,
       };
 
