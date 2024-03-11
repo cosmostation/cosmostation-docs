@@ -3,5 +3,6 @@
   "assets": "Asset Metadata",
   "erc20": "ERC20 Metadata",
   "cw20": "CW20 Metadata",
-  "ecosystem": "Ecosystem"
+  "ecosystem": "Ecosystem",
+  "endpoint": "gRPC / EVM Endpoint"
 }
