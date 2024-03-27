@@ -222,7 +222,7 @@ enum VoteOption {
 
 ### Proposal
 
-#### TextProposal
+#### TextProposal (v1beta1)
 
 ```json
 {
@@ -242,6 +242,27 @@ enum VoteOption {
       }
     ],
     "proposer": "proposer" // [input]: string
+  }
+}
+```
+
+#### TextProposal (v1)
+
+```json
+{
+  "type_url": "/cosmos.gov.v1.MsgSubmitProposal",
+  "value": {
+    "messages": [],
+    "initial_deposit": [
+      {
+        "denom": "denom", // [input]: string
+        "amount": "amount" // [input]: string
+      }
+    ],
+    "proposer": "proposer", // [input]: string
+    "metadata": "metadata", // [input]: string
+    "title": "title", // [input]: string
+    "summary": "summary" // [input]: string
   }
 }
 ```
