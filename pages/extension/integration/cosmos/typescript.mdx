@@ -3,6 +3,7 @@ import SignAmino from '@/components/extension/typescript/sign-amino';
 import SignDirect from '@/components/extension/typescript/sign-direct';
 import SignAndSendTransaction from '@/components/extension/typescript/sign-and-send';
 import AddCustomChain from '@/components/extension/typescript/add-custom-chain';
+import SupportedChainIds from '@/components/extension/typescript/supported-chain-ids';
 import SignMessage from '@/components/extension/typescript/sign-message';
 import VerifyMessage from '@/components/extension/typescript/verify-message';
 import Disconnect from '@/components/extension/typescript/disconnect';
@@ -235,6 +236,28 @@ import { cosmos } from '@cosmostation/extension';
 ```
 
 <VerifyMessage />
+
+## Supported Chains
+
+```jsx filename="example"
+import { cosmosFunctions } from '@cosmostation/extension';
+
+<button
+  onClick={async () => {
+    try {
+      const response = cosmosFunctions.getSupportedChainIds();
+
+      console.log(response);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Request Supported Chain Ids
+</button>;
+```
+
+<SupportedChainIds />
 
 ## AddCustomChain
 

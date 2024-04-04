@@ -20,6 +20,7 @@ Supported functions/variables are as belows:
 - signDirect
 - signArbitrary
 - verifyArbitrary
+- suggestToken
 
 In case of an error, use the Cosmostation interface.
 
@@ -33,14 +34,13 @@ Use `window.cosmostation.providers.keplr` instead of `window.keplr`.
 ```javascript
 window.onload = async () => {
   if (!window.cosmostation) {
-    alert("Please install cosmostation extension");
+    alert('Please install cosmostation extension');
   } else {
-    const chainId = "cosmoshub-4";
+    const chainId = 'cosmoshub-4';
 
     await window.cosmostation.providers.keplr.enable(chainId);
 
-    const offlineSigner =
-      window.cosmostation.providers.keplr.getOfflineSigner(chainId);
+    const offlineSigner = window.cosmostation.providers.keplr.getOfflineSigner(chainId);
 
     const accounts = await offlineSigner.getAccounts();
   }
@@ -87,7 +87,7 @@ window.cosmostation.providers.keplr.defaultOptions = {
 ## Event
 
 ```javascript
-window.addEventListener("cosmostation_keystorechange", () => {
-    console.log("Key store in Cosmostation is changed. You may need to refetch the account info.")
-})
+window.addEventListener('cosmostation_keystorechange', () => {
+  console.log('Key store in Cosmostation is changed. You may need to refetch the account info.');
+});
 ```

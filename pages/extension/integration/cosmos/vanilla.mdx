@@ -1,4 +1,6 @@
 import Account from '@/components/extension/vanilla/account';
+import MultiAccount from '@/components/extension/vanilla/multiAccount';
+import SupportedChainIds from '@/components/extension/vanilla/supported-chain-ids';
 import SignAmino from '@/components/extension/vanilla/sign-amino';
 import SignDirect from '@/components/extension/vanilla/sign-direct';
 import AddCustomChain from '@/components/extension/vanilla/add-custom-chain';
@@ -10,7 +12,31 @@ import AddCW20 from '@/components/extension/vanilla/add-cw20';
 
 This code can be used without any installation.
 
-## Account
+## Supported Chains
+
+```jsx filename="example"
+<button
+  onClick={async () => {
+    try {
+      if (!window.cosmostation) {
+        throw new Error('Cosmostation extension not installed');
+      }
+
+      const account = await window.cosmostation.cosmos.request({
+        method: 'cos_supportedChainIds',
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Request Supported Chains
+</button>
+```
+
+<SupportedChainIds />
+
+## Request Account
 
 Get account information
 
@@ -36,6 +62,33 @@ Get account information
 ```
 
 <Account />
+
+## Request Multiple Chains Accounts
+
+```jsx filename="example"
+<button
+  onClick={async () => {
+    try {
+      if (!window.cosmostation) {
+        throw new Error('Cosmostation extension not installed');
+      }
+
+      const account = await window.cosmostation.cosmos.request({
+        method: 'cos_requestAccounts',
+        params: {
+          chainIds: ['cosmoshub-4', 'quasar-1', 'archway-1', 'neutron-1', 'celestia'],
+        },
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  }}
+>
+  Request Multiple Chains Accounts
+</button>
+```
+
+<MultiAccount />
 
 ## Sign
 

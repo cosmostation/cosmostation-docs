@@ -7,6 +7,7 @@ import SignMessage from '@/components/extension/hook/sign-message';
 import VerifyMessage from '@/components/extension/hook/verify-message';
 import Disconnect from '@/components/extension/hook/disconnect';
 import AddCustomChain from '@/components/extension/hook/add-custom-chain';
+import SupportedChainIds from '@/components/extension/hook/supported-chain-ids';
 
 # React hook
 
@@ -73,6 +74,41 @@ function Connect() {
 ```
 
 <Connect />
+
+---
+
+### getSupportedChainIds
+
+```jsx filename="example"
+import { useCosmosWallets } from '@cosmostation/use-wallets';
+
+function AddCustomChain() {
+  const { currentWallet } = useCosmosWallets();
+
+  return (
+    <div>
+      <button
+        onClick={() => {
+          try {
+            if (!currentWallet) {
+              throw new Error('No Selected Wallet');
+            }
+
+            const response = await currentWallet.methods.getSupportedChainIds();
+
+          } catch (e) {
+            console.log(e.message);
+          }
+        }}
+      >
+        Request Supported Chain Ids
+      </button>
+    </div>
+  );
+}
+```
+
+<SupportedChainIds />
 
 ---
 
