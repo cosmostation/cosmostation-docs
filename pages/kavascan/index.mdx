@@ -1,0 +1,45 @@
+# Contract Verification
+
+Kavascan provides an easy way to verify contracts.
+
+## Kavascan.io
+
+You can verify the contract on the respective contract page.
+
+`https://kavascan.io/address/{contractAddress}?t=code`
+
+## hardhat
+
+Add customChain configuration. (`hardhat.config.ts`)  
+`There is no separate apiKey, but it must be specified.`
+
+```
+const config: HardhatUserConfig = {
+  solidity: {
+    // ...
+  },
+  networks: {
+    hardhat: {},
+    kava: {
+      url: "https://rpc.kava.io",
+      chainId: 2222,
+      accounts: [],
+    },
+  },
+  etherscan: {
+    apiKey: {
+      kava: "",
+    },
+    customChains: [
+      {
+        network: "kava",
+        chainId: 2222,
+        urls: {
+          browserURL: "https://kavascan.io",
+          apiURL: "https://api.verify.mintscan.io/evm/api/0x8ae",
+        },
+      },
+    ],
+  },
+};
+```

@@ -23,5 +23,9 @@
   "mintstation": {
     "type": "page",
     "title": "Mintstation"
+  },
+  "kavascan": {
+    "type": "page",
+    "title": "Kavascan"
   }
 }
