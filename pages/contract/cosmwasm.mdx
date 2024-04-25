@@ -1,0 +1,31 @@
+import Select from '@/components/common/select';
+import VerifyContract from '@/components/verification/cosmwasm/verify-contract';
+import CheckVerification from '@/components/verification/cosmwasm/check-verification';
+
+# Cosmwasm
+
+Please provide guidance on how to verify a Cosmwasm contract provided in the form of a cw-template or workspace template (cw-plus).
+
+The purpose of verification is to allow users to inspect the verified contract code and ensure its trustworthiness.
+
+Cosmwasm supports verification via checksum, allowing users to verify the deployed contract code using its codeId.
+
+Verification can be conducted through the following form, where the built checksum, contract code, and schema are extracted and provided to the user.
+
+## Unverifiable Contracts
+
+- Projects that do not match the compiler (cosmwasm/rust-optimizer, cosmwasm/workspace-optimizer)
+- Contracts without corresponding script aliases in `cargo schema`
+  - If there is no alias like schema = "run --example schema" in the .cargo/config file
+
+## Check Verification
+
+After executing the "verify contract" command, you can enter the queueId from "result" to check the verification outcome.
+
+<CheckVerification />
+
+## Verify Contract
+
+You can proceed with verification by aligning the values according to the contract.
+
+<VerifyContract />

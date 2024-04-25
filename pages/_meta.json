@@ -24,8 +24,8 @@
     "type": "page",
     "title": "Mintstation"
   },
-  "kavascan": {
+  "contract": {
     "type": "page",
-    "title": "Kavascan"
+    "title": "Contract Verification"
   }
 }
