@@ -63,33 +63,6 @@ Get account information
 
 <Account />
 
-## Request Multiple Chains Accounts
-
-```jsx filename="example"
-<button
-  onClick={async () => {
-    try {
-      if (!window.cosmostation) {
-        throw new Error('Cosmostation extension not installed');
-      }
-
-      const account = await window.cosmostation.cosmos.request({
-        method: 'cos_requestAccounts',
-        params: {
-          chainIds: ['cosmoshub-4', 'quasar-1', 'archway-1', 'neutron-1', 'celestia'],
-        },
-      });
-    } catch (e) {
-      console.log(e.message);
-    }
-  }}
->
-  Request Multiple Chains Accounts
-</button>
-```
-
-<MultiAccount />
-
 ## Sign
 
 ### SignAmino
