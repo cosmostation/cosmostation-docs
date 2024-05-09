@@ -10,8 +10,10 @@ You can verify the contract on the respective contract page.
 
 ## hardhat
 
-Add customChain configuration. (`hardhat.config.ts`)  
-`There is no separate apiKey, but it must be specified.`
+Add customChain configuration. (`hardhat.config.ts`)
+
+Although there is no speicifc API key distributed to the users, but the `apiKey` field is required to be entered.
+Please enter a random value in the `apiKey` field
 
 ```
 const config: HardhatUserConfig = {
@@ -28,7 +30,7 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      kava: "",
+      kava: "9MgwdOWmMs",
     },
     customChains: [
       {
