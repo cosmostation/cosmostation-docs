@@ -14,13 +14,15 @@ Verification can be conducted through the following form, where the built checks
 
 ## Unverifiable Contracts
 
+Types of contracts that are unable to verify are the following:
+
 - Projects that do not match the compiler (cosmwasm/rust-optimizer, cosmwasm/workspace-optimizer)
 - Contracts without corresponding script aliases in `cargo schema`
   - If there is no alias like schema = "run --example schema" in the .cargo/config file
 
 ## Check Verification
 
-After executing the "verify contract" command, you can enter the queueId from "result" to check the verification outcome.
+After executing the "verify contract" command, you can enter the queueId from "result" to check the outcome of the verification.
 
 <CheckVerification />
 
