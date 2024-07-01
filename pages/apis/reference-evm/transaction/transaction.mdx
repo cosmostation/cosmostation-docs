@@ -1,0 +1,40 @@
+import { TryAPI } from '@/components/try-api';
+
+# Transaction by hash
+
+## **[GET]** /v1/evm/:network/tx
+
+Get a transaction by hash
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The hash of transaction
+# (string, required)
+txhash: 0x680d039c939cbad982aedbf371d9bdefbaf99d7841486fec23f8ac14bd96e4dc
+```
+
+<TryAPI
+  method="GET"
+  host="http://localhost:8080"
+  url="/v1/evm/:network/tx"
+  query={[
+    {
+      key: 'txhash',
+      type: 'string',
+      required: true,
+      placeholder: '0x680d039c939cbad982aedbf371d9bdefbaf99d7841486fec23f8ac14bd96e4dc',
+    },
+  ]}
+  useBearerAuthorization
+/>

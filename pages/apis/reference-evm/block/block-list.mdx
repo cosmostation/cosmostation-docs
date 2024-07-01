@@ -1,0 +1,78 @@
+import { TryAPI } from '@/components/try-api';
+
+# Block List
+
+## **[GET]** /v1/evm/:network/block/list
+
+Get blocks
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The number of page to return
+# (integer, optional, default: 1)
+page: 1
+
+# The number of transactions to return
+# (integer, optional, default: 10)
+offset: 10
+
+# The order of transactions
+# (string, optional, default: desc)
+sort: desc
+
+# Start searching for transactions
+# (string, optional)
+start_block: 1
+
+# End searching for transactions
+# (string, optional)
+end_block: 99999999
+```
+
+<TryAPI
+  method="GET"
+  host="http://localhost:8080"
+  url="/v1/evm/:network/block/list"
+  query={[
+    {
+      key: 'page',
+      type: 'integer',
+      optional: true,
+      placeholder: '1',
+    },
+    {
+      key: 'offset',
+      type: 'integer',
+      optional: true,
+      placeholder: '10',
+    },
+    {
+      key: 'sort',
+      type: 'string',
+      optional: true,
+      placeholder: 'desc',
+    },
+    {
+      key: 'start_block',
+      type: 'string',
+      optional: true,
+    },
+    {
+      key: 'end_block',
+      type: 'string',
+      optional: true,
+    },
+  ]}
+  useBearerAuthorization
+/>

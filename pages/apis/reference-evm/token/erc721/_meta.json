@@ -1,0 +1,6 @@
+{
+  "info": "Metadata",
+  "balance": "BalanceOf",
+  "owner": "OwnerOf",
+  "token-uri": "TokenURI"
+}

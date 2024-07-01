@@ -91,7 +91,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     const queryObject = {};
 
     inputQuery.forEach((q) => {
-      queryObject[q.key] = q.value;
+      queryObject[q.key] = encodeURIComponent(decodeURIComponent(q.value));
     });
 
     const existQueries = filter(complement(isEmpty))(queryObject);

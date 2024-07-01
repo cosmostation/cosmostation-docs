@@ -1,0 +1,40 @@
+import { TryAPI } from '@/components/try-api';
+
+# Block by number
+
+## **[GET]** /v1/evm/:network/block
+
+Get a block by number
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The number of block
+# (string, required)
+block_number: 10314001
+```
+
+<TryAPI
+  method="GET"
+  host="http://localhost:8080"
+  url="/v1/evm/:network/block"
+  query={[
+    {
+      key: 'block_number',
+      type: 'string',
+      required: true,
+      placeholder: '10314001',
+    },
+  ]}
+  useBearerAuthorization
+/>

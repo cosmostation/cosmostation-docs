@@ -1,0 +1,7 @@
+{
+  "account": "Account",
+  "block": "Block",
+  "transaction": "Transaction",
+  "internal-transaction": "Internal Transaction",
+  "token": "Token"
+}
