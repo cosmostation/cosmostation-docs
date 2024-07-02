@@ -1,5 +1,6 @@
 {
   "account": "Account",
+  "contract": "Contract",
   "block": "Block",
   "transaction": "Transaction",
   "internal-transaction": "Internal Transaction",
