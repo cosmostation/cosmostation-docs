@@ -2,14 +2,14 @@ import { TryAPI } from '@/components/try-api';
 
 # Metadata
 
-## **[GET]** /v1/evm/:network/token/erc721/info
+## **[GET]** /v1/evm/:network/token/erc20/metadata
 
+`function totalSupply() view returns (uint256)`  
+`function decimals() view returns (uint8)`  
 `function symbol() view returns (string)`  
 `function name() view returns (string)`
 
-Get Metadata (name, symbol) of ERC721 token
-
-_ERC165 interface id: 0x80ac58cd_
+Get Metadata (name, symbol, decimals, totalSupply) of ERC20 token
 
 ### Request
 
@@ -24,21 +24,21 @@ network: kava
 ```
 
 ```yaml filename="Queries"
-# The contract address of ERC721 token
+# The contract address of ERC20 token
 # (string, required)
-contract_address: 0x04866796aabB6B58e6bC4d91A2aE99105b2C58AE
+contract_address: 0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b
 ```
 
 <TryAPI
   method="GET"
   host="http://localhost:8080"
-  url="/v1/evm/:network/token/erc721/info"
+  url="/v1/evm/:network/token/erc20/metadata"
   query={[
     {
       key: 'contract_address',
       type: 'string',
       required: true,
-      placeholder: '0x04866796aabB6B58e6bC4d91A2aE99105b2C58AE',
+      placeholder: '0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b',
     },
   ]}
   useBearerAuthorization

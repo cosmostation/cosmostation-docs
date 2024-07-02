@@ -1,5 +1,5 @@
 {
-  "info": "Metadata",
+  "metadata": "Metadata",
   "balance": "BalanceOf",
   "owner": "OwnerOf",
   "token-uri": "TokenURI"

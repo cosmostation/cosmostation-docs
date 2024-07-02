@@ -2,13 +2,13 @@ import { TryAPI } from '@/components/try-api';
 
 # BalanceOf
 
-## **[GET]** /v1/evm/:network/token/erc721/balance
+## **[GET]** /v1/evm/:network/token/erc1155/balance
 
-`function balanceOf(address owner) view returns (uint256)`
+`function balanceOf(address owner, uint256 id) view returns (uint256)`
 
-Get ERC721 token Balance of account
+Get ERC1155 token Balance of account
 
-_ERC165 interface id: `0x80ac58cd`_
+_ERC165 interface id: `0xd9b67a26`_
 
 ### Request
 
@@ -23,19 +23,23 @@ network: kava
 ```
 
 ```yaml filename="Queries"
-# The contract address of ERC721 token
+# The contract address of ERC1155 token
 # (string, required)
-contract_address: 0x04866796aabB6B58e6bC4d91A2aE99105b2C58AE
+contract_address: 0x2e779749c40cc4ba1cab4c57ef84d90755cc017d
 
 # The address of account
 # (string, required)
-address: 0x8d3Debe408858a8Abe2EA977BDC18EC8201C05D7
+address: 0xc6d1c9b8e605c0777ffd7a7528a5e8b98900ebe1
+
+# The id of token
+# (string, required)
+id: 25
 ```
 
 <TryAPI
   method="GET"
   host="http://localhost:8080"
-  url="/v1/evm/:network/token/erc721/balance"
+  url="/v1/evm/:network/token/erc1155/balance"
   query={[
     {
       key: 'contract_address',
@@ -48,6 +52,12 @@ address: 0x8d3Debe408858a8Abe2EA977BDC18EC8201C05D7
       type: 'string',
       required: true,
       placeholder: '0x8d3Debe408858a8Abe2EA977BDC18EC8201C05D7',
+    },
+    {
+      key: 'id',
+      type: 'string',
+      required: true,
+      placeholder: '25',
     },
   ]}
   useBearerAuthorization
