@@ -1,0 +1,45 @@
+import { TryAPI } from '@/components/try-api';
+
+# Metadata
+
+## **[GET]** /v1/evm/:network/token/erc1155/metadata
+
+`function symbol() view returns (string)`  
+`function name() view returns (string)`
+
+Get Metadata (name, symbol) of ERC1155 token
+
+_ERC165 interface id: `0xd9b67a26`_
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The contract address of ERC1155 token
+# (string, required)
+contract_address: 0x2e779749c40CC4Ba1cAB4c57eF84d90755CC017d
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/token/erc1155/metadata"
+  query={[
+    {
+      key: 'contract_address',
+      type: 'string',
+      required: true,
+      placeholder: '0x2e779749c40CC4Ba1cAB4c57eF84d90755CC017d',
+    },
+  ]}
+  useBearerAuthorization
+/>

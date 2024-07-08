@@ -1,0 +1,108 @@
+import { TryAPI } from '@/components/try-api';
+
+# Account Transfer Events
+
+## **[GET]** /v1/evm/:network/account/transfer-event
+
+Get transfer event of account (ERC20, ERC721, ERC1155)
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The address of account
+# (string, required)
+address: 0x9edeb6796b0dCb0A53dc74E5adD27ba9cd02Ac7D
+
+# The contract address of token
+# (string, required)
+contract_address: 0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b
+
+# The type of token (ERC20, ERC721, ERC1155)
+# (string, required)
+token_type: ERC20
+
+# The number of page to return
+# (integer, optional, default: 1)
+page: 1
+
+# The number of transactions to return
+# (integer, optional, default: 10)
+offset: 10
+
+# The order of transactions (asc, desc)
+# (string, optional, default: desc)
+sort: desc
+
+# Start searching for transactions
+# (integer, optional)
+start_block: 1
+
+# End searching for transactions
+# (integer, optional)
+end_block: 99999999
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/account/transfer-event"
+  query={[
+    {
+      key: 'address',
+      type: 'string',
+      required: true,
+      placeholder: '0x9edeb6796b0dCb0A53dc74E5adD27ba9cd02Ac7D',
+    },
+    {
+      key: 'contract_address',
+      type: 'string',
+      required: true,
+      placeholder: '0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b',
+    },
+    {
+      key: 'token_type',
+      type: 'string',
+      required: true,
+      placeholder: 'ERC20',
+    },
+    {
+      key: 'page',
+      type: 'integer',
+      optional: true,
+      placeholder: '1',
+    },
+    {
+      key: 'offset',
+      type: 'integer',
+      optional: true,
+      placeholder: '10',
+    },
+    {
+      key: 'sort',
+      type: 'string',
+      optional: true,
+      placeholder: 'desc',
+    },
+    {
+      key: 'start_block',
+      type: 'string',
+      optional: true,
+    },
+    {
+      key: 'end_block',
+      type: 'string',
+      optional: true,
+    },
+  ]}
+  useBearerAuthorization
+/>

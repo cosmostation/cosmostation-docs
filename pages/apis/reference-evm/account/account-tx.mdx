@@ -1,0 +1,88 @@
+import { TryAPI } from '@/components/try-api';
+
+# Account Transactions
+
+## **[GET]** /v1/evm/:network/account/tx
+
+Get transactions of account
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The address of account
+# (string, required)
+address: 0xe93685f3bba03016f02bd1828badd6195988d950
+
+# The number of page to return
+# (integer, optional, default: 1)
+page: 1
+
+# The number of transactions to return
+# (integer, optional, default: 10)
+offset: 10
+
+# The order of transactions
+# (string, optional, default: desc)
+sort: desc
+
+# Start searching for transactions
+# (integer, optional)
+start_block: 1
+
+# End searching for transactions
+# (integer, optional)
+end_block: 99999999
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/account/tx"
+  query={[
+    {
+      key: 'address',
+      type: 'string',
+      required: true,
+      placeholder: '0xe93685f3bba03016f02bd1828badd6195988d950',
+    },
+    {
+      key: 'page',
+      type: 'integer',
+      optional: true,
+      placeholder: '1',
+    },
+    {
+      key: 'offset',
+      type: 'integer',
+      optional: true,
+      placeholder: '10',
+    },
+    {
+      key: 'sort',
+      type: 'string',
+      optional: true,
+      placeholder: 'desc',
+    },
+    {
+      key: 'start_block',
+      type: 'string',
+      optional: true,
+    },
+    {
+      key: 'end_block',
+      type: 'string',
+      optional: true,
+    },
+  ]}
+  useBearerAuthorization
+/>

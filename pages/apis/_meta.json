@@ -1,4 +1,5 @@
 {
   "index": "Introduction",
-  "reference": "API Reference"
+  "reference": "API Reference (Cosmos)",
+  "reference-evm": "API Reference (EVM)"
 }

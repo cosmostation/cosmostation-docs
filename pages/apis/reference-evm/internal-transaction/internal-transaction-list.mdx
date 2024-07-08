@@ -1,0 +1,82 @@
+import { TryAPI } from '@/components/try-api';
+
+# Internal Transaction List
+
+## **[GET]** /v1/evm/:network/internal-tx/list
+
+Get blocks
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# Max Block Range: 10000
+
+# Start searching for internal transactions
+# (integer, required)
+start_block: 10512888
+
+# End searching for internal transactions
+# (integer, required)
+end_block: 10522888
+
+# The number of page to return
+# (integer, optional, default: 1)
+page: 1
+
+# The number of internal transactions to return
+# (integer, optional, default: 10)
+offset: 10
+
+# The order of internal transactions (asc, desc)
+# (string, optional, default: desc)
+sort: desc
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/internal-tx/list"
+  query={[
+    {
+      key: 'start_block',
+      type: 'integer',
+      required: true,
+      placeholder: '10512888',
+    },
+    {
+      key: 'end_block',
+      type: 'integer',
+      required: true,
+      placeholder: '10522888',
+    },
+    {
+      key: 'page',
+      type: 'integer',
+      optional: true,
+      placeholder: '1',
+    },
+    {
+      key: 'offset',
+      type: 'integer',
+      optional: true,
+      placeholder: '10',
+    },
+    {
+      key: 'sort',
+      type: 'string',
+      optional: true,
+      placeholder: 'desc',
+    },
+  ]}
+  useBearerAuthorization
+/>

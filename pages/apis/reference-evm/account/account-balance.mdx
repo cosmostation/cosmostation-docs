@@ -1,0 +1,51 @@
+import { TryAPI } from '@/components/try-api';
+
+# Account Balance
+
+## **[GET]** /v1/evm/:network/account/balance
+
+Get balance of accounts
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The addresses of account
+# (string, required)
+# address can be separated by commas (,)
+address: 0xF4038f3243352A8b77378bDF3045B8418a091107
+
+# Block number (10314001) or block tag (earliest, latest, pending)
+# (string, optional, defulat: latest)
+block_number: latest
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/account/balance"
+  query={[
+    {
+      key: 'address',
+      type: 'string',
+      required: true,
+      placeholder: '0xF4038f3243352A8b77378bDF3045B8418a091107',
+    },
+    {
+      key: 'block_number',
+      type: 'string',
+      optional: true,
+      placeholder: 'latest',
+    },
+  ]}
+  useBearerAuthorization
+/>

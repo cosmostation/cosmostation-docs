@@ -1,0 +1,52 @@
+import { TryAPI } from '@/components/try-api';
+
+# BalanceOf
+
+## **[GET]** /v1/evm/:network/token/erc20/balance
+
+`function balanceOf(address account) view returns (uint256)`
+
+Get ERC20 Balance of account
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The contract address of ERC20 token
+# (string, required)
+contract_address: 0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b
+
+# The address of account
+# (string, required)
+address: 0x86350BA4da1DAB2920B89300C4e25F2C8044040F
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/token/erc20/balance"
+  query={[
+    {
+      key: 'contract_address',
+      type: 'string',
+      required: true,
+      placeholder: '0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b',
+    },
+    {
+      key: 'address',
+      type: 'string',
+      required: true,
+      placeholder: '0x86350BA4da1DAB2920B89300C4e25F2C8044040F',
+    },
+  ]}
+  useBearerAuthorization
+/>

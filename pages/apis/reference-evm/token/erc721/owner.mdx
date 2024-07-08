@@ -1,0 +1,54 @@
+import { TryAPI } from '@/components/try-api';
+
+# OwnerOf
+
+## **[GET]** /v1/evm/:network/token/erc721/owner
+
+`function ownerOf(uint256 tokenId) view returns (address)`
+
+Get ERC721 owner of tokenId
+
+_ERC165 interface id: `0x80ac58cd`_
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The contract address of ERC721 token
+# (string, required)
+contract_address: 0x9e66EBa102B77Fc75cD87b5e60141b85573BC8e8
+
+# The address of account
+# (string, required)
+token_id: 12002906
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/token/erc721/owner"
+  query={[
+    {
+      key: 'contract_address',
+      type: 'string',
+      required: true,
+      placeholder: '0x9e66EBa102B77Fc75cD87b5e60141b85573BC8e8',
+    },
+    {
+      key: 'token_id',
+      type: 'string',
+      required: true,
+      placeholder: '12002906',
+    },
+  ]}
+  useBearerAuthorization
+/>

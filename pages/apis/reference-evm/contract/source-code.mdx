@@ -1,0 +1,40 @@
+import { TryAPI } from '@/components/try-api';
+
+# Source Code of contract
+
+## **[GET]** /v1/evm/:network/contract/source-code
+
+Get source code of contract
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The address of contract
+# (string, required)
+contract_address: 0x0000049f63ef0d60abe49fdd8bebfa5a68822222
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/contract/source-code"
+  query={[
+    {
+      key: 'contract_address',
+      type: 'string',
+      required: true,
+      placeholder: '0x0000049f63ef0d60abe49fdd8bebfa5a68822222',
+    },
+  ]}
+  useBearerAuthorization
+/>

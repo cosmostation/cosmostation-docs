@@ -1,0 +1,40 @@
+import { TryAPI } from '@/components/try-api';
+
+# Internal Transaction By txhash
+
+## **[GET]** /v1/evm/:network/internal-tx
+
+Get internal transactions by txhash
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The number of block
+# (string, required)
+txhash: 0x2c5d0da8c53ae61674f9c764a73ea0b29cf74c58b09020a8518c3a56cf1c5751
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/internal-tx"
+  query={[
+    {
+      key: 'txhash',
+      type: 'string',
+      required: true,
+      placeholder: '0x2c5d0da8c53ae61674f9c764a73ea0b29cf74c58b09020a8518c3a56cf1c5751',
+    },
+  ]}
+  useBearerAuthorization
+/>
