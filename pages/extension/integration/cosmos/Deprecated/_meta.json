@@ -8,5 +8,6 @@
   "cw20-token": "CW20 Tokens",
   "disconnect": "Disconnect",
   "event": "Event",
-  "error": "Error"
+  "error": "Error",
+  "proto": "Protobuf json"
 }

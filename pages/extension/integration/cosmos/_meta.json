@@ -3,7 +3,6 @@
   "typescript": "Typescript",
   "react-hook": "React Hook",
   "wallet": "Wallet",
-  "proto": "Protobuf json",
   "integrate-cosmjs": "Integrate Cosmjs",
   "integrate-keplr": "Integrate Keplr"
 }
