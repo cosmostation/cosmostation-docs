@@ -1,0 +1,49 @@
+import { TryAPI } from '@/components/try-api';
+
+# Block number by timestamp
+
+## **[GET]** /v1/evm/:network/block/list
+
+Get block number by timestamp
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+```yaml filename="Queries"
+# The number of Unix timestamp
+# (integer, required)
+timestamp: 1726721710
+
+# the closest available block to the provided timestamp, either before or after
+# (string, optional, default: before)
+closest: before
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/evm/:network/block/number-by-timestamp"
+  query={[
+    {
+      key: 'timestamp',
+      type: 'integer',
+      placeholder: '1726721710',
+    },
+    {
+      key: 'closest',
+      type: 'string',
+      optional: true,
+      placeholder: 'before',
+    },
+  ]}
+  useBearerAuthorization
+/>

@@ -1,4 +1,5 @@
 {
   "block": "Block",
-  "block-list": "Block List"
+  "block-list": "Block List",
+  "block-number-by-timestamp": "Block Number By Timestamp"
 }
