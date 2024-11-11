@@ -218,7 +218,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
             Method : <span className={styles.method}>{method.toUpperCase()}</span>
           </CardListTitle>
           <CardListValue title="URL">{url}</CardListValue>
-          <CardListValue title="CallURL">{callUrl}</CardListValue>
+          <CardListValue title="CallURL">{decodeURIComponent(callUrl)}</CardListValue>
         </div>
         <div className={styles.sectionContent}>
           <CardListTitle border>Header</CardListTitle>
