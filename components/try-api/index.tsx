@@ -91,7 +91,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
     const queryObject = {};
 
     inputQuery.forEach((q) => {
-      queryObject[q.key] = encodeURIComponent(decodeURIComponent(q.value));
+      queryObject[q.key] = decodeURIComponent(q.value);
     });
 
     const existQueries = filter(complement(isEmpty))(queryObject);
@@ -218,7 +218,7 @@ export const TryAPI: React.FC<ITryAPIProps> = ({
             Method : <span className={styles.method}>{method.toUpperCase()}</span>
           </CardListTitle>
           <CardListValue title="URL">{url}</CardListValue>
-          <CardListValue title="CallURL">{decodeURIComponent(callUrl)}</CardListValue>
+          <CardListValue title="CallURL">{callUrl}</CardListValue>
         </div>
         <div className={styles.sectionContent}>
           <CardListTitle border>Header</CardListTitle>
