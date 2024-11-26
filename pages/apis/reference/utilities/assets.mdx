@@ -50,3 +50,101 @@ symbol: uatom
   url="/v1/:network/assets/:symbol"
   useBearerAuthorization
 />
+
+## **[GET]** /v1/:network/erc20
+
+Get all erc20 assets of the current chain
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/erc20"
+  useBearerAuthorization
+/>
+
+## **[GET]** /v1/:network/erc20/:symbol
+
+Get asset erc20 of specific contract address
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: kava
+# Symbol of the asset to be queried
+# (string, required)
+symbol: 0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/erc20/:symbol"
+  useBearerAuthorization
+/>
+
+## **[GET]** /v1/:network/cw20
+
+Get all cw20 assets of the current chain
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: neutron
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/cw20"
+  useBearerAuthorization
+/>
+
+## **[GET]** /v1/:network/cw20/:symbol
+
+Get cw20 asset of specific contract address
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: neutron
+# Symbol of the asset to be queried
+# (string, required)
+symbol: neutron1uqvse8fdrd9tam47f2jhy9m6al6xxtqpc83f9pdnz5gdle4swc0spfnctv
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/cw20/:symbol"
+  useBearerAuthorization
+/>
