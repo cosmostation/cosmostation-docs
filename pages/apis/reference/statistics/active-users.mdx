@@ -1,0 +1,86 @@
+import { TryAPI } from '@/components/try-api';
+
+# Active Users Counts
+
+## **[GET]** /v1/:network/statistics/dau
+
+Get The Number of Daily Active Users
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+```yaml filename="Queries"
+# Max range: 30 days
+
+# Search start datetime
+# (datetime, required)
+fromDateTime: 2024-11-03
+
+# Search end datetime
+# (datetime, required)
+toDateTime: 2024-11-20
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/statistics/dau"
+  query={[
+    {
+      key: 'fromDateTime',
+      type: 'datetime',
+      placeholder: 'YYYY-MM-DD',
+    },
+    {
+      key: 'toDateTime',
+      type: 'datetime',
+      placeholder: 'YYYY-MM-DD',
+    },
+  ]}
+  useBearerAuthorization
+/>
+
+## **[GET]** /v1/:network/statistics/mau
+
+Get The Number of Monthly Active Users
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+```yaml filename="Queries"
+# Search the month
+# (datetime, required)
+month: 2024-11
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/statistics/mau"
+  query={[
+    {
+      key: 'month',
+      type: 'datetime',
+      placeholder: 'YYYY-MM',
+    },
+  ]}
+  useBearerAuthorization
+/>
