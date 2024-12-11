@@ -23,7 +23,7 @@ tx.proto
 
 ### Defining The Greet Type
 
-Inside the `proto/greet/v1beta1/greet.proto` file lets define our greet type:
+Inside the `proto/greet/v1beta1/greet.proto` file let's define our greet type:
 
 ```
 syntax = "proto3";
@@ -43,7 +43,7 @@ Here we are saying that we have a Greet type that will have an owner, an id and 
 
 ### Creating a new Greeting
 
-Inside the `proto/greet/v1beta1/tx.proto` file lets define our Msg Type:
+Inside the `proto/greet/v1beta1/tx.proto` file let's define our Msg Type:
 
 ```
 syntax = "proto3";
@@ -123,7 +123,7 @@ import  "gogoproto/gogo.proto";
 import  "google/protobuf/timestamp.proto";
 import  "cosmos_proto/cosmos.proto";
 option  go_package = "github.com/cosmostation/mintstation/x/greet/types";
-// our gensis state message will be empty for this tutorial
+// our genesis state message will be empty for this tutorial
 message  GenesisState {}
 ```
 
@@ -135,7 +135,7 @@ we have successfully set up our Proto files & generated them, we now have a `x/g
 
 ### Setting up constants & importing packages
 
-Let's set up some basic constants for our module to help with routing, & fetching items from our store.
+Let's set up some basic constants for our module to help with routing, & fetching items from out store.
 
 ```
 package  types
@@ -164,7 +164,7 @@ const (
 	QueryGetGreeting =  "get-greeting"  // used for legacy querier routing
 	QueryListGreetings =  "list-greetings"// used for legacy querier routing
 )
-// heler function simply returns []byte out of a prefix string
+// helper function simply returns []byte out of a prefix string
 func  KeyPrefix(p string) []byte {
 	return []byte(p)
 }
@@ -186,7 +186,7 @@ Our `MsgCreateGreet` struct was created when we generated our Proto Types, we no
 
 ```
 // MsgCreateGreet we defined it here to get type checking
-//to make sure we are immplementing it correctly
+//to make sure we are implementing it correctly
 var _ sdk.Msg =  &MsgCreateGreet{}
 
 
@@ -225,7 +225,7 @@ func (m *MsgCreateGreet) GetSigners() []sdk.AccAddress {
 now that we have our `MsgCreateGreet` implement the `sdk.Msg` interface let's register our codec for marshaling/unmarshaling our greeting we will register both the deprecated legacy amino and the new Interface registry.
 
 ```
-// registers the marshal/unmarsahl for greating a new greeting for our legacy amino codec
+// registers the marshal/unmarshal for creating a new greeting for our legacy amino codec
 func  RegisterLegacyAminoCodec(cdc *codec.LegacyAmino){
 	cdc.RegisterConcrete(&MsgCreateGreet{}, "greet/CreateGreet", nil)
 }
@@ -378,7 +378,7 @@ func (k Keeper) Greet(c context.Context, req *types.QueryGetGreetRequest) (*type
 
 
 
-// LEGACY QUERIER will be deperacted but for the sake of competeness this is how to set it up
+// LEGACY QUERIER will be deperacted but for the sake of completeness this is how to set it up
 func  NewQuerier(k Keeper, legacyQuerierCdc *codec.LegacyAmino) sdk.Querier {
 	return  func(ctx sdk.Context, path []string, req abci.RequestQuery) ([]byte, error) {
 	switch path[0] {
@@ -403,7 +403,7 @@ func  NewQuerier(k Keeper, legacyQuerierCdc *codec.LegacyAmino) sdk.Querier {
 			}
 			return bz, nil
 		default:
-			return  nil, sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "unknow request at %s query endpoint", types.ModuleName)
+			return  nil, sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "unknown request at %s query endpoint", types.ModuleName)
 		}
 	}
 }
