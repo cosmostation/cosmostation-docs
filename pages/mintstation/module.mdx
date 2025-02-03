@@ -403,7 +403,7 @@ func  NewQuerier(k Keeper, legacyQuerierCdc *codec.LegacyAmino) sdk.Querier {
 			}
 			return bz, nil
 		default:
-			return  nil, sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "unknow request at %s query endpoint", types.ModuleName)
+			return  nil, sdkerrors.Wrapf(sdkerrors.ErrUnknownRequest, "unknown request at %s query endpoint", types.ModuleName)
 		}
 	}
 }
