@@ -74,7 +74,7 @@ network: kava
   useBearerAuthorization
 />
 
-## **[GET]** /v1/:network/erc20/:symbol
+## **[GET]** /v1/:network/erc20/:contract
 
 Get asset erc20 of specific contract address
 
@@ -88,15 +88,15 @@ Authorization: Bearer {access_token}
 # The name of network
 # (string, required)
 network: kava
-# Symbol of the asset to be queried
+# Contract address of the asset to be queried
 # (string, required)
-symbol: 0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b
+contract: 0xc86c7C0eFbd6A49B35E8714C5f59D99De09A225b
 ```
 
 <TryAPI
   method="GET"
   host="https://apis.mintscan.io"
-  url="/v1/:network/erc20/:symbol"
+  url="/v1/:network/erc20/:contract"
   useBearerAuthorization
 />
 
@@ -123,7 +123,7 @@ network: neutron
   useBearerAuthorization
 />
 
-## **[GET]** /v1/:network/cw20/:symbol
+## **[GET]** /v1/:network/cw20/:contract
 
 Get cw20 asset of specific contract address
 
@@ -137,14 +137,14 @@ Authorization: Bearer {access_token}
 # The name of network
 # (string, required)
 network: neutron
-# Symbol of the asset to be queried
+# Contract address of the asset to be queried
 # (string, required)
-symbol: neutron1uqvse8fdrd9tam47f2jhy9m6al6xxtqpc83f9pdnz5gdle4swc0spfnctv
+contract: neutron1uqvse8fdrd9tam47f2jhy9m6al6xxtqpc83f9pdnz5gdle4swc0spfnctv
 ```
 
 <TryAPI
   method="GET"
   host="https://apis.mintscan.io"
-  url="/v1/:network/cw20/:symbol"
+  url="/v1/:network/cw20/:contract"
   useBearerAuthorization
 />
