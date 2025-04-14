@@ -1,0 +1,107 @@
+import { TryAPI } from '@/components/try-api';
+
+# Asset Holders
+
+## **[GET]** /v1/:network/holders
+
+Get a list of token holders by denom
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: injective
+```
+
+```yaml filename="Queries"
+# The token denom
+# (string, required)
+denom: inj
+
+# Optional keyword to filter holder address
+# (string, optional)
+keyword: inj1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3lj7tt0
+
+# Number of holders to return
+# (integer, optional, default: 20, max: 1000)
+limit: 10
+
+# The number of records to skip for pagination (Use with `limit` to paginate through the results.)
+# (integer, optional, default: 0)
+offset: 20
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/holders"
+  query={[
+    {
+      key: 'denom',
+      type: 'string',
+      required: true,
+      placeholder: 'inj',
+    },
+    {
+      key: 'keyword',
+      type: 'string',
+      optional: true,
+      placeholder: 'inj1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3lj7tt0',
+    },
+    {
+      key: 'limit',
+      type: 'integer',
+      optional: true,
+      placeholder: '10',
+    },
+    {
+      key: 'offset',
+      type: 'integer',
+      optional: true,
+      placeholder: '20',
+    },
+  ]}
+  useBearerAuthorization
+/>
+
+## **[GET]** /v1/:network/holders/summary
+
+Get holder summary for a specific token denom
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: injective
+```
+
+```yaml filename="Queries"
+# The token denom
+# (string, required)
+denom: inj
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/holders/summary"
+  query={[
+    {
+      key: 'denom',
+      type: 'string',
+      required: true,
+      placeholder: 'inj',
+    },
+  ]}
+  useBearerAuthorization
+/>
