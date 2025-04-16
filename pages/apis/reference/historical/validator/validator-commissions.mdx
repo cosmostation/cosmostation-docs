@@ -1,65 +1,8 @@
-import { TryAPI } from '@/components/try-api';
-
 # Validator Commission Balance History
 
 ## **[GET]** /v1/:network/validators/:validatorAddress/commissions
 
-Get commission balance history of an account
+~~Get commission balance history of an account~~
 
-### Request
-
-```yaml filename="Headers"
-Authorization: Bearer {access_token}
-```
-
-```yaml filename="Parameters"
-# The name of network
-# (string, required)
-network: cosmos
-# The address of account
-# (string, required)
-validatorAddress: cosmosvaloper1clpqr4nrk4khgkxj78fcwwh6dl3uw4epsluffn
-```
-
-```yaml filename="Queries"
-# Request per page
-# (number, optional, default: 20)
-take: 20
-# Value of `pagination.searchAfter` from previous request for pagination
-# (string, optional)
-searchAfter: MTY4OTc1NTU4NjAwMA==
-# Search start datetime
-# (datetime, optional, default: 30 days ago)
-fromDateTime: 2023-07-20
-# Search end datetime
-# (datetime, optional, default: CURRENT_TIMESTAMP)
-toDateTime: 2023-07-21 23:59:59
-```
-
-<TryAPI
-  method="GET"
-  host="https://apis.mintscan.io"
-  url="/v1/:network/validators/:validatorAddress/commissions"
-  query={[
-    { key: 'take', type: 'number', optional: true, placeholder: '20' },
-    {
-      key: 'searchAfter',
-      type: 'string',
-      optional: true,
-      placeholder: 'MTY4OTc1NTU4NjAwMA==',
-    },
-    {
-      key: 'fromDateTime',
-      type: 'datetime',
-      optional: true,
-      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
-    },
-    {
-      key: 'toDateTime',
-      type: 'datetime',
-      optional: true,
-      placeholder: 'YYYY-MM-DD OR YYYY-MM-DD HH:mm:ii',
-    },
-  ]}
-  useBearerAuthorization
-/>
+> ⚠️ **Deprecated**  
+> This endpoint is no longer supported and will return HTTP **410 Gone**.
