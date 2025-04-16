@@ -1,6 +1,6 @@
 {
   "validator-votes": "Validator Votes",
-  "validator-commissions": "Validator Commission Balance History",
+  "validator-commissions": "Validator Commission Balance History - [deprecated]",
   "validator-delegators": "Validator Delegators",
   "validator-block-sign": "Validator Block Sign",
   "validator-power-events": "Validator Voting Power Events"
