@@ -1,0 +1,26 @@
+import { TryAPI } from '@/components/try-api';
+
+# Chain TVL
+
+## **[GET]** /v1/:network/tvl
+
+Get tvl data of the chain
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/tvl"
+  useBearerAuthorization
+/>
