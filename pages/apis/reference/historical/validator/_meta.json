@@ -3,5 +3,6 @@
   "validator-commissions": "Validator Commission Balance History - [deprecated]",
   "validator-delegators": "Validator Delegators",
   "validator-block-sign": "Validator Block Sign",
-  "validator-power-events": "Validator Voting Power Events"
+  "validator-power-events": "Validator Voting Power Events",
+  "validator-state-events": "Validator State Events"
 }
