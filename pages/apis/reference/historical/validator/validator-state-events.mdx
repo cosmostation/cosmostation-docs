@@ -1,0 +1,74 @@
+import { TryAPI } from '@/components/try-api';
+
+# Validator State Events
+
+## **[GET]** /v1/:network/validators/:operatorAddress/stateEvents
+
+Get state and slashing events of validator
+
+### Request
+
+```yaml filename="Headers"
+Authorization: Bearer {access_token}
+```
+
+```yaml filename="Parameters"
+# The name of network
+# (string, required)
+network: cosmos
+# The address of validator
+# (string, required)
+operatorAddress: cosmosvaloper1d0aup392g3enru7eash83sedqclaxvp7fzh6gk
+```
+
+```yaml filename="Queries"
+# The query parameters 'fromHeight' and 'toHeight' can be used together or separately.
+
+# Filters events starting from this block height (inclusive).
+# (string, optional)
+fromHeight: 25655030
+# Filters events up to and including this block height.
+# (string, optional)
+toHeight: 25732100
+```
+
+```yaml filename="Response"
+# A combined array of validator state and slashing event objects (sorted by block height in descending order)
+# The structure and available fields of each object vary based on the value of 'is_slash_data'.
+
+# Normal Validator State Event (is_slash_data: false):
+{
+  chain: string,
+  chain_id: string,
+  height: number,
+  timestamp: string,
+  msg_type: string,
+  is_slash_data: false,
+  txhash: string,
+  code: number,
+  commission_rate: string | null
+}
+
+# Slash Event (is_slash_data: true):
+{
+  chain: string,
+  chain_id: string,
+  height: number,
+  timestamp: string,
+  msg_type: 'slash',
+  is_slash_data: true,
+  burned_coins: string | null,
+  reason: string
+}
+```
+
+<TryAPI
+  method="GET"
+  host="https://apis.mintscan.io"
+  url="/v1/:network/validators/:operatorAddress/stateEvents"
+  query={[
+    { key: 'fromHeight', type: 'string', optional: true, placeholder: 'fromHeight' },
+    { key: 'toHeight', type: 'string', optional: true, placeholder: 'toHeight' },
+  ]}
+  useBearerAuthorization
+/>
