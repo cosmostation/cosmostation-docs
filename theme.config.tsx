@@ -28,11 +28,28 @@ const config: DocsThemeConfig = {
     link: 'https://github.com/cosmostation',
   },
   docsRepositoryBase: 'https://github.com/cosmostation/cosmostation-docs/blob/master',
-
+  head: (
+    <>
+      <meta
+        name="description"
+        content="Official documentation for Cosmostation products and infrastructure"
+      />
+      <meta
+        property="og:description"
+        content="Official documentation for Cosmostation products and infrastructure"
+      />
+      <meta name="apple-mobile-web-app-title" content="Cosmostation" />
+      <meta name="twitter:site" content="@CosmostationVD" />
+    </>
+  ),
   useNextSeoProps() {
     return {
       titleTemplate: '%s – Cosmostation Docs',
       description: 'Official documentation for Cosmostation products and infrastructure',
+      openGraph: {
+        title: 'Cosmostation Docs',
+        description: 'Official documentation for Cosmostation products and infrastructure',
+      },
     };
   },
 };
