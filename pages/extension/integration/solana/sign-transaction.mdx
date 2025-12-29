@@ -1,0 +1,124 @@
+## Sign Transaction
+
+Cosmostation Solana provider supports **transaction signing without broadcasting**
+via the **Solana Wallet Standard**.
+
+This flow is commonly used when:
+
+- A dApp needs to **collect signatures first**
+- Transactions are submitted later by a backend or relayer
+- Multiple signatures are required before sending
+- You want to inspect or modify a signed transaction before execution
+
+Cosmostation implements the following Solana wallet-standard features:
+
+- `SolanaSignTransaction`
+- `SolanaSignAndSendTransaction`
+
+This section focuses on **`SolanaSignTransaction`**, which signs a transaction
+but does **not** submit it to the network.
+
+---
+
+## Using Wallet Adapter
+
+When using the Solana Wallet Adapter, transaction signing is handled through
+the connected wallet instance.
+
+```ts
+import { useWallet } from '@solana/wallet-adapter-react';
+import type { Transaction, VersionedTransaction } from '@solana/web3.js';
+
+const { signTransaction, publicKey } = useWallet();
+
+const signTx = async (transaction: Transaction | VersionedTransaction) => {
+  if (!publicKey || !signTransaction) {
+    throw new Error('Wallet not connected');
+  }
+
+  const signedTransaction = await signTransaction(transaction);
+
+  // signedTransaction is returned but NOT sent to the network
+  return signedTransaction;
+};
+```
+
+### Behavior
+
+- The wallet UI prompts the user to approve the transaction
+- The transaction is **signed locally**
+- No RPC submission is performed
+- The signed transaction can be:
+
+  - Stored
+  - Sent to a backend
+  - Combined with other signatures
+  - Submitted later via RPC
+
+Cosmostation follows the same behavior as Phantom and other
+Solana Wallet Standard–compatible wallets.
+
+---
+
+## Using Vanilla Provider
+
+If you are not using Wallet Adapter, you can interact with the
+Cosmostation Solana provider directly.
+
+### Accessing the Provider
+
+```ts
+const solana = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.solana;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = solana();
+```
+
+---
+
+### Signing a Transaction
+
+```ts
+import { VersionedTransaction } from '@solana/web3.js';
+
+const signTransaction = async (serializedTx: Uint8Array) => {
+  const transaction = VersionedTransaction.deserialize(serializedTx);
+
+  const [{ signedTransaction }] = await provider.signTransaction({
+    transaction: transaction.serialize(),
+  });
+
+  return signedTransaction;
+};
+```
+
+---
+
+## Returned Data
+
+The `signTransaction` method returns:
+
+```ts
+type SolanaSignTransactionOutput = {
+  signedTransaction: Uint8Array;
+};
+```
+
+This value represents the fully signed transaction payload, ready for:
+
+- RPC submission
+- Further processing
+- Multi-signature aggregation
+
+---
+
+## References
+
+- [Solana Wallet Adapter](https://github.com/anza-xyz/wallet-adapter)
+
+- [Phantom – Signing Transactions](https://docs.phantom.com/solana/sending-a-transaction)

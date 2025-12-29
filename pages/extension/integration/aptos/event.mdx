@@ -1,85 +1,76 @@
-# Event
+# Events
 
-## AccountChange
+Cosmostation exposes wallet state changes so your dApp can stay synchronized
+with the user’s wallet state.  
+This section focuses **only on account change events**.
 
-### Code using @cosmostation/extension-client
+---
 
-```typescript
-import { aptos, InstallError } from "@cosmostation/extension-client";
+## Using Aptos Wallet Adapter
 
-const handler = (account) => console.log(account);
+When using `@aptos-labs/wallet-adapter-react`, you **do not need to manually
+subscribe to account change events**.
 
-try {
-  const provider = await aptos();
+The `useWallet()` hook internally listens to wallet events and always provides
+the **latest account state**.
 
-  provider.onAccountChange(handler);
+- `account` updates automatically when the user switches accounts in the wallet
+- React components re-render when the account changes
+- No explicit event registration or cleanup is required
 
-  // if you want to remove the listener
-  provider.offAccountChange(handler);
-} catch (e) {
-  if (e instanceof InstallError) {
-    console.log("not installed");
-  }
-}
-```
-
-### Vanilla Code
+### Example
 
 ```javascript
-const handler = (account) => console.log(account);
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
+
+const { account, connected } = useWallet();
+
+const getAccountState = () => {
+  try {
+    if (!connected) throw new Error('No connected wallet');
+
+    console.log('Current account:', account);
+  } catch (error) {
+    console.error(error);
+  }
+};
+```
+
+### Behavior
+
+- Account changes are propagated automatically
+- The returned `account` object reflects the currently selected account
+- This is the recommended approach for React-based dApps
+
+---
+
+## Account Change (Vanilla Code)
+
+If you are **not using the wallet adapter**, you can subscribe directly to
+account change events from the injected provider.
+
+### Example
+
+```javascript
+const handler = (account) => {
+  console.log('Account changed:', account);
+};
 
 try {
   const provider = aptos();
-
   provider.onAccountChange(handler);
-
-  // if you want to remove the listener
-  provider.offAccountChange(handler);
 } catch (e) {
-  if (e.code === 4001) {
-    console.log("user rejected request");
-  }
+  console.error(e);
 }
 ```
 
-## NetworkChange
+---
 
-### Code using @cosmostation/extension-client
+## Specification Reference
 
-```typescript
-import { aptos, InstallError } from "@cosmostation/extension-client";
+The vanilla `onAccountChange` API follows the Aptos Wallet Standard
+**`AptosOnAccountChangeMethod`**.
 
-const handler = (network) => console.log(network);
+For the exact method signature and event behavior, refer to the official source:
 
-try {
-  const provider = await aptos();
-
-  provider.onNetworkChange(handler);
-
-  // if you want to remove the listener
-  provider.offNetworkChange(handler);
-} catch (e) {
-  if (e instanceof InstallError) {
-    console.log("not installed");
-  }
-}
-```
-
-### Vanilla Code
-
-```javascript
-const handler = (network) => console.log(network);
-
-try {
-  const provider = aptos();
-
-  provider.onNetworkChange(handler);
-
-  // if you want to remove the listener
-  provider.offNetworkChange(handler);
-} catch (e) {
-  if (e.code === 4001) {
-    console.log("user rejected request");
-  }
-}
-```
+- [AptosConnect onAccountChange feature definition](https://github.com/aptos-labs/wallet-standard/blob/127249132277248271ff4cf917625504128327ab/src/features/aptosOnAccountChange.ts#L20)

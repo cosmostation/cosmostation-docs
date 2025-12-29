@@ -1,6 +1,8 @@
 {
-  "cosmos": "Cosmos Chains",
+  "cosmos": "COSMOS Chains",
   "evm": "EVM Network",
   "aptos": "APTOS Network",
-  "sui": "SUI Network"
+  "sui": "SUI Network",
+  "bitcoin": "BITCOIN Network",
+  "solana": "SOLANA Network"
 }

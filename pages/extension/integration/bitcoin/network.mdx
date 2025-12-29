@@ -1,0 +1,118 @@
+## Network Switching
+
+Cosmostation’s Bitcoin provider lets your dApp **read the currently selected Bitcoin network**
+and **request a network switch** (e.g. `mainnet`, `signet`) through the wallet UI.
+
+This is useful when you support multiple environments (production vs test flows), or when your
+dApp needs to ensure the user is connected to the correct network before:
+
+- creating / signing PSBTs
+- pushing a raw transaction
+- showing UTXOs and balances
+- generating a receive address (prefix differs per network)
+
+---
+
+### SDK Integration (Tomo Wallet SDK)
+
+In a React app using `@tomo-inc/wallet-connect-sdk`, you typically access the provider via
+`useTomoProviders()` and call `getNetwork()` / `switchNetwork()`.
+
+#### Get current network
+
+```tsx
+<LodingButton
+  disabled={!btcIsConnect}
+  onClick={async () => {
+    try {
+      const result = await providers.bitcoinProvider?.getNetwork();
+      console.log('btc getNetwork', result);
+      setTestGetNetwork(result || '');
+    } catch (e) {
+      console.log(e);
+    }
+  }}
+>
+  btc getNetwork()
+</LodingButton>
+```
+
+#### Switch network (MAINNET / SIGNET)
+
+```tsx
+<LodingButton
+  disabled={!btcIsConnect}
+  onClick={async () => {
+    try {
+      await providers.bitcoinProvider?.switchNetwork(Network.MAINNET);
+      setTestSwitchNetwork('mainnet');
+    } catch (e) {
+      console.log(e);
+    }
+  }}
+>
+  btc switchNetworkToMain()
+</LodingButton>
+
+<LodingButton
+  disabled={!btcIsConnect}
+  onClick={async () => {
+    try {
+      await providers.bitcoinProvider?.switchNetwork(Network.SIGNET);
+      setTestSwitchNetwork('signet');
+    } catch (e) {
+      console.log(e);
+    }
+  }}
+>
+  btc switchNetworkToSignet()
+</LodingButton>
+```
+
+---
+
+### Vanilla JavaScript Integration
+
+If you are calling the injected provider directly, the flow is the same.
+
+```ts
+const bitcoin = () => {
+  if ('cosmostation' in window) return window.cosmostation.bitcoin;
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = bitcoin();
+
+await provider.connectWallet();
+
+// 1) read current network
+const current = await provider.getNetwork();
+console.log('current network:', current);
+
+// 2) request switch (example: 'signet')
+await provider.switchNetwork('signet');
+
+// 3) refresh state after switching
+const address = await provider.getAddress();
+const balance = await provider.getBalance();
+console.log('address after switch:', address);
+console.log('balance after switch:', balance);
+```
+
+> Tip: After switching networks, always refresh any cached values in your app UI
+> (address, balance, UTXOs, inscriptions), because they are network-dependent.
+
+---
+
+### References
+
+- Tomo Web SDK Bitcoin Provider docs (includes `getNetwork()` and `switchNetwork()` examples):
+  [Tomo Docs](https://docs.tomo.inc/tomo-sdk/tomo-web-sdk/bitcoin-provider#switch-network)
+
+- Tomo Enterprise SDK Bitcoin Provider docs (provider usage via SDK context): [Tomo Docs](https://docs.tomo.inc/tomo-sdk/tomo-enterprise-sdk/for-babylon/bitcoin-provider)
+
+- Tomo Wallet Provider repository (interface + demo patterns): [GitHub](https://github.com/UnyxTech/tomo-wallet-provider)
+
+[1]: https://docs.tomo.inc/tomo-sdk/tomo-web-sdk/bitcoin-provider 'Bitcoin Provider | Tomo Docs'
+[2]: https://docs.tomo.inc/tomo-sdk/tomo-enterprise-sdk/for-babylon/bitcoin-provider 'Bitcoin Provider - Tomo Docs'
+[3]: https://github.com/UnyxTech/tomo-wallet-provider 'UnyxTech/tomo-wallet-provider'

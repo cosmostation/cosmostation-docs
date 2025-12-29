@@ -1,0 +1,161 @@
+## Sign PSBT
+
+This section explains how to sign **PSBT (Partially Signed Bitcoin Transactions)**
+with Cosmostation Extension.
+
+PSBT signing is commonly used for advanced Bitcoin workflows, including:
+
+- multi-step transaction flows (prepare → sign → finalize/broadcast)
+- custody-separated signing (dApp constructs PSBT, wallet signs)
+
+Cosmostation’s Bitcoin provider supports both:
+
+- `signPsbt(psbtHex)` for a **single** PSBT
+- `signPsbts(psbtsHexes)` for **multiple** PSBTs in one flow
+
+> Note: The provider expects PSBT input as a **hex string**.
+> Internally, Cosmostation normalizes the PSBT hex (e.g., formatting / prefix handling)
+> before sending it to the wallet signing layer.
+
+---
+
+## SDK Integration (Tomo Wallet SDK)
+
+If you are using **Tomo Wallet SDK**, PSBT signing is performed through the
+SDK-exposed `bitcoinProvider`, which implements the `BTCProvider` interface.
+
+### Sign a Single PSBT
+
+```ts
+// psbtHex: string (hex-encoded PSBT)
+const signedPsbt = await bitcoinProvider.signPsbt(psbtHex);
+
+console.log('Signed PSBT:', signedPsbt);
+```
+
+### Sign Multiple PSBTs
+
+```ts
+// psbtsHexes: string[] (array of hex-encoded PSBTs)
+const signedPsbts = await bitcoinProvider.signPsbts(psbtsHexes);
+
+console.log('Signed PSBTs:', signedPsbts);
+```
+
+Use batch signing when your flow requires multiple related signatures (for example,
+separate PSBTs for different stages or different inputs).
+
+---
+
+## Vanilla JavaScript
+
+If you are not using the SDK, you can call the injected provider directly.
+
+### Access Provider
+
+```js
+const bitcoin = () => {
+  if ('cosmostation' in window) return window.cosmostation.bitcoin;
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = bitcoin();
+```
+
+### Sign a Single PSBT
+
+```ts
+await provider.connectWallet();
+
+try {
+  const signedPsbt = await provider.signPsbt(psbtHex);
+  console.log('Signed PSBT:', signedPsbt);
+} catch (e: any) {
+  if (e?.code === 4001) {
+    console.log('User rejected the request');
+  } else {
+    console.error(e);
+  }
+}
+```
+
+### Sign Multiple PSBTs
+
+```ts
+await provider.connectWallet();
+
+try {
+  const signedPsbts = await provider.signPsbts(psbtsHexes);
+  console.log('Signed PSBTs:', signedPsbts);
+} catch (e: any) {
+  if (e?.code === 4001) {
+    console.log('User rejected the request');
+  } else {
+    console.error(e);
+  }
+}
+```
+
+---
+
+## Input Requirements
+
+- `psbtHex` must be a **valid PSBT hex string**
+- For batch signing, every entry in `psbtsHexes` must be a valid PSBT hex string
+- The wallet will reject malformed PSBTs or unsupported signing requests
+
+---
+
+## What the wallet returns
+
+The exact output type depends on your provider’s implementation, but conceptually:
+
+- For `signPsbt`, you receive the **signed PSBT** result
+- For `signPsbts`, you receive an array of **signed PSBTs**, preserving the input order
+
+In most dApps, the next step after signing is one of:
+
+- finalize the PSBT into a raw transaction using your Bitcoin library/tooling
+- broadcast the final transaction using your own backend or via `pushTx(txHex)`
+
+---
+
+## Notes and Best Practices
+
+- Always call `connectWallet()` before signing
+- If your PSBT flow depends on a specific network (mainnet/testnet/signet),
+  check `getNetwork()` first and guide the user accordingly
+
+---
+
+## Creating PSBTs (Before Signing)
+
+Cosmostation Extension **does not construct PSBTs**.
+Your dApp is responsible for creating a valid PSBT **before** passing it to the wallet for signing.
+
+For PSBT construction, input selection, and transaction assembly,
+refer to the official **bitcoinjs-lib** documentation:
+
+- [bitcoinjs-lib (GitHub)](https://github.com/bitcoinjs/bitcoinjs-lib)
+- [PSBT guide](https://github.com/bitcoinjs/bitcoinjs-lib/blob/master/test/integration/transactions.spec.ts)
+- [API reference](https://bitcoinjs.github.io/bitcoinjs-lib/)
+
+Typical PSBT creation flow with `bitcoinjs-lib`:
+
+1. Initialize a `Psbt` instance with the correct network
+2. Add inputs (UTXOs, scripts, witnesses)
+3. Add outputs (recipient addresses, change)
+4. Export PSBT as hex (`psbt.toHex()`)
+5. Pass the PSBT hex to `signPsbt` or `signPsbts`
+
+Ensure that:
+
+- Inputs belong to the connected wallet
+- The PSBT matches the active Bitcoin network
+- Required fields for signing (e.g. `witnessUtxo`) are properly set
+
+---
+
+## Reference: Tomo SDK + Demo
+
+- [Tomo Docs – Sign PSBT](https://docs.tomo.inc/tomo-sdk/tomo-web-sdk/bitcoin-provider#sign-psbt)

@@ -4,6 +4,21 @@ import AddWallet from '@/components/extension/wallets/add-wallet';
 
 The interface of each Cosmos wallet is different, and in order to solve the problem of having to manually attach each wallet to the Dapp, it was developed to automatically add the same interface and wallet.
 
+> This section describes `@cosmostation/wallets`, a small utility layer that lets you
+> **register external Cosmos wallets (e.g. Keplr, Leap)** into the same normalized interface
+> used by `@cosmostation/use-wallets`.
+>
+> In other words:
+>
+> - different wallets expose different APIs
+> - this package wraps them into a common `CosmosRegisterWallet` shape
+> - your dApp can then interact with them through a unified interface
+>
+> This is especially useful when you want a single React hook / UI flow
+> to support multiple wallet extensions without custom code per wallet.
+
+---
+
 ## Installation
 
 ```bash
@@ -16,9 +31,20 @@ Or if you're using yarn:
 yarn add @cosmostation/wallets
 ```
 
+---
+
 ## Add Wallet
 
 To detect a wallet, it is ideal to inject it directly from the extension, but it is also possible to manually inject a wallet that has not been injected into a dapp.
+
+> Most wallet extensions inject themselves automatically (e.g. `window.keplr`, `window.leap`).
+> However, even if the wallet is present, your dApp still needs a way to:
+>
+> - standardize events (account changed, keystore change)
+> - standardize methods (connect, getAccount, sign, sendTx, addChain, etc.)
+>
+> `registerCosmosWallet()` lets you manually register a wallet adapter so it becomes
+> discoverable by the rest of the Cosmostation wallet tooling.
 
 [Example](#example)
 
@@ -42,9 +68,30 @@ import { registerCosmosWallet, CosmosRegisterWallet } from '@cosmostation/wallet
 
 <p style={{ textAlign: 'center' }}>**[go to test](react-hook#usecosmoswallets)**</p>
 
+> After registration, you can validate that the wallet appears in the wallet list
+> exposed by `useCosmosWallets()` (React Hook section).
+
+---
+
 ## Example
 
 This is an example of adding keplr and leap wallet.
+
+> The examples below demonstrate a common adapter pattern:
+>
+> 1. Check whether the extension is installed (e.g. `window.keplr`)
+> 2. Provide `events.on/off` wiring for account changes
+> 3. Implement standardized `methods`:
+>
+>    - `getSupportedChainIds` (feature gating)
+>    - `connect` (enable + permissions)
+>    - `getAccount` (address / pubkey normalization)
+>    - `signAmino` / `signDirect` (signing abstractions)
+>    - `sendTransaction` (broadcast mode mapping + txhash normalization)
+>    - `addChain` (suggest chain / experimentalSuggestChain wrapper)
+>
+> Once this adapter is registered, your dApp can treat Keplr/Leap like “just another wallet”
+> through a unified Cosmostation-compatible interface.
 
 ### Keplr
 
@@ -60,7 +107,7 @@ import { registerCosmosWallet, CosmosRegisterWallet } from '@cosmostation/wallet
 
     const wallet: CosmosRegisterWallet = {
       name: 'Keplr',
-      logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo.svg',
+      logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo-v2.svg',
       events: {
         on(type, listener) {
           if (type === 'AccountChanged') {
@@ -232,6 +279,14 @@ import { registerCosmosWallet, CosmosRegisterWallet } from '@cosmostation/wallet
   Register Keplr Wallet
 </button>;
 ```
+
+> Notes:
+>
+> - `events.on/off` maps Keplr’s `keplr_keystorechange` into the unified `AccountChanged` event.
+> - `sendTransaction` normalizes tx bytes and returns an uppercase hex tx hash.
+> - `addChain` uses `experimentalSuggestChain`, which may vary by wallet version.
+
+---
 
 ### Leap
 
@@ -419,3 +474,8 @@ import { registerCosmosWallet, CosmosRegisterWallet } from '@cosmostation/wallet
   Register Leap Wallet
 </button>;
 ```
+
+> Notes:
+>
+> - Leap also emits a keystore change event (`leap_keystorechange`) which is mapped to `AccountChanged`.
+> - Method signatures are intentionally aligned with the unified interface so your app logic stays the same across wallets.

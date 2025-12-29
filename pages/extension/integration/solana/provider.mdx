@@ -1,0 +1,97 @@
+# Provider
+
+Cosmostation Extension supports multiple blockchains and exposes **chain-specific providers** for dApp integration.  
+This page explains how to integrate **Solana** with Cosmostation Extension using the same patterns you may have seen in other Solana wallets (e.g., Phantom).
+
+Cosmostation’s Solana integration is built around the **Solana Wallet Standard** model:
+
+- `standard:connect`, `standard:disconnect`, `standard:events`
+- Solana features such as `solana:signMessage`, `solana:signTransaction`, `solana:signAndSendTransaction`, and `solana:signIn`
+
+This keeps your dApp compatible with the broader Solana tooling ecosystem and avoids Cosmostation-specific branching whenever possible.
+
+---
+
+## Recommended: Solana Wallet Adapter
+
+For production Solana dApps (especially React), the most common approach is to use **Solana Wallet Adapter** (`@solana/wallet-adapter-*`).
+
+**References**
+
+- Solana Wallet Adapter repo: https://github.com/anza-xyz/wallet-adapter
+- Wallet Adapter demo site: https://anza-xyz.github.io/wallet-adapter/example/
+
+---
+
+## Provider Model (Wallet Standard)
+
+Cosmostation’s Solana provider is implemented as a Wallet Standard-compatible wallet:
+
+- Standard lifecycle: connect / disconnect / events
+- Solana signing features: sign message, sign transaction, sign and send transaction
+- Optional sign-in flow compatible with Wallet Standard “sign-in” semantics (domain-aware sign-in message generation)
+
+Below is the feature surface exposed by the provider (based on the Wallet Standard feature keys used by Solana wallets).
+
+| Category   |                     Feature Key | Version | Method                        | Description                                                                                |
+| ---------- | ------------------------------: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------ |
+| Connect    |              `standard:connect` | `1.0.0` | `connect()`                   | Requests a wallet connection and returns `accounts`.                                       |
+| Disconnect |           `standard:disconnect` | `1.0.0` | `disconnect()`                | Disconnects and clears active accounts.                                                    |
+| Events     |               `standard:events` | `1.0.0` | `on('change', listener)`      | Subscribes to wallet “change” events (accounts updated / cleared).                         |
+| Sign       |            `solana:signMessage` | `1.0.0` | `signMessage(...)`            | Signs arbitrary bytes (commonly used for off-chain auth).                                  |
+| Sign       |        `solana:signTransaction` | `1.0.0` | `signTransaction(...)`        | Signs one or more transactions (legacy + v0 supported).                                    |
+| Send       | `solana:signAndSendTransaction` | `1.0.0` | `signAndSendTransaction(...)` | Signs and submits one or more transactions to the network.                                 |
+| Sign-In    |                 `solana:signIn` | `1.0.0` | `signIn(...)`                 | Generates a sign-in message and signs it (domain resolved from current origin if missing). |
+
+---
+
+## Vanilla JavaScript Integration
+
+If you are not using Wallet Adapter, you can still integrate by calling the injected provider directly from the browser.
+
+Cosmostation injects the Solana provider only when the extension is installed. If the provider is missing, redirect users to install Cosmostation Extension.
+
+```js
+const solana = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.solana;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+  /**
+   * or:
+   * window.open(
+   *   'https://chromewebstore.google.com/detail/cosmostation-wallet/fpkhgmpbidmiogeglndfbkegfdlnajnf'
+   * );
+   */
+};
+
+const provider = solana();
+```
+
+### What you get from the vanilla provider
+
+At a high level, the vanilla provider mirrors the same capability set as the Wallet Standard features:
+
+- `connect()` returns the active account (publicKey + base58 address semantics for Solana)
+- `signMessage(...)` signs raw bytes (the provider internally handles encoding required by the extension bridge)
+- `signTransaction(...)` / `signAllTransactions(...)` signs and returns serialized transactions
+- `signAndSendTransaction(...)` / `signAndSendAllTransactions(...)` signs and submits, returning a signature
+- events propagate through the standard “change” concept (accounts updated, cleared on disconnect)
+
+If you’re used to Phantom-style direct integration (`window.phantom.solana.connect()`), the overall mental model is similar: an injected provider object, connect flow via wallet UI, and signing methods that require user approval. ([Phantom wallt docs][1])
+
+---
+
+## Related References
+
+- [Phantom Solana integration docs (structure reference)](https://docs.phantom.com/solana/integrating-phantom)
+- [Solana Wallet Adapter (recommended for React apps)](https://github.com/anza-xyz/wallet-adapter)
+- [Solana Wallet Standard extensions (feature keys & model)](https://github.com/anza-xyz/wallet-standard)
+- [Bootstrap a Solana dApp (create-solana-dapp)](https://solana.com/ko/developers/guides/dapps/journal)
+
+[1]: https://docs.phantom.com/solana/establishing-a-connection 'Establish a connection - Phantom developer documentation'
+[2]: https://docs.phantom.com/solana/integrating-phantom 'Get started with Solana - Phantom developer documentation'
+[3]: https://github.com/anza-xyz/wallet-adapter 'anza-xyz/wallet-adapter'
+[4]: https://github.com/anza-xyz/wallet-standard 'anza-xyz/wallet-standard: Solana extensions to the ...'
+[5]: https://docs.solanamobile.com/react-native/using_mobile_wallet_adapter 'Using Mobile Wallet Adapter | Solana Mobile Docs'

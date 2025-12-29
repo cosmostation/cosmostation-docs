@@ -1,0 +1,103 @@
+## Events (accountChanged)
+
+Cosmostation’s Bitcoin provider can notify your dApp when the **active account changes**
+inside the wallet (for example, when the user switches accounts in the extension UI).
+
+In Tomo-based integrations, this is exposed through a standard `on(eventName, handler)`
+pattern on the `bitcoinProvider`.
+
+You can use this event to keep your app state in sync:
+
+- refresh the currently displayed address
+- refetch balance / UTXOs / inscriptions
+- invalidate cached PSBT drafts (they may depend on the sender address)
+
+---
+
+### SDK Integration (Tomo Wallet SDK)
+
+In a React app using `@tomo-inc/wallet-connect-sdk`, you typically access the provider via
+`useTomoProviders()` and register listeners inside an effect.
+
+#### Subscribe to `accountChanged`
+
+```tsx
+import { useEffect } from 'react';
+import { useTomoProviders } from '@tomo-inc/wallet-connect-sdk';
+
+export function BtcAccountWatcher() {
+  const providers = useTomoProviders();
+
+  useEffect(() => {
+    const provider = providers.bitcoinProvider;
+    if (!provider) return;
+
+    const handler = async (accounts: string[]) => {
+      // The provider reports the updated BTC address list.
+      // Cosmostation typically provides one active address.
+      console.log('btc accountChanged:', accounts);
+
+      // Recommended follow-ups
+      // const address = await provider.getAddress();
+      // const balance = await provider.getBalance();
+      // const utxos = await provider.getUtxos(address);
+    };
+
+    provider.on('accountChanged', handler);
+
+    return () => {
+      // Always unsubscribe to avoid duplicate handlers on re-render.
+      provider.off('accountChanged');
+    };
+  }, [providers.bitcoinProvider]);
+
+  return null;
+}
+```
+
+---
+
+### Vanilla JavaScript Integration
+
+If you’re using the injected provider directly, the API is the same:
+
+```ts
+const bitcoin = () => {
+  if ('cosmostation' in window) return window.cosmostation.bitcoin;
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = bitcoin();
+
+// Subscribe
+provider.on('accountChanged', (accounts: string[]) => {
+  console.log('accountChanged:', accounts);
+
+  // Typical follow-ups:
+  // - update UI state
+  // - refetch balance/utxos
+});
+
+// Unsubscribe (when your page/component is destroyed)
+provider.off('accountChanged');
+```
+
+---
+
+### What the event delivers
+
+For `accountChanged`, Cosmostation emits a list of addresses:
+
+- `string[]` (usually a single currently selected address)
+
+Example payload:
+
+```json
+["bc1q..."]
+```
+
+### Reference
+
+For interface definitions and demo patterns, refer to:
+
+- [Tomo Wallet Provider repository (BTCProvider + demo)](https://github.com/UnyxTech/tomo-wallet-provider)

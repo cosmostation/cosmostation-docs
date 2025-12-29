@@ -24,7 +24,7 @@ export default function AddWallet() {
 
           const wallet: CosmosRegisterWallet = {
             name: 'Keplr',
-            logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo.svg',
+            logo: 'https://wallet.keplr.app/keplr-brand-assets/keplr-logo-v2.svg',
             events: {
               on(type, listener) {
                 if (type === 'AccountChanged') {

@@ -1,0 +1,9 @@
+{
+  "provider": "Provider",
+  "connect-and-get-accounts": "Connect & Account",
+  "sign-psbt": "Sign Psbt",
+  "send-and-push-tx": "Send And Push Tx",
+  "sign-message": "Sign Message",
+  "network": "Network",
+  "event": "Event"
+}

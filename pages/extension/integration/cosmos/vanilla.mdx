@@ -10,9 +10,35 @@ import AddCW20 from '@/components/extension/vanilla/add-cw20';
 
 # Vanilla
 
-This code can be used without any installation.
+This approach allows you to interact with the Cosmostation Extension without installing any additional packages or SDKs.
+All functionality is exposed through the globally injected window.cosmostation object, making it suitable for simple integrations, quick prototypes, or environments where minimizing dependencies is important.
+
+Because it relies solely on the browser extension, this method works immediately after the user installs Cosmostation and refreshes the page, with no build-time configuration required.
+
+> This section demonstrates how to interact with the **Cosmostation Extension**
+> using the **Vanilla JavaScript API** (no SDK, no additional packages required).
+>
+> All examples rely on the injected global object:
+>
+> ```ts
+> window.cosmostation;
+> ```
+>
+> If the extension is not installed, requests will fail and should be handled
+> gracefully in your application.
+
+---
 
 ## Supported Chains
+
+This request returns a list of **Cosmos-based chain IDs**
+currently supported by the Cosmostation Extension.
+
+You can use this information to:
+
+- dynamically enable / disable chains in your dApp UI
+- verify whether a requested chain is supported before requesting an account
+- guide users to add a custom chain if needed
 
 ```jsx filename="example"
 <button
@@ -36,9 +62,17 @@ This code can be used without any installation.
 
 <SupportedChainIds />
 
+---
+
 ## Request Account
 
-Get account information
+Get account information for a specific chain.
+
+This call:
+
+- prompts the user to connect (if not already connected)
+- returns the selected account address and public key
+- scopes the account to the specified `chainName`
 
 ```jsx filename="example"
 <button
@@ -63,11 +97,21 @@ Get account information
 
 <Account />
 
+---
+
 ## Sign
+
+This section covers different signing methods supported by the
+Cosmostation Extension for Cosmos SDK–based chains.
+
+Each signing method serves a different purpose depending on
+transaction format and compatibility requirements.
+
+---
 
 ### SignAmino
 
-Signing with amino in the legacy way.
+Signing with **Amino JSON**, the legacy signing format.
 
 ```jsx filename="example"
 <button
@@ -98,9 +142,18 @@ Signing with amino in the legacy way.
 
 <SignAmino />
 
+---
+
 ### SignDirect
 
-Signing based on protobuf
+Signing using **Protobuf-based Direct SignDoc**.
+
+This is the recommended approach for modern Cosmos SDK chains.
+
+Use this method when:
+
+- constructing transactions with protobuf messages
+- working with `SIGN_MODE_DIRECT`
 
 ```jsx filename="example"
 <button
@@ -134,9 +187,17 @@ Signing based on protobuf
 
 <SignDirect />
 
+---
+
 ### SignMessage
 
-sign arbitrary bytes
+Sign **arbitrary bytes** (off-chain message signing).
+
+Typical use cases:
+
+- authentication / login flows
+- ownership verification
+- off-chain signatures without broadcasting a transaction
 
 ```jsx filename="example"
 <button
@@ -172,9 +233,17 @@ sign arbitrary bytes
 
 <SignMessage />
 
+---
+
 ### VerifyMessage
 
-verify arbitrary bytes
+Verify a previously signed message.
+
+This allows your dApp to:
+
+- confirm that a signature was produced by a given address
+- validate authentication challenges
+- ensure message integrity
 
 ```jsx filename="example"
 <button
@@ -223,7 +292,17 @@ verify arbitrary bytes
 
 <VerifyMessage />
 
+---
+
 ## AddCW20Token
+
+Request the extension to track a **CW20 token**.
+
+After approval:
+
+- the token appears in the wallet UI
+- balances are fetched automatically
+- users can transfer the token via the extension
 
 ```jsx filename="example"
 <button
@@ -257,9 +336,17 @@ verify arbitrary bytes
 
 <AddCW20 />
 
+---
+
 ## AddCustomChain
 
-Add a chain or testnet chain that is not officially provided by the extension.
+Add a chain (mainnet or testnet) that is not preloaded in the extension.
+
+Use this when:
+
+- working with private networks
+- supporting early testnets
+- integrating newly launched Cosmos chains
 
 ```jsx filename="example"
 <button
@@ -295,9 +382,19 @@ Add a chain or testnet chain that is not officially provided by the extension.
 
 <AddCustomChain />
 
+---
+
 ## Event
 
+Cosmostation emits browser events when the wallet state changes.
+
+---
+
 ### addEventListener
+
+Listen for keystore changes such as:
+
+- account switch
 
 ```jsx filename="example"
 window.addEventListener('cosmostation_keystorechange', () => {
@@ -305,7 +402,11 @@ window.addEventListener('cosmostation_keystorechange', () => {
 });
 ```
 
+---
+
 ### removeEventListener
+
+Always clean up listeners when they are no longer needed.
 
 ```jsx filename="example"
 window.removeEventListener('cosmostation_keystorechange', handler);

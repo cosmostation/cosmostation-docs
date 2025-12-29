@@ -1,0 +1,129 @@
+## Sign Message
+
+This section explains how to sign **Bitcoin messages** with Cosmostation Extension.
+
+Message signing is an **off-chain** operation. It does not broadcast a Bitcoin
+transaction, but produces a signature your app can verify to prove the user
+controls a specific BTC address.
+
+Cosmostation’s Bitcoin provider supports two signing formats:
+
+- **ECDSA** (default)
+- **BIP-322 simple**
+
+The provider exposes:
+
+- `signMessage(message, type?)`
+- `signMessageBIP322(message)` (a convenience wrapper for BIP-322)
+
+---
+
+### SDK Integration (Tomo Wallet SDK)
+
+When using **Tomo Wallet SDK**, message signing is performed through the
+SDK-exposed `bitcoinProvider`, which implements the `BTCProvider` interface.
+
+#### ECDSA message signing (default)
+
+```ts
+const message = 'Hello from Cosmostation';
+
+// Default signing format is ECDSA:
+const signature = await bitcoinProvider.signMessage(message);
+
+console.log('ECDSA signature:', signature);
+```
+
+If you prefer explicitness:
+
+```ts
+const signature = await bitcoinProvider.signMessage(message, 'ecdsa');
+```
+
+---
+
+#### BIP-322 simple message signing (recommended)
+
+```ts
+const message = 'Hello from Cosmostation';
+
+const signature = await bitcoinProvider.signMessage(message, 'bip322-simple');
+console.log('BIP-322 signature:', signature);
+```
+
+Or use the convenience method:
+
+```ts
+const signature = await bitcoinProvider.signMessageBIP322(message);
+console.log('BIP-322 signature:', signature);
+```
+
+---
+
+### Vanilla JavaScript Integration
+
+If you are not using Tomo Wallet SDK, you can call the injected provider
+directly via the browser.
+
+#### Access Provider
+
+```js
+const bitcoin = () => {
+  if ('cosmostation' in window) return window.cosmostation.bitcoin;
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = bitcoin();
+```
+
+---
+
+#### ECDSA message signing (default)
+
+```ts
+await provider.connectWallet();
+
+try {
+  const message = 'Hello from Cosmostation';
+  const signature = await provider.signMessage(message); // default: ecdsa
+  console.log('ECDSA signature:', signature);
+} catch (e: any) {
+  if (e?.code === 4001) console.log('User rejected the request');
+  else console.error(e);
+}
+```
+
+---
+
+#### BIP-322 simple message signing
+
+```ts
+await provider.connectWallet();
+
+try {
+  const message = 'Hello from Cosmostation';
+
+  const signature = await provider.signMessage(message, 'bip322-simple');
+  // or:
+  // const signature = await provider.signMessageBIP322(message);
+
+  console.log('BIP-322 signature:', signature);
+} catch (e: any) {
+  if (e?.code === 4001) console.log('User rejected the request');
+  else console.error(e);
+}
+```
+
+---
+
+### Reference: Tomo SDK + Demo
+
+- [BTCProvider interface & related implementation](https://github.com/UnyxTech/tomo-wallet-provider)
+- [SignMessage demo implementation](https://github.com/UnyxTech/tomo-wallet-provider/blob/d2ec51bc317a20b5affafade70894906e653eeba/src/demo/demo.tsx#L230)
+- [Tomo Docs - Siging a Message](https://docs.tomo.inc/tomo-sdk/tomo-web-sdk/bitcoin-provider#signing-a-message)
+
+Use these references when you want to confirm exact method signatures, demo flow,
+or how the provider is wired in a real UI.
+
+[1]: https://github.com/UnyxTech/tomo-wallet-provider 'UnyxTech/tomo-wallet-provider'
+[2]: https://github.com/UnyxTech/tomo-wallet-provider/blob/d2ec51bc317a20b5affafade70894906e653eeba/src/demo/demo.tsx 'tomo-wallet-provider/src/demo/demo.tsx at d2ec51bc317a20b5affafade70894906e653eeba · UnyxTech/tomo-wallet-provider · GitHub'

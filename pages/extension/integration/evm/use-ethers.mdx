@@ -1,20 +1,25 @@
 # Use ethers
 
+Cosmostation’s Ethereum provider is **EIP-1193 compatible**, so it works out of
+the box with **ethers** via `Web3Provider`. Once wrapped, you can use the
+standard ethers workflow (get signer, send transactions, sign messages, etc.)
+without any Cosmostation-specific handling.
+
 - [npmjs](https://www.npmjs.com/package/ethers)
 - [docs](https://docs.ethers.io)
 
 ```typescript
-import { ethers } from "ethers";
-import { ethereum, InstallError } from "@cosmostation/extension-client";
+import { ethers } from 'ethers';
+import { ethereum, InstallError } from '@cosmostation/extension-client';
 try {
   const provider = await ethereum();
   const ethersProvider = new ethers.providers.Web3Provider(provider);
   // requestAccounts
-  const accounts = ethersProvider.send("eth_requestAccounts", []);
+  const accounts = ethersProvider.send('eth_requestAccounts', []);
   // If you want more info, please check out ethers docs (https://docs.ethers.io)
 } catch (e) {
   if (e instanceof InstallError) {
-    console.log("not installed");
+    console.log('not installed');
   }
   // exception
 }

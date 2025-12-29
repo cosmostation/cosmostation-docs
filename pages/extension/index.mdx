@@ -1,13 +1,24 @@
 # Introduction
 
-Cosmostation Wallet Extension is a non-custodial chrome extension wallet that supports multiple sovereign networks and inter-blockchain bridges. The wallet extension allows users to easily interact with networks and decentralized applications with just a few clicks.
+This document is the official developer guide for integrating with the Cosmostation Wallet Extension.<br />It is intended for dApp developers as well as any web or application builders who require wallet
+connectivity in their service.
 
-To download Cosmostation Wallet Extension, click this [link](https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf) to download from the chrome webstore.
+Since the Cosmostation Extension supports multiple sovereign networks and inter-chain environments, the integration methods vary by network.<br />
+For clarity, this guide is organized by network, so you can quickly reference only the sections relevant to your implementation.
 
-## Wallet
+Across all supported networks, the general integration flow follows: Provider → Connect → Sign → Event Handling.<br />
+Details and available features may differ depending on the network's architecture.
 
-> <img src="/img/guide/extension/introduction/detail.png" width="320" />
+Networks that support standard wallet adapters are documented through those adapters, while others (e.g., Cosmos, Ethereum) are explained using the specific libraries and integration patterns commonly used in production.
 
-## Dashboard
+When reading this guide, please begin by locating the section for the network you plan to integrate.
 
-> <img src="/img/guide/extension/introduction/dashboard.png" width="320" />
+To install the Cosmostation Wallet Extension, download it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf).
+
+## Coin Detail
+
+> <img src="/img/guide/extension/introduction/coin-detail.png" width="320" />
+
+## Portfolio
+
+> <img src="/img/guide/extension/introduction/portfolio.png" width="320" />

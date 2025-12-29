@@ -10,9 +10,25 @@ import Disconnect from '@/components/extension/typescript/disconnect';
 
 # Typescript
 
+This section explains how to interact with the **Cosmostation Extension**
+using the **TypeScript SDK** published on npm.
+
+> Unlike the Vanilla approach (direct `window.cosmostation` access),
+> the TypeScript SDK provides:
+>
+> - typed provider interfaces
+> - chain-scoped provider instances
+> - cleaner async flows with better DX
+>
+> Internally, the SDK still communicates with the browser extension
+> via the same request layer.
+
+---
+
 ## Installation
 
-The Cosmostation wallet package lives in npm. To install the latest stable version, run the following command:
+The Cosmostation wallet package lives in npm.
+To install the latest stable version, run the following command:
 
 ```bash
 npm install @cosmostation/extension
@@ -24,11 +40,24 @@ Or if you're using yarn:
 yarn add @cosmostation/extension
 ```
 
+After installation, you can import:
+
+- `cosmos` → to create a chain-specific provider
+- `cosmosFunctions` → for chain-agnostic utility functions
+
+---
+
 ## Account
 
 ### Request account
 
-Get account information
+Get account information for a specific Cosmos chain.
+
+This call:
+
+- creates a provider scoped to the given `chainId`
+- prompts the user to connect (if not already connected)
+- returns address / public key information
 
 ```jsx filename="example"
 import { cosmos } from '@cosmostation/extension';
@@ -53,7 +82,13 @@ import { cosmos } from '@cosmostation/extension';
 
 ### Disconnect
 
-Disconnect from the extension
+Disconnect the currently connected account from the extension.
+
+Use this when:
+
+- implementing a manual “disconnect wallet” action
+- resetting application state
+- switching between accounts or chains
 
 ```jsx filename="example"
 import { cosmos } from '@cosmostation/extension';
@@ -62,7 +97,7 @@ import { cosmos } from '@cosmostation/extension';
   onClick={async () => {
     try {
       const provider = await cosmos('cosmoshub-4');
-      const account = await provider.requestAccount();
+      await provider.disconnect();
     } catch (e) {
       console.log(e.message);
     }
@@ -74,11 +109,20 @@ import { cosmos } from '@cosmostation/extension';
 
 <Disconnect />
 
+---
+
 ## Sign
+
+This section covers the different signing methods available
+through the TypeScript provider.
+
+Each method corresponds to a specific Cosmos SDK signing flow.
+
+---
 
 ### SignAmino
 
-Signing with amino in the legacy way.
+Signing with **Amino JSON**, the legacy signing format.
 
 ```jsx filename="example"
 import { cosmos } from '@cosmostation/extension';
@@ -106,9 +150,16 @@ import { cosmos } from '@cosmostation/extension';
 
 <SignAmino />
 
+---
+
 ### SignDirect
 
-Signing based on protobuf
+Signing using **protobuf-based SignDoc** (`SIGN_MODE_DIRECT`).
+
+Use this when:
+
+- constructing transactions via protobuf
+- using Stargate / direct signing flows
 
 ```jsx filename="example"
 import { cosmos } from '@cosmostation/extension';
@@ -136,9 +187,17 @@ import { cosmos } from '@cosmostation/extension';
 
 <SignDirect />
 
+---
+
 ### SignMessage
 
-sign arbitrary bytes
+Sign **arbitrary bytes** (off-chain message signing).
+
+Typical use cases:
+
+- authentication / login challenges
+- wallet ownership verification
+- signing non-transaction data
 
 ```jsx filename="example"
 import { cosmos } from '@cosmostation/extension';
@@ -162,9 +221,17 @@ import { cosmos } from '@cosmostation/extension';
 
 <SignMessage />
 
+---
+
 ### verifyMessage
 
-verify arbitrary bytes
+Verify a previously signed message.
+
+This allows your application to:
+
+- validate the signer’s address
+- confirm message integrity
+- complete authentication flows
 
 ```jsx filename="example"
 import { cosmos } from '@cosmostation/extension';
@@ -192,7 +259,17 @@ import { cosmos } from '@cosmostation/extension';
 
 <VerifyMessage />
 
+---
+
 ## Supported Chains
+
+Query the list of Cosmos chain IDs supported by the extension.
+
+This is useful for:
+
+- feature gating by chain
+- validating user-selected networks
+- guiding users to add unsupported chains
 
 ```jsx filename="example"
 import { cosmosFunctions } from '@cosmostation/extension';
@@ -214,9 +291,18 @@ import { cosmosFunctions } from '@cosmostation/extension';
 
 <SupportedChainIds />
 
+---
+
 ## AddCustomChain
 
-Add a chain or testnet chain that is not officially provided by the extension.
+Add a custom or testnet Cosmos chain
+that is not bundled with the extension by default.
+
+Use this when:
+
+- supporting private networks
+- integrating early-stage testnets
+- onboarding new Cosmos SDK chains
 
 ```jsx filename="example"
 import { cosmosFunctions } from '@cosmostation/extension';
@@ -246,9 +332,20 @@ import { cosmosFunctions } from '@cosmostation/extension';
 
 <AddCustomChain />
 
+---
+
 ## Event
 
+The Cosmostation Extension emits browser events
+when wallet state changes occur.
+
+---
+
 ### addEventListener
+
+Listen for keystore changes such as:
+
+- account switch
 
 ```jsx filename="example"
 window.addEventListener('cosmostation_keystorechange', () => {
@@ -256,7 +353,12 @@ window.addEventListener('cosmostation_keystorechange', () => {
 });
 ```
 
+---
+
 ### removeEventListener
+
+Always clean up event listeners when they are no longer needed
+to avoid memory leaks or duplicate handlers.
 
 ```jsx filename="example"
 window.removeEventListener('cosmostation_keystorechange', handler);

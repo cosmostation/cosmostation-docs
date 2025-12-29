@@ -1,0 +1,178 @@
+## Sign Message
+
+Message signing allows a dApp to prove wallet ownership **without creating
+an on-chain transaction**.
+
+This is commonly used for:
+
+- Wallet-based login
+- Off-chain authentication
+- Session binding
+- Account ownership verification
+
+Cosmostation implements message signing via the
+**Solana Wallet Standard `SolanaSignMessage` feature** and follows the same
+behavior as Phantom and other standard-compliant wallets.
+
+---
+
+## Using Wallet Adapter
+
+When using Solana Wallet Adapter, message signing is exposed directly
+through the connected wallet.
+
+```ts
+import { useWallet } from '@solana/wallet-adapter-react';
+
+const { signMessage, publicKey } = useWallet();
+
+const sign = async () => {
+  if (!publicKey || !signMessage) {
+    throw new Error('Wallet not connected');
+  }
+
+  const message = new TextEncoder().encode('Sign in to My dApp');
+
+  const signature = await signMessage(message);
+
+  return signature;
+};
+```
+
+---
+
+## Using Vanilla Provider
+
+If you are not using Wallet Adapter, you can sign messages
+directly through the Cosmostation Solana provider.
+
+### Accessing the Provider
+
+```ts
+const solana = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.solana;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = solana();
+```
+
+---
+
+### Signing a Message
+
+```ts
+const signMessage = async () => {
+  const message = new TextEncoder().encode('Sign in to My dApp');
+
+  const [{ signature }] = await provider.signMessage({
+    message,
+  });
+
+  return signature;
+};
+```
+
+### Returned Data
+
+```ts
+type SolanaSignMessageOutput = {
+  signature: Uint8Array;
+};
+```
+
+---
+
+## Sign In
+
+Sign In is a higher-level abstraction built on top of **message signing**.
+It provides a standardized way to implement **wallet-based authentication**
+with additional context such as domain and address.
+
+Cosmostation implements **`SolanaSignIn`** according to the
+Solana Wallet Standard
+
+---
+
+## What is Solana Sign In?
+
+`signIn` generates a structured message that includes:
+
+- Domain (current site)
+- Wallet address
+- Optional statement / nonce
+- Optional expiration or resources
+
+The wallet signs this message, and the dApp verifies it to establish a session.
+
+---
+
+## Using Wallet Adapter
+
+```ts
+import { useWallet } from '@solana/wallet-adapter-react';
+
+const { signIn } = useWallet();
+
+const signInWithWallet = async () => {
+  if (!signIn) {
+    throw new Error('SignIn not supported');
+  }
+
+  const result = await signIn({
+    statement: 'Sign in to My dApp',
+  });
+
+  return result;
+};
+```
+
+### Returned Data
+
+```ts
+type SolanaSignInOutput = {
+  account: WalletAccount;
+  signedMessage: Uint8Array;
+  signature: Uint8Array;
+};
+```
+
+---
+
+## Using Vanilla Provider
+
+Cosmostation exposes `signIn` directly via the Solana wallet-standard interface.
+
+```ts
+const signIn = async () => {
+  const [{ account, signedMessage, signature }] = await provider.signIn({
+    statement: 'Sign in to My dApp',
+  });
+
+  return { account, signedMessage, signature };
+};
+```
+
+---
+
+## When to Use Sign Message vs Sign In
+
+| Use Case                      | Recommended Method |
+| ----------------------------- | ------------------ |
+| Simple ownership verification | `signMessage`      |
+| Wallet-based login / auth     | `signIn`           |
+| Session-based authentication  | `signIn`           |
+| Custom message formats        | `signMessage`      |
+
+---
+
+## References
+
+- [Phantom – Sign Message & Sign In](https://docs.phantom.com/solana/signing-a-message)
+
+- [Solana Wallet Standard – Sign Message](https://github.com/solana-labs/wallet-standard)
+
+- [Solana Wallet Adapter](https://github.com/anza-xyz/wallet-adapter)

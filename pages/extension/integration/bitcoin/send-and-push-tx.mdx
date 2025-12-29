@@ -1,0 +1,147 @@
+## Send BTC & Push Tx
+
+This section covers two different “broadcast” flows supported by the Cosmostation
+Bitcoin provider:
+
+- **Send BTC (`sendBitcoin`)**: the wallet constructs + signs + broadcasts a BTC transfer for you
+- **Push Tx (`pushTx`)**: you provide a fully-signed raw transaction hex and the wallet broadcasts it
+
+Both methods require a wallet connection first.
+
+---
+
+### Send BTC (`sendBitcoin`)
+
+`sendBitcoin(to, satAmount)` is the simplest way to transfer BTC from the
+currently selected wallet account.
+
+- The wallet handles UTXO selection, fee calculation (wallet policy), signing, and broadcast.
+- `satAmount` is expressed in **satoshis** (1 BTC = 100,000,000 sats).
+- The return value is typically a **transaction id (txid)** string.
+
+#### SDK Integration (Tomo Wallet SDK)
+
+```tsx
+<LodingButton
+  disabled={!btcIsConnect}
+  onClick={async () => {
+    try {
+      const result = await providers.bitcoinProvider?.sendBitcoin(bitcoinAddress, 1300);
+      console.log(`send btc to ${bitcoinAddress}`, result);
+    } catch (e) {
+      console.log(e);
+    }
+  }}
+>
+  send btc()
+</LodingButton>
+```
+
+#### Vanilla JavaScript
+
+```ts
+const bitcoin = () => {
+  if ('cosmostation' in window) return window.cosmostation.bitcoin;
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = bitcoin();
+
+await provider.connectWallet();
+
+try {
+  const to = 'bc1q...'; // receiver address
+  const satAmount = 1300;
+
+  const txid = await provider.sendBitcoin(to, satAmount);
+  console.log('sendBitcoin txid:', txid);
+} catch (e: any) {
+  if (e?.code === 4001) console.log('User rejected the request');
+  else console.error(e);
+}
+```
+
+---
+
+### Push Tx (`pushTx`)
+
+`pushTx(txHex)` broadcasts a **fully signed raw Bitcoin transaction**.
+
+Use this when your app already produced the final transaction hex, such as:
+
+- your dApp builds and signs externally (or via PSBT finalize)
+- you already have a canonical raw transaction and only need broadcast
+
+The wallet/provider does **not** sign anything here — it only broadcasts.
+
+#### SDK Integration (Tomo Wallet SDK)
+
+```tsx
+<LodingButton
+  disabled={!btcIsConnect}
+  onClick={async () => {
+    try {
+      const result = await providers.bitcoinProvider?.pushTx(
+        '02000000000102...00000000', // raw tx hex (signed)
+      );
+
+      console.log('pushTx result:', result);
+    } catch (e) {
+      console.log(e);
+    }
+  }}
+>
+  btc PushTx()
+</LodingButton>
+```
+
+**What this does**
+
+- Submits the raw transaction hex to the provider
+- Returns a txid (or a broadcast result) if accepted by the network/mempool layer
+
+#### Vanilla JavaScript
+
+```ts
+const bitcoin = () => {
+  if ('cosmostation' in window) return window.cosmostation.bitcoin;
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = bitcoin();
+
+await provider.connectWallet();
+
+try {
+  const txHex = '02000000000102...00000000'; // fully signed raw tx hex
+  const txid = await provider.pushTx(txHex);
+
+  console.log('pushTx txid:', txid);
+} catch (e: any) {
+  if (e?.code === 4001) console.log('User rejected the request');
+  else console.error(e);
+}
+```
+
+**Important notes**
+
+- `txHex` must be a valid, fully signed Bitcoin transaction.
+- Broadcast may fail if:
+
+  - inputs are already spent
+  - fee rate is too low / mempool policy rejection
+  - transaction is invalid for the current network (mainnet vs testnet/signet)
+
+- If your transaction came from a PSBT flow:
+
+  - sign PSBT → finalize PSBT → extract raw tx hex → `pushTx(txHex)`
+
+---
+
+### Reference
+
+For exact method signatures, provider behavior, and working demo patterns, refer to:
+
+- [Tomo Bitcoin Provider docs](https://docs.tomo.inc/tomo-sdk/tomo-enterprise-sdk/for-babylon/bitcoin-provider)
+- [BTCProvider interface](https://github.com/UnyxTech/tomo-wallet-provider/blob/d2ec51bc317a20b5affafade70894906e653eeba/src/providers/btc/BTCProvider.ts#L64)
+- [Demo dApp source](https://github.com/UnyxTech/tomo-wallet-provider/blob/d2ec51bc317a20b5affafade70894906e653eeba/src/demo/demo.tsx)
