@@ -11,9 +11,24 @@ import SupportedChainIds from '@/components/extension/hook/supported-chain-ids';
 
 # React hook
 
+This section explains how to integrate the **Cosmostation Extension**
+into a **React application** using the official hook-based package.
+
+> The React hook approach is recommended when:
+>
+> - building a React / Next.js application
+> - managing wallet state declaratively
+> - supporting multiple wallet extensions through a unified interface
+>
+> Wallet connection state, account data, and methods are all exposed
+> via React hooks and context.
+
+---
+
 ## Installation
 
-The Cosmostation wallet hook package lives in npm. To install the latest stable version, run the following command:
+The Cosmostation wallet hook package lives in npm.
+To install the latest stable version, run the following command:
 
 ```bash
 npm install @cosmostation/use-wallets
@@ -25,9 +40,20 @@ Or if you're using yarn:
 yarn add @cosmostation/use-wallets
 ```
 
+---
+
 ## CosmosProvider
 
-Components that use cosmos wallet state need `CosmosProvider` to appear somewhere in the parent tree. A good place to put this is in your root component:
+Components that rely on Cosmos wallet state must be wrapped
+with `CosmosProvider`.
+
+This provider:
+
+- initializes wallet detection
+- manages connection state
+- exposes wallet context to child components
+
+A good place to include it is your application root.
 
 ```jsx filename="example"
 import { CosmosProvider } from '@cosmostation/use-wallets';
@@ -41,14 +67,28 @@ function App() {
 }
 ```
 
+---
+
 ## useCosmosWallets
 
-With `useCosmosWallets`, you can select a list of wallets, the wallet you are currently using, and the wallet you want to use.
-The wallet list is automatically inserted in extensions.
+`useCosmosWallets` is responsible for **wallet-level state**.
+
+With this hook, you can:
+
+- retrieve the list of detected wallets
+- select which wallet to use
+- access the currently selected wallet instance
+
+> The wallet list is automatically populated
+> when browser extensions are detected.
 
 If you would like to add a wallet, [click here](wallet#add-wallet)
 
+---
+
 ### selectWallet
+
+Use this to prompt the user to select and connect a wallet.
 
 ```jsx filename="example"
 import { useCosmosWallets } from '@cosmostation/use-wallets';
@@ -78,6 +118,14 @@ function Connect() {
 ---
 
 ### getSupportedChainIds
+
+Query the list of Cosmos chain IDs supported by the **currently selected wallet**.
+
+This is useful for:
+
+- validating whether a chain is available
+- gating features by chain
+- deciding whether to prompt `addChain`
 
 ```jsx filename="example"
 import { useCosmosWallets } from '@cosmostation/use-wallets';
@@ -113,6 +161,14 @@ function AddCustomChain() {
 ---
 
 ### addChain
+
+Add a custom chain or testnet to the selected wallet.
+
+Use this when:
+
+- integrating non-default Cosmos SDK chains
+- supporting testnets or private networks
+- onboarding newly launched chains
 
 ```jsx filename="example"
 import { useCosmosWallets } from '@cosmostation/use-wallets';
@@ -157,13 +213,21 @@ function AddCustomChain() {
 
 ## useCosmosAccount
 
-With `useCosmosAccount`, you can get the account information of the wallet you are currently using.
+`useCosmosAccount` manages **account-level state** for a specific chain.
+
+This hook:
+
+- automatically requests account info when a wallet is selected
+- keeps account data in sync with wallet state
+- exposes chain-scoped signing methods
+
+---
 
 ### Account
 
-Account automatically requests account information the moment a wallet is selected. If you want to request more manually, you can use 'mutate'.
-
-- [Type](#account-1)
+Account information is fetched automatically.
+If you need to re-fetch manually (for example, after a keystore change),
+you can call `mutate()`.
 
 ```jsx filename="example"
 import { useCosmosAccount } from '@cosmostation/use-wallets';
@@ -182,13 +246,24 @@ export default function Account() {
 
 <Account />
 
+---
+
 ### Methods
 
-the available methods in the selected account. (e.g. sign)
+The `methods` object exposes all wallet actions
+available for the selected account and chain.
 
-- [Type](#cosmosmethods)
+Typical examples include:
+
+- signing transactions
+- signing messages
+- disconnecting the wallet
+
+---
 
 #### disconnect
+
+Disconnect the current wallet session.
 
 ```jsx filename="example"
 import { useCosmosAccount } from '@cosmostation/use-wallets';
@@ -206,7 +281,9 @@ export default function Account() {
 
 #### signAmino
 
-- [Amino Doc Type](#cosmossignaminodoc)
+Sign transactions using **Amino JSON**.
+
+Use this only when legacy compatibility is required.
 
 ```jsx filename="example" highlight=1,4,14
 import { useCosmosAccount } from '@cosmostation/use-wallets';
@@ -244,7 +321,10 @@ export default function SignAmino() {
 
 #### signDirect
 
-- [Direct Doc Type](#cosmossigndirectdoc)
+Sign protobuf-based transactions (`SIGN_MODE_DIRECT`).
+
+This is the recommended signing method
+for modern Cosmos SDK chains.
 
 ```jsx filename="example"
 import { useCosmosAccount } from '@cosmostation/use-wallets';
@@ -284,7 +364,13 @@ export default function SignDirect() {
 
 #### signMessage
 
-sign arbitrary bytes
+Sign **arbitrary bytes** (off-chain message signing).
+
+Common use cases:
+
+- authentication challenges
+- wallet ownership proofs
+- off-chain authorization
 
 ```jsx filename="example"
 import { useCosmosAccount } from '@cosmostation/use-wallets';
@@ -324,7 +410,7 @@ export default function SignAndSendTransaction() {
 
 #### verifyMessage
 
-verify arbitrary bytes
+Verify a signed message against the signer’s address.
 
 ```jsx filename="example"
 import { useCosmosAccount } from '@cosmostation/use-wallets';
@@ -368,7 +454,25 @@ export default function SignAndSendTransaction() {
 
 <VerifyMessage />
 
+---
+
 ## Type
+
+This section defines the **TypeScript interfaces**
+used by the React hook API.
+
+These types describe:
+
+- account shape
+- public key formats
+- available wallet methods
+- signing document structures
+
+They are useful for:
+
+- advanced typing
+- custom abstractions
+- understanding SDK behavior
 
 ### Account
 
@@ -407,25 +511,39 @@ type CosmosPublicKeyType = 'secp256k1' | 'ethsecp256k1';
 
 ```typescript
 interface CosmosMethods {
-  signAndSendTransaction: (
-    props: SignAndSendTransactionProps,
-    options?: SignOptions,
-  ) => Promise<CosmosSendTransactionResponse>;
+  connect: (chainIds: string | string[]) => Promise<void>;
+  getAccount: (chainId: string) => Promise<CosmosRequestAccountResponse>;
+  getAccountsSettled: (chainIds: string[]) => Promise<CosmosRequestAccountsSettledResponse>;
   signAmino: (
+    chain_id: string,
     document: CosmosSignAminoDoc,
-    options?: SignOptions,
+    options?: CosmosSignOptions,
   ) => Promise<CosmosSignAminoResponse>;
   signDirect: (
+    chain_id: string,
     document: CosmosSignDirectDoc,
-    options?: SignOptions,
+    options?: CosmosSignOptions,
   ) => Promise<CosmosSignDirectResponse>;
   sendTransaction: (
+    chain_id: string,
     tx_bytes: Uint8Array | string,
     mode?: number,
-  ) => Promise<CosmosSendTransactionResponse>;
+  ) => Promise<string>;
+  signMessage?: (
+    chainId: string,
+    message: string,
+    signer: string,
+  ) => Promise<CosmosSignMessageResponse>;
+  verifyMessage?: (
+    chain_id: string,
+    message: string,
+    signer: string,
+    signature: string,
+    public_key: string,
+  ) => Promise<boolean>;
+  disconnect?: () => Promise<void>;
+  addChain?: (chain: CosmosAddChain) => Promise<void>;
   getSupportedChainIds: () => Promise<string[]>;
-  signMessage?: (message: string, signer: string) => Promise<CosmosSignMessageResponse>;
-  verifyMessage?: (message: string, signature: string) => Promise<boolean>;
 }
 ```
 

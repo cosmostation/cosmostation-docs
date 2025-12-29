@@ -1,0 +1,158 @@
+# Connect & Get Accounts (Solana)
+
+This section explains how a Solana dApp can **connect to Cosmostation Extension**
+and retrieve the currently active account.
+
+Cosmostation implements the **Solana Wallet Standard**, so the connection flow
+follows the same mental model used by wallets such as Phantom:
+
+- Explicit user approval via wallet UI
+- A single active account at a time
+- Account changes propagated through standard events
+
+You can integrate this flow either through **Solana Wallet Adapter** or by
+calling the injected provider directly (vanilla).
+
+---
+
+## Using Solana Wallet Adapter (Recommended)
+
+When using Solana Wallet Adapter, connection and account state are managed by
+adapter hooks. Cosmostation appears as a standard Solana wallet and does not
+require any wallet-specific logic.
+
+### Connect
+
+```ts
+import { useWallet } from '@solana/wallet-adapter-react';
+
+const { connect, connected } = useWallet();
+
+const onConnect = async () => {
+  if (!connected) {
+    await connect();
+  }
+};
+```
+
+Calling `connect()` opens the Cosmostation Extension UI and asks the user to
+approve the connection.
+
+If the user approves:
+
+- The wallet becomes `connected`
+- The active account is populated internally by the adapter
+
+If the user rejects:
+
+- The promise is rejected
+- No account state is updated
+
+### Get Accounts
+
+```ts
+import { useWallet } from '@solana/wallet-adapter-react';
+
+const { publicKey } = useWallet();
+
+if (publicKey) {
+  console.log('Connected address:', publicKey.toBase58());
+}
+```
+
+- `publicKey` is a `PublicKey` instance from `@solana/web3.js`
+- Solana Wallet Adapter assumes **one active account**
+- Account changes are automatically reflected in `publicKey`
+
+---
+
+### Vanilla JavaScript Integration
+
+If you are not using Solana Wallet Adapter, you can connect directly to the
+injected Solana provider exposed by Cosmostation Extension.
+
+### Access the Provider
+
+```js
+const solana = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.solana;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = solana();
+```
+
+---
+
+### Connect
+
+```ts
+const response = await provider.connect();
+```
+
+#### Behavior
+
+- Opens the Cosmostation Extension UI
+- Prompts the user to approve the connection
+- On success, returns a list of accounts (Wallet Standard format)
+
+Internally, Cosmostation resolves the Solana public key and exposes it as a
+Wallet Standard `WalletAccount`.
+
+---
+
+### Response Shape
+
+```ts
+type ConnectResponse = {
+  accounts: {
+    address: string; // base58 Solana address
+    publicKey: Uint8Array; // raw public key bytes
+    chains: ['solana:mainnet'];
+    features: string[];
+  }[];
+};
+```
+
+Example:
+
+```json
+{
+  "accounts": [
+    {
+      "address": "....",
+      "publicKey": "Uint8Array(32)",
+      "chains": ["solana:mainnet"],
+      "features": [
+        "standard:connect",
+        "standard:disconnect",
+        "standard:events",
+        "solana:signMessage",
+        "solana:signTransaction",
+        "solana:signAndSendTransaction",
+        "solana:signIn"
+      ]
+    }
+  ]
+}
+```
+
+> Solana supports a single active account.
+> The array contains exactly one account when connected.
+
+---
+
+### Get Active Account
+
+After connecting, you can read the active account from the response or from the
+provider’s internal state.
+
+```ts
+const { accounts } = await provider.connect();
+
+const account = accounts[0];
+console.log(account.address);
+```

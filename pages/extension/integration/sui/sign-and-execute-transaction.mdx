@@ -1,20 +1,98 @@
-# Sign And Execute Transaction
+# Sign and Execute Transaction
+
+Cosmostation’s Sui provider supports both the **TransactionBlock (v1)** flow and the newer
+**Transaction (v2)** flow. Depending on which Sui SDK / app stack you use, you can:
+
+- **Sign only** (submit later with your own RPC client)
+- **Sign and execute** (wallet signs and broadcasts in one step)
+
+This section documents the following supported features:
+
+- `sui:signTransactionBlock` (v1)
+- `sui:signAndExecuteTransactionBlock` (v1)
+- `sui:signTransaction` (v2)
+- `sui:signAndExecuteTransaction` (v2)
+
+---
+
+## Supported Features
+
+| Feature Key                          | Version | Purpose                                         |
+| ------------------------------------ | ------: | ----------------------------------------------- |
+| `sui:signTransactionBlock`           | `1.0.0` | Sign a `TransactionBlock` without executing     |
+| `sui:signAndExecuteTransactionBlock` | `1.0.0` | Sign and execute a `TransactionBlock`           |
+| `sui:signTransaction`                | `2.0.0` | Sign a `Transaction` (v2 API) without executing |
+| `sui:signAndExecuteTransaction`      | `2.0.0` | Sign and execute a `Transaction` (v2 API)       |
+
+---
+
+## Using Sui dApp Kit (`@mysten/dapp-kit`)
+
+In React apps, the recommended integration is via **Sui dApp Kit**. The dApp kit handles
+wallet discovery and provides a unified API for signing and executing transactions.
+
+### Example (sign and execute with a TransactionBlock)
+
+```tsx
+import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
+
+const SendSui = () => {
+  const { mutateAsync: signAndExecuteTransactionBlock } = useSignAndExecuteTransactionBlock();
+
+  const onSend = async () => {
+    const tx = new TransactionBlock();
+
+    const amount = '100000';
+    const recipient = '0x...';
+
+    const [coin] = tx.splitCoins(tx.gas, [tx.pure(amount)]);
+    tx.transferObjects([coin], tx.pure(recipient));
+
+    const result = await signAndExecuteTransactionBlock({
+      transactionBlock: tx,
+      options: { showInput: true, showEffects: true, showEvents: true },
+    });
+
+    console.log('digest:', result.digest);
+  };
+
+  return <button onClick={onSend}>Send</button>;
+};
+```
+
+---
+
+## Vanilla JavaScript
+
+If you don’t use `@mysten/dapp-kit`, you can call the injected provider directly.
+
+All examples below assume the provider is available at:
+
+- `window.cosmostation.sui`
+
+---
+
+## `sui:signAndExecuteTransactionBlock` (v1)
+
+### What it does
+
+Signs a **TransactionBlock** and executes it on-chain in one step.
+
+### Example
 
 ```javascript
-import { TransactionBlock } from "@mysten/sui.js";
+import { TransactionBlock } from '@mysten/sui.js';
 
-// Send Sui coin
+// Send SUI coin
 const tx = new TransactionBlock();
 
-const sampleSendCoinAmount = "100000";
-
-const sampleReceiverAddress = "0x...";
+const sampleSendCoinAmount = '100000';
+const sampleReceiverAddress = '0x...';
 
 const [coin] = tx.splitCoins(tx.gas, [tx.pure(sampleSendCoinAmount)]);
-
 tx.transferObjects([coin], tx.pure(sampleReceiverAddress));
 
-// SuiSignAndExecuteTransactionBlockInput
 const payload = {
   transactionBlock: tx,
   options: {
@@ -26,255 +104,79 @@ const payload = {
 
 await window.cosmostation.sui.connect();
 
-const response = await window.cosmostation.sui.signAndExecuteTransaction(
-  payload
-);
+const response = await window.cosmostation.sui.signAndExecuteTransactionBlock(payload);
+
+console.log('digest:', response.digest);
 ```
 
-#### request
+---
 
-- [SuiSignAndExecuteTransactionBlockInput](https://github.com/MystenLabs/sui/blob/main/sdk/wallet-adapter/wallet-standard/src/features/suiSignAndExecuteTransactionBlock.ts#L33)
+## `sui:signTransactionBlock` (v1)
 
-```typescript filename="Model"
-export interface SuiSignTransactionBlockInput {
-  transactionBlock: TransactionBlock;
-  account: WalletAccount;
-  chain: IdentifierString;
-}
+### What it does
 
-export interface SuiSignAndExecuteTransactionBlockInput
-  extends SuiSignTransactionBlockInput {
-  requestType?: ExecuteTransactionRequestType;
-  options?: SuiTransactionBlockResponseOptions;
-}
+Signs a **TransactionBlock** but does **not** execute it. Use this when you want to submit
+the signed transaction yourself (custom RPC submission, batching, relayers, etc).
 
-export type SuiTransactionBlockResponseOptions = {
-  showInput?: boolean | undefined;
-  showEffects?: boolean | undefined;
-  showEvents?: boolean | undefined;
-  showObjectChanges?: boolean | undefined;
-  showBalanceChanges?: boolean | undefined;
-};
+### Example
+
+```javascript
+import { TransactionBlock } from '@mysten/sui.js';
+
+const tx = new TransactionBlock();
+// ...build tx...
+
+await window.cosmostation.sui.connect();
+
+// Depending on the provider’s implementation, the wallet may require `account`/`chain`
+// or infer them from the current wallet state.
+const signed = await window.cosmostation.sui.signTransactionBlock({
+  transactionBlock: tx,
+});
+
+console.log('signed:', signed);
 ```
 
-#### Response
+---
 
-- [SuiTransactionResponse](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L394)
-- [SuiTransactionBlock](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L308)
-- [TransactionEffects](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L218)
-- [TransactionEvents](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L261)
-- [SuiObjectChange](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L377)
-- [BalanceChange](https://github.com/MystenLabs/sui/blob/main/sdk/typescript/src/types/transactions.ts#L387)
+## `sui:signAndExecuteTransaction` (v2)
 
-```typescript filename="Model"
-export type SuiTransactionResponse = {
-  digest: TransactionDigest,
-  transaction: optional(SuiTransactionBlock),
-  effects: optional(TransactionEffects),
-  events: optional(TransactionEvents),
-  timestampMs: optional(string()),
-  checkpoint: optional(string()),
-  confirmedLocalExecution: optional(boolean()),
-  objectChanges: optional(array(SuiObjectChange)),
-  balanceChanges: optional(array(BalanceChange)),
-  /* Errors that occurred in fetching/serializing the transaction. */
-  errors: optional(array(string())),
-};
+### What it does
+
+Signs and executes a **Transaction (v2 API)** in one step.
+
+### Example
+
+```javascript
+// Transaction (v2) building depends on the Sui TS SDK version you are using.
+// The important part: you pass a v2 Transaction payload to `signAndExecuteTransaction`.
+
+await window.cosmostation.sui.connect();
+
+const response = await window.cosmostation.sui.signAndExecuteTransaction({
+  // transaction: <v2 Transaction>,
+  // options: { showInput: true, showEffects: true, showEvents: true },
+});
+
+console.log('digest:', response.digest);
 ```
 
-```json filename="Example"
-{
-  "digest": "ADxukibq4o4QqiMgr6QqtXnXczh5MGCQqMkgCKUW5NXT",
-  "transaction": {
-    "data": {
-      "messageVersion": "v1",
-      "transaction": {
-        "kind": "ProgrammableTransaction",
-        "inputs": [
-          {
-            "type": "pure",
-            "valueType": "u64",
-            "value": "1000000000"
-          },
-          {
-            "type": "object",
-            "objectType": "sharedObject",
-            "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
-            "initialSharedVersion": "1",
-            "mutable": true
-          },
-          {
-            "type": "pure",
-            "valueType": "address",
-            "value": "0x184fbf9d6c2d2d3f27e27fe3ca2d3b4080bd406221e345e2d36633e638e988e1"
-          }
-        ],
-        "transactions": [
-          {
-            "SplitCoins": [
-              "GasCoin",
-              [
-                {
-                  "Input": 0
-                }
-              ]
-            ]
-          },
-          {
-            "MoveCall": {
-              "package": "0x0000000000000000000000000000000000000000000000000000000000000003",
-              "module": "sui_system",
-              "function": "request_add_stake",
-              "arguments": [
-                {
-                  "Input": 1
-                },
-                {
-                  "Result": 0
-                },
-                {
-                  "Input": 2
-                }
-              ]
-            }
-          }
-        ]
-      },
-      "sender": "0x67b11c023bced7ae79530b653e81e37116836acf24d536e6ffbd4bf37159d3cf",
-      "gasData": {
-        "payment": [
-          {
-            "objectId": "0x63c8f9756ed686a70d8b6e4b60a05eed70de52c7a864a3eb1432294bc47521f6",
-            "version": 120,
-            "digest": "4eWN3j13gkCgmpF3ino3PyBnBGcr8TM9g7oXyLVcFvDf"
-          }
-        ],
-        "owner": "0x67b11c023bced7ae79530b653e81e37116836acf24d536e6ffbd4bf37159d3cf",
-        "price": "990",
-        "budget": "10269000"
-      }
-    },
-    "txSignatures": [
-      "AOM7i8tZRt314VYWxtBr5DAUukOZJsRcX6YUZjKVzB/j0gyYqCMZ1mIVPFdM79VNXzEpS2Te8Ez7g878a13Ybwz6TRHL+z8z7uHmh38YqSzeZTJS1AuOfKSpuon1IV17MQ=="
-    ]
-  },
-  "effects": {
-    "messageVersion": "v1",
-    "status": {
-      "status": "success"
-    },
-    "executedEpoch": "25",
-    "gasUsed": {
-      "computationCost": "990000",
-      "storageCost": "721559200",
-      "storageRebate": "713064528",
-      "nonRefundableStorageFee": "7202672"
-    },
-    "modifiedAtVersions": [
-      {
-        "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
-        "sequenceNumber": "1999135"
-      },
-      {
-        "objectId": "0x5b890eaf2abcfa2ab90b77b8e6f3d5d8609586c3e583baf3dccd5af17edf48d1",
-        "sequenceNumber": "1999135"
-      },
-      {
-        "objectId": "0x63c8f9756ed686a70d8b6e4b60a05eed70de52c7a864a3eb1432294bc47521f6",
-        "sequenceNumber": "120"
-      }
-    ],
-    "sharedObjects": [
-      {
-        "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
-        "version": 1999135,
-        "digest": "DwbUaKPdp58kXHhh3WGzSnxv1uuzoEP55mmvrZyRqx8Q"
-      }
-    ],
-    "transactionDigest": "ADxukibq4o4QqiMgr6QqtXnXczh5MGCQqMkgCKUW5NXT",
-    "created": [
-      {
-        "owner": {
-          "AddressOwner": "0x67b11c023bced7ae79530b653e81e37116836acf24d536e6ffbd4bf37159d3cf"
-        },
-        "reference": {
-          "objectId": "0xddd21c1a8b5d7a2bf1a6a689434c2dfe9b524bd5d66f140b54da3ee6b2a6c21f",
-          "version": 1999136,
-          "digest": "BEEN82jwzg2gku5meXogNQLz1zSnbv9rEFRVu7RhekPd"
-        }
-      }
-    ],
-    "mutated": [
-      {
-        "owner": {
-          "Shared": {
-            "initial_shared_version": 1
-          }
-        },
-        "reference": {
-          "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
-          "version": 1999136,
-          "digest": "CgnEEDYNDnAyFb6GzXwvCTC5X1RqAUEGkLQN59dn86Fn"
-        }
-      },
-      {
-        "owner": {
-          "ObjectOwner": "0x0000000000000000000000000000000000000000000000000000000000000005"
-        },
-        "reference": {
-          "objectId": "0x5b890eaf2abcfa2ab90b77b8e6f3d5d8609586c3e583baf3dccd5af17edf48d1",
-          "version": 1999136,
-          "digest": "7zdHAR9jtbEuaNroxVUUXGgMBJCVF9RRfQ1ACy4sGr8d"
-        }
-      },
-      {
-        "owner": {
-          "AddressOwner": "0x67b11c023bced7ae79530b653e81e37116836acf24d536e6ffbd4bf37159d3cf"
-        },
-        "reference": {
-          "objectId": "0x63c8f9756ed686a70d8b6e4b60a05eed70de52c7a864a3eb1432294bc47521f6",
-          "version": 1999136,
-          "digest": "4uYp4yEhf4kcKmdUSZmxao5nGo38mydK93w9Vj6GdmJy"
-        }
-      }
-    ],
-    "gasObject": {
-      "owner": {
-        "AddressOwner": "0x67b11c023bced7ae79530b653e81e37116836acf24d536e6ffbd4bf37159d3cf"
-      },
-      "reference": {
-        "objectId": "0x63c8f9756ed686a70d8b6e4b60a05eed70de52c7a864a3eb1432294bc47521f6",
-        "version": 1999136,
-        "digest": "4uYp4yEhf4kcKmdUSZmxao5nGo38mydK93w9Vj6GdmJy"
-      }
-    },
-    "eventsDigest": "5MMMagM2CoBtWGL7x39i2H8FeF75LWfFzgZDpzc5YC1H",
-    "dependencies": [
-      "Ui22Hhc6NyVEnAhRWCWVT333JvvBWG75qJx9qBg9VE1",
-      "53k4PWPByFxMLEYu53coAPiFCoxoz1mkUnv2Nr73UFw1",
-      "6oLy1FVtkMhuknWGsz7cvyYhn5CZFGPnyLhXZYuBd8kh"
-    ]
-  },
-  "events": [
-    {
-      "id": {
-        "txDigest": "ADxukibq4o4QqiMgr6QqtXnXczh5MGCQqMkgCKUW5NXT",
-        "eventSeq": "0"
-      },
-      "packageId": "0x0000000000000000000000000000000000000000000000000000000000000003",
-      "transactionModule": "sui_system",
-      "sender": "0x67b11c023bced7ae79530b653e81e37116836acf24d536e6ffbd4bf37159d3cf",
-      "type": "0x3::validator::StakingRequestEvent",
-      "parsedJson": {
-        "amount": "1000000000",
-        "epoch": "25",
-        "pool_id": "0x2f52ce5bfcc5d517a3bdc0c154ab1cbd3757822c5db6a3fa514b9cc81697f999",
-        "staker_address": "0x67b11c023bced7ae79530b653e81e37116836acf24d536e6ffbd4bf37159d3cf",
-        "validator_address": "0x184fbf9d6c2d2d3f27e27fe3ca2d3b4080bd406221e345e2d36633e638e988e1"
-      },
-      "bcs": "9tL9umBpTLeUxXFn24EEEukPeFNYNcg2nEcTog31dxEVVuZwseE4Q6FHCM5YNfG6PadX7n5RYyhfRN7cxhApcyMBJ3UfxWSWbzEvFTrKNrg5oq1FVCB2bz2uUsbQXv5xcAAoWFH6CQTcVBj3MyEZwQVHy"
-    }
-  ],
-  "confirmedLocalExecution": true
-}
+---
+
+## `sui:signTransaction` (v2)
+
+### What it does
+
+Signs a **Transaction (v2 API)** without executing it.
+
+### Example
+
+```javascript
+await window.cosmostation.sui.connect();
+
+const signed = await window.cosmostation.sui.signTransaction({
+  // transaction: <v2 Transaction>,
+});
+
+console.log('signed:', signed);
 ```

@@ -1,36 +1,84 @@
 # Provider
 
-Cosmostation extension support various chains.
+The Cosmostation browser extension supports various blockchains and exposes chain-specific providers to enable seamless dApp integration.
 
-### Code using @cosmostation/extension-client
+This document describes how to integrate **Cosmostation Extension** with **Aptos**, using either the official Aptos Wallet Adapter or plain (vanilla) JavaScript.
 
-```typescript
-import { aptos, InstallError } from "@cosmostation/extension-client";
+---
 
-try {
-  const provider = await aptos();
-} catch (e) {
-  if (e instanceof InstallError) {
-    console.log("not installed");
-  }
-}
-```
+## Aptos Wallet Adapter
 
-### Vanilla Code
+Cosmostation fully implements the **Aptos Wallet Standard interface** defined by `aptos-labs`.
+
+As a result, you can easily connect to the Cosmostation wallet by using the official **Aptos Wallet Adapter** packages provided by Aptos Labs, without any Cosmostation-specific code.
+
+---
+
+### Supported Features
+
+The following table summarizes the Aptos wallet features currently supported by the Cosmostation extension:
+
+| Category   | Feature Key             | Version | Method / Entry         | Description                                             |
+| ---------- | ----------------------- | ------: | ---------------------- | ------------------------------------------------------- |
+| Connection | `standard:connect`      | `1.0.0` | `connect()`            | Establishes a connection and returns available accounts |
+| Connection | `standard:disconnect`   | `1.0.0` | `disconnect()`         | Disconnects the currently connected wallet              |
+| Events     | `standard:events`       | `1.0.0` | `on(event, handler)`   | Subscribes to wallet lifecycle events                   |
+| Account    | `aptos:account`         | `1.0.0` | `account()`            | Returns the currently selected Aptos account            |
+| Network    | `aptos:getNetwork`      | `1.0.0` | `network()`            | Returns the currently connected network info            |
+| Signing    | `aptos:signTransaction` | `1.0.0` | `signTransaction(...)` | Signs an Aptos transaction payload                      |
+| Message    | `aptos:signMessage`     | `1.0.0` | `signMessage(...)`     | Signs an arbitrary message for off-chain verification   |
+
+All methods strictly follow the **Aptos Wallet Standard**, ensuring compatibility with existing Aptos dApps.
+
+---
+
+### References
+
+For detailed specifications and advanced usage, refer to the official Aptos documentation:
+
+- **Aptos Wallet Adapter Overview**  
+  https://aptos.dev/build/sdks/wallet-adapter
+
+- **Available dApp Functions**  
+  https://aptos.dev/build/sdks/wallet-adapter/dapp#functions
+
+- **Wallet Adapter Documentation**  
+  https://aptos.dev/build/sdks/wallet-adapter/dapp
+
+- **Official Demo**  
+  https://aptos-labs.github.io/aptos-wallet-adapter/
+
+---
+
+## Vanilla JavaScript Integration
+
+In addition to the official Aptos Wallet Adapter libraries, Cosmostation also allows **direct integration using plain JavaScript**.
+
+The exposed provider strictly follows the **Aptos Wallet Standard interface**, making it suitable for lightweight applications or environments where bundling external libraries is undesirable.
+
+---
+
+### Accessing the Aptos Provider
+
+You can access the Cosmostation Aptos provider directly from the global `window` object.
 
 ```javascript
-const isCosmostation = "cosmostation" in window;
+const isCosmostationInstalled = 'cosmostation' in window;
 
-const aptos = () => {
-  if ("cosmostation" in window) {
+const getAptosProvider = () => {
+  if ('cosmostation' in window) {
     return window.cosmostation.aptos;
   } else {
-    window.open("https://cosmostation.io/wallet/#extension");
+    // Redirect users to install the Cosmostation extension
+    window.open('https://cosmostation.io/wallet/#extension');
     /**
-     * or window.open("https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf");
-     * */
+     * Alternatively:
+     * window.open(
+     *   'https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf'
+     * );
+     */
   }
 };
 
-const provider = aptos();
+const provider = getAptosProvider();
 ```

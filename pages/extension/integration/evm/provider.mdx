@@ -1,34 +1,113 @@
 # Provider
 
-Cosmostation extension support various chains.
+The **Cosmostation browser extension** supports multiple blockchains and exposes
+chain-specific providers for dApp integration.
 
-### Code using @cosmostation/extension-client
+For Ethereum-compatible chains, Cosmostation provides:
 
-```typescript
-import { ethereum, InstallError } from "@cosmostation/extension-client";
+- [**EIP-6963**](https://eips.ethereum.org/EIPS/eip-6963) compliant multi-wallet discovery
+- A helper SDK via `@cosmostation/extension-client`
+- A direct injected provider (`window.cosmostation.ethereum`)
+
+This allows Cosmostation to integrate cleanly with both **modern Ethereum dApps**
+and existing provider-based flows.
+
+---
+
+## EIP-6963 (Multi-Wallet Discovery)
+
+Cosmostation fully supports **EIP-6963**, the Ethereum wallet discovery standard
+designed to allow multiple wallets to coexist without conflicts.
+
+This is the **recommended integration entry point** for Ethereum dApps.
+
+### What is EIP-6963?
+
+EIP-6963 introduces an event-based discovery mechanism:
+
+- Wallets announce themselves explicitly
+- dApps listen and build a wallet list
+- No global provider overrides are required
+- Multiple wallets can coexist safely
+
+Cosmostation announces itself as an **EIP-1193 compatible provider**.
+
+### Discovering Cosmostation via EIP-6963
+
+```ts
+window.addEventListener('eip6963:announceProvider', (event) => {
+  const { info, provider } = event.detail;
+
+  if (info.rdns === 'io.cosmostation') {
+    console.log('Cosmostation provider detected', provider);
+  }
+});
+```
+
+### Provider Characteristics
+
+- Fully **EIP-1193 compatible**
+- Safe to use alongside other Ethereum wallets
+- Well-suited for wallet selection UIs and production dApps
+
+---
+
+## Using `@cosmostation/extension-client`
+
+If you prefer not to manage EIP-6963 discovery manually, Cosmostation provides a
+lightweight helper SDK.
+
+```ts
+import { ethereum, InstallError } from '@cosmostation/extension-client';
 
 try {
   const provider = await ethereum();
+  // provider is an EIP-1193 compatible Ethereum provider
 } catch (e) {
   if (e instanceof InstallError) {
-    console.log("not installed");
+    console.log('Cosmostation extension is not installed');
   }
 }
 ```
 
-### Vanilla Code
+### Behavior
 
-```javascript
+- Resolves the Cosmostation Ethereum provider
+- Handles extension installation checks
+- Returns an **EIP-1193 provider**
+- Throws `InstallError` if the extension is not installed
+
+This approach is useful when:
+
+- You want a simple integration path
+- You are building specifically for Cosmostation users
+- You do not need to manage multiple wallet announcements directly
+
+---
+
+## Vanilla JavaScript Integration
+
+You can also access the provider directly from the injected global object.
+
+```js
 const ethereum = () => {
-  if ("cosmostation" in window) {
+  if ('cosmostation' in window) {
     return window.cosmostation.ethereum;
   } else {
-    window.open("https://cosmostation.io/wallet/#extension");
+    window.open('https://cosmostation.io/wallet/#extension');
     /**
-     * or window.open("https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf");
-     * */
+     * or:
+     * window.open(
+     *   "https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf"
+     * );
+     */
   }
 };
 
 const provider = ethereum();
 ```
+
+### Notes
+
+- The provider is available when the extension is installed
+- The API follows **EIP-1193**

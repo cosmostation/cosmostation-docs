@@ -1,106 +1,111 @@
 # Connect, Account
 
-connect and get Account via Cosmostation Extension
+Connecting is the first step in any wallet integration. In practice, **`connect()` is a permission + session handshake** between your dApp and the user’s wallet:
 
-## Connect
+- It prompts the user to approve the connection in the wallet UI.
+- Once approved, the wallet exposes the **currently selected account** to your dApp.
+- After you’re connected, you can safely call APIs like `account()`, `signTransaction()`, and `signMessage()` using the same standard interface.
 
-### Code using @cosmostation/extension-client
+If the user later changes the selected account inside the wallet, your dApp should treat `account()` as the source of truth and update UI state accordingly.
 
-```typescript
-import { aptos, InstallError } from "@cosmostation/extension-client";
+> Note: `disconnect()` simply ends the active session/permission context from the dApp’s perspective. The wallet still exists in the browser; you’re just clearing the “connected” relationship and related state in your app.
+
+---
+
+## Using Aptos Wallet Adapter
+
+When you use `@aptos-labs/wallet-adapter-react`, the adapter handles wallet discovery and standardizes the connect lifecycle behind `useWallet()`.
+
+### Example
+
+```javascript
+import { WalletName, useWallet } from '@aptos-labs/wallet-adapter-react';
+
+const { connect, disconnect, account, connected } = useWallet();
+
+const handleConnect = async () => {
+  try {
+    await connect("Cosmostation Wallet" as WalletName<"Cosmostation Wallet">);
+
+    // `connected` flips to true and `account` becomes available
+    console.log('Connected:', connected);
+    console.log('Account:', account);
+  } catch (error) {
+    console.error('Failed to connect:', error);
+  }
+};
+
+const handleDisconnect = async () => {
+  try {
+    await disconnect();
+    console.log('Disconnected');
+  } catch (error) {
+    console.error('Failed to disconnect:', error);
+  }
+};
+```
+
+Reference:
+
+- [Aptos Documentation (Connect & Disconnect)](https://aptos.dev/build/sdks/wallet-adapter/dapp#connect-and-disconnect)
+
+---
+
+## Vanilla Code
+
+Cosmostation’s Aptos provider follows the **Aptos Wallet Standard** interface. This means you can call `connect()` directly on the injected provider without any adapter library.
+
+### Basic connect
+
+```javascript
+// NOTE: `aptos()` helper is described in the Provider > Vanilla section
+const provider = aptos();
 
 try {
-  const provider = await aptos();
-
-  const account = await provider.connect();
+  const res = await provider.connect();
+  console.log('connect response:', res);
 } catch (e) {
-  if (e instanceof InstallError) {
-    console.log("not installed");
+  // Some wallets expose a "user rejected" code similar to other web wallet conventions
+  if (e?.code === 4001) {
+    console.log('User rejected the request');
+    return;
   }
-
-  if (e.code === 4001) {
-    console.log("user rejected request");
-  }
+  console.error(e);
 }
 ```
 
-### Vanilla Code
+### What does `connect()` return?
+
+In the Aptos Wallet Standard, `connect` is defined as an **AptosConnectMethod** and its response is a `UserResponse<AccountInfo>` shape. ([Source](https://github.com/aptos-labs/wallet-standard/blob/127249132277248271ff4cf917625504128327ab/src/features/aptosConnect.ts#L21))
+
+That means the wallet can respond in two ways:
+
+- **Approved** → `status: "Approved"` with `args` containing the connected `AccountInfo`
+- **Rejected** → `status: "Rejected"` (no args)
+
+(Conceptually similar to a “user approved / user rejected” interaction.)
+
+### Recommended handling pattern
+
+If your provider returns the standard `UserResponse` object (instead of throwing), handle both cases explicitly:
 
 ```javascript
 const provider = aptos();
-try {
-  const account = await provider.connect();
-} catch (e) {
-  if (e.code === 4001) {
-    console.log("user rejected request");
-  }
+
+const res = await provider.connect();
+
+if (res?.status === 'Approved') {
+  const accountInfo = res.args;
+  console.log('Connected account:', accountInfo);
+} else if (res?.status === 'Rejected') {
+  console.log('User rejected the connection request');
 }
 ```
 
-#### Response
+### Source reference
 
-```typescript filename="Model"
-export type AptosConnectResponse = {
-  address: string;
-  publicKey: string;
-};
-```
+If you want to confirm the exact `connect` type definition and the `AccountInfo` model, see:
 
-```json filename="Example"
-{
-  "address": "0x9d8a438fe580db4f7b9e108a4bce46ad6647905495903f295d06458625913644",
-  "publicKey": "0x503603cb3ea1801805b952d9d4c6a7302dddfa78cc15042e78132ee907e6b48f"
-}
-```
+- [AptosConnect feature definition](https://github.com/aptos-labs/wallet-standard/blob/127249132277248271ff4cf917625504128327ab/src/features/aptosConnect.ts#L21)
 
-## Account
-
-### Code using @cosmostation/extension-client
-
-```typescript
-import { aptos, InstallError } from "@cosmostation/extension-client";
-
-try {
-  const provider = await aptos();
-
-  const account = await provider.account();
-} catch (e) {
-  if (e instanceof InstallError) {
-    console.log("not installed");
-  }
-
-  if (e.code === 4001) {
-    console.log("user rejected request");
-  }
-}
-```
-
-### Vanilla Code
-
-```javascript
-try {
-  const provider = aptos();
-
-  const account = await provider.account(payload);
-} catch (e) {
-  if (e.code === 4001) {
-    console.log("user rejected request");
-  }
-}
-```
-
-#### Response
-
-```typescript filename="Model"
-export type AptosAccountResponse = {
-  address: string;
-  publicKey: string;
-};
-```
-
-```json filename="Example"
-{
-  "address": "0x9d8a438fe580db4f7b9e108a4bce46ad6647905495903f295d06458625913644",
-  "publicKey": "0x503603cb3ea1801805b952d9d4c6a7302dddfa78cc15042e78132ee907e6b48f"
-}
-```
+- [AccountInfo model](https://github.com/aptos-labs/wallet-standard/blob/127249132277248271ff4cf917625504128327ab/src/AccountInfo.ts#L21)

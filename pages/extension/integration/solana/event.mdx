@@ -1,0 +1,143 @@
+## Events
+
+Wallet events allow a dApp to react to **state changes initiated by the wallet**
+without requiring a page reload.
+
+Cosmostation implements wallet events using the
+**Solana Wallet Standard `StandardEvents` feature**, following the same
+behavior model as Phantom and other standard-compliant wallets.
+
+Currently supported events:
+
+- Account change
+- Disconnect
+
+These events are critical for keeping application state in sync with
+the user’s wallet.
+
+---
+
+## Supported Events
+
+| Event        | Description                                         |
+| ------------ | --------------------------------------------------- |
+| `change`     | Fired when the active account changes or is cleared |
+| `disconnect` | Fired when the wallet disconnects from the dApp     |
+
+---
+
+## Using Wallet Adapter
+
+When using Solana Wallet Adapter, wallet events are exposed as reactive state.
+
+### Account Change
+
+```ts
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useEffect } from 'react';
+
+export function WalletWatcher() {
+  const { publicKey, connected } = useWallet();
+
+  useEffect(() => {
+    if (!connected) {
+      console.log('Wallet disconnected');
+      return;
+    }
+
+    console.log('Active account changed:', publicKey?.toBase58());
+  }, [publicKey, connected]);
+
+  return null;
+}
+```
+
+## Using Vanilla Provider
+
+If you are not using Wallet Adapter, Cosmostation exposes wallet events
+through the **wallet-standard event interface**.
+
+### Accessing the Provider
+
+```ts
+const solana = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.solana;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = solana();
+```
+
+---
+
+## Listening for Account Changes
+
+```ts
+const unsubscribe = provider.on('change', ({ accounts }) => {
+  if (accounts.length === 0) {
+    console.log('Wallet disconnected');
+    return;
+  }
+
+  console.log('Active account:', accounts[0].address);
+});
+```
+
+### Event Payload
+
+```ts
+type ChangeEventPayload = {
+  accounts: WalletAccount[];
+};
+```
+
+- `accounts` will be:
+
+  - An array with one account when connected
+  - An empty array when disconnected
+
+---
+
+## Handling Disconnect Events
+
+In addition to account changes, a dedicated disconnect event may be fired.
+
+```ts
+provider.on('disconnect', () => {
+  console.log('Wallet disconnected');
+});
+```
+
+### When Disconnect Fires
+
+- User manually disconnects from the wallet UI
+- Wallet clears the active session
+
+---
+
+## Cleaning Up Event Listeners
+
+Always unsubscribe from events when they are no longer needed.
+
+```ts
+const off = provider.on('change', handler);
+
+// later
+off();
+```
+
+---
+
+## References
+
+- Phantom – Wallet Events
+  [https://docs.phantom.com/solana/handling-wallet-events](https://docs.phantom.com/solana/handling-wallet-events)
+
+- Solana Wallet Standard – Events
+  [https://github.com/solana-labs/wallet-standard](https://github.com/solana-labs/wallet-standard)
+
+- Solana Wallet Adapter
+  [https://github.com/anza-xyz/wallet-adapter](https://github.com/anza-xyz/wallet-adapter)

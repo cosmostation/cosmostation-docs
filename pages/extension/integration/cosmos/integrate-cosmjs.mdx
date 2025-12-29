@@ -2,7 +2,26 @@
 
 Integrate cosmjs.
 
+> This section explains how to use **cosmjs (CosmJS)** with Cosmostation,
+> by obtaining an **OfflineSigner** that is backed by the Cosmostation Extension.
+>
+> Once you have an OfflineSigner, you can use standard CosmJS clients like:
+>
+> - `SigningStargateClient` (Cosmos SDK tx)
+> - `SigningCosmWasmClient` (CosmWasm execute / instantiate / upload)
+>
+> The key idea is:
+>
+> - your dApp constructs txs via CosmJS
+> - signing is delegated to the user’s Cosmostation wallet via the signer
+
+---
+
 ## Add package
+
+> `@cosmostation/cosmos-client` provides helper utilities
+> (such as `getOfflineSigner`) to bridge Cosmostation Extension
+> and the CosmJS signing flow.
 
 ```bash filename="yarn"
 yarn add @cosmostation/cosmos-client
@@ -12,41 +31,66 @@ yarn add @cosmostation/cosmos-client
 npm install @cosmostation/cosmos-client
 ```
 
+---
+
 ## Offline Signer
 
+An **OfflineSigner** is the object CosmJS uses to:
+
+- retrieve accounts (`getAccounts()`)
+- sign transactions (Direct / Amino depending on implementation)
+
+When you call `getOfflineSigner(CHAIN_ID)`, it returns a signer instance
+connected to the wallet context of that chain.
+
 ```js
-import { getOfflineSigner } from "@cosmostation/cosmos-client";
+import { getOfflineSigner } from '@cosmostation/cosmos-client';
 
 const offlineSigner = await getOfflineSigner(CHAIN_ID);
 ```
 
+> Notes:
+>
+> - `CHAIN_ID` must match the user’s intended network (e.g. `cosmoshub-4`, `osmosis-1`, `juno-1`)
+> - if the extension is not installed or the user rejects the request, the call may throw
+> - after obtaining the signer, you typically create a `Signing*Client` using an RPC endpoint
+
 ```js filename="Example"
-import { getOfflineSigner } from "@cosmostation/cosmos-client";
-import { GasPrice, calculateFee } from "@cosmjs/stargate";
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { getOfflineSigner } from '@cosmostation/cosmos-client';
+import { GasPrice, calculateFee } from '@cosmjs/stargate';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 const offlineSigner = await getOfflineSigner(CHAIN_ID);
 const rpcEndpoint = RPC_END_POINT;
-const client = await SigningCosmWasmClient.connectWithSigner(
-  rpcEndpoint,
-  offlineSigner
-);
+const client = await SigningCosmWasmClient.connectWithSigner(rpcEndpoint, offlineSigner);
 
 //getAccounts
 const accounts = await offlineSigner.getAccounts();
 
 //execute
-const gasPrice = GasPrice.fromString("0.01denom");
+const gasPrice = GasPrice.fromString('0.01denom');
 const fees = {
   upload: calculateFee(1500000, gasPrice),
   init: calculateFee(500000, gasPrice),
   exec: calculateFee(500000, gasPrice),
 };
 
-const result = await client.execute(
-  accounts[0].address,
-  RECEIPT_ADDRESS,
-  MESSAGE,
-  fees.exec
-);
+const result = await client.execute(accounts[0].address, RECEIPT_ADDRESS, MESSAGE, fees.exec);
 ```
+
+> What this example demonstrates:
+>
+> - `connectWithSigner()` creates a CosmWasm client that can **sign & broadcast**
+> - `offlineSigner.getAccounts()` returns the wallet address used as the sender
+> - `calculateFee()` is used to build fee objects (gas limit + gas price)
+> - `client.execute()` creates a wasm execute tx, requests a signature from the wallet,
+>   then broadcasts to the network via the provided RPC endpoint
+>
+> Best practices:
+>
+> - Use a chain-appropriate `GasPrice` denom and value (varies by chain)
+> - Ensure your `RPC_END_POINT` matches the same network as `CHAIN_ID`
+> - Consider estimating gas via `client.simulate()` (when available) and applying a multiplier
+> - If your dApp supports multiple chains, guide users when the chain/network mismatch occurs
+
+---

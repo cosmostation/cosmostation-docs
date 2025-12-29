@@ -1,0 +1,122 @@
+# Sign Message
+
+Cosmostation supports **message signing** via the Aptos Wallet Adapter and the
+Aptos Wallet Standard.
+
+Message signing is commonly used for off-chain use cases where you need to
+prove wallet ownership without submitting an on-chain transaction.
+
+Typical examples include:
+
+- Wallet-based login / authentication
+- User consent or approval flows
+- Linking a wallet address to an off-chain account
+- Generating verifiable signatures for backend validation
+
+---
+
+## Using Aptos Wallet Adapter
+
+When using `@aptos-labs/wallet-adapter-react`, you can request a message
+signature through `signMessage()`.
+
+The wallet will display a confirmation UI showing the message content, and the
+user must explicitly approve the request.
+
+### Example
+
+```javascript
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
+
+const { account, connected, signMessage, signMessageAndVerify } = useWallet();
+
+const messageForSign = 'Hello from Cosmostation';
+
+const onSignMessage = async () => {
+  if (!connected || !account) return;
+
+  try {
+    const payload = {
+      message: messageForSign,
+      nonce: generateNonce(),
+    };
+
+    const response = await signMessage(payload);
+    console.log('sign message response:', response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const onSignMessageAndVerify = async () => {
+  if (!connected || !account) return;
+
+  try {
+    const payload = {
+      message: messageForSign,
+      nonce: generateNonce(),
+    };
+
+    const response = await signMessageAndVerify(payload);
+    console.log('sign message and verify response:', response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+```
+
+### Notes
+
+- Always include a **nonce** (and optionally a timestamp) to prevent replay attacks
+- The signed message is **not broadcast on-chain**
+- The returned signature can be verified off-chain using the account’s public key
+
+---
+
+### Demo / Reference Implementation
+
+You can see a working example of message signing in the official adapter demo:
+
+- [Live demo](https://aptos-labs.github.io/aptos-wallet-adapter/)
+
+- [Source code](https://github.com/aptos-labs/aptos-wallet-adapter/blob/cf47c59c7d768799c20ad4074974d210ddbdbf9c/apps/nextjs-x-chain/src/components/transactionFlows/SingleSigner.tsx#L77)
+
+---
+
+## Vanilla Code
+
+Cosmostation also exposes `signMessage` directly through the injected provider,
+without requiring any adapter libraries.
+
+The vanilla API follows the **Aptos Wallet Standard – `AptosSignMessageMethod`**.
+
+### Example
+
+```ts
+const payload: AptosSignMessageInput = {
+  message: 'Hello from Cosmostation',
+  nonce: generateNonce(),
+};
+
+try {
+  const provider = aptos();
+  const response = await provider.signMessage(payload);
+
+  console.log('signMessage response:', response);
+} catch (e: any) {
+  if (e?.code === 4001) {
+    console.log('user rejected request');
+  } else {
+    console.error(e);
+  }
+}
+```
+
+---
+
+## Spec Reference
+
+If you need the exact input and output type definitions for `signMessage`,
+refer to the Aptos Wallet Standard source:
+
+- [AptosConnect Sign Message feature definition](https://github.com/aptos-labs/wallet-standard/blob/127249132277248271ff4cf917625504128327ab/src/features/aptosSignMessage.ts#L21)

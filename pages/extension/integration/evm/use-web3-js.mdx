@@ -1,11 +1,19 @@
 # Use web3.js
 
+Cosmostation’s Ethereum provider is **EIP-1193 compatible**, so you can plug it
+directly into **web3.js** and use familiar APIs like `requestAccounts`,
+transaction sends, and message signing.
+
+If you’re already using `web3` in your dApp, this is one of the quickest ways to
+get started—just obtain the provider from `@cosmostation/extension-client` and
+pass it to `new Web3(provider)`.
+
 - [npmjs](https://www.npmjs.com/package/web3)
 - [docs](https://web3js.readthedocs.io)
 
 ```typescript
-import Web3 from "web3";
-import { ethereum, InstallError } from "@cosmostation/extension-client";
+import Web3 from 'web3';
+import { ethereum, InstallError } from '@cosmostation/extension-client';
 try {
   const provider = await ethereum();
   const web3 = new Web3(provider);
@@ -14,13 +22,35 @@ try {
   // If you want more info, please check out web3.js docs (https://web3js.readthedocs.io)
 } catch (e) {
   if (e instanceof InstallError) {
-    console.log("not installed");
+    console.log('not installed');
   }
   // exception
 }
 ```
 
+### Notes
+
+- `ethereum()` returns an **EIP-1193 provider**, which web3.js can consume as its
+  underlying provider.
+- `web3.eth.requestAccounts()` will trigger the wallet UI to ask the user for
+  account access (if not already connected).
+
+---
+
 ## signTypedData
+
+`eth_signTypedData_v4` is commonly used for **EIP-712 typed data signing**.
+It’s typically used for:
+
+- off-chain authentication (“Sign in with Ethereum” style flows)
+- order signing (DEX / marketplace listings)
+- typed approvals and structured intent signatures
+
+The flow is straightforward:
+
+1. Build a typed-data payload (`msgParams`)
+2. Pick the signer address (`from`)
+3. Call `provider.request({ method: 'eth_signTypedData_v4', params: [...] })`
 
 ```typescript
 const provider = await ethereum();
@@ -32,11 +62,11 @@ const msgParams = JSON.stringify({
     // Defining the chain aka Rinkeby testnet or Ethereum Main Net
     chainId: 1,
     // Give a user friendly name to the specific contract you are signing for.
-    name: "Ether Mail",
+    name: 'Ether Mail',
     // If name isn't enough add verifying contract to make sure you are establishing contracts with the proper entity
-    verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+    verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
     // Just let's you know the latest version. Definitely make sure the field name is correct.
-    version: "1",
+    version: '1',
   },
 
   // Defining the message signing data content.
@@ -47,60 +77,63 @@ const msgParams = JSON.stringify({
          - This is DApp Specific
          - Be as explicit as possible when building out the message schema.
         */
-    contents: "Hello, Bob!",
+    contents: 'Hello, Bob!',
     attachedMoneyInEth: 4.2,
     from: {
-      name: "Cow",
+      name: 'Cow',
       wallets: [
-        "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
-        "0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF",
+        '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+        '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
       ],
     },
     to: [
       {
-        name: "Bob",
+        name: 'Bob',
         wallets: [
-          "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
-          "0xB0BdaBea57B0BDABeA57b0bdABEA57b0BDabEa57",
-          "0xB0B0b0b0b0b0B000000000000000000000000000",
+          '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+          '0xB0BdaBea57B0BDABeA57b0bdABEA57b0BDabEa57',
+          '0xB0B0b0b0b0b0B000000000000000000000000000',
         ],
       },
     ],
   },
   // Refers to the keys of the *types* object below.
-  primaryType: "Mail",
+  primaryType: 'Mail',
   types: {
     // TODO: Clarify if EIP712Domain refers to the domain the contract is hosted on
     EIP712Domain: [
-      { name: "name", type: "string" },
-      { name: "version", type: "string" },
-      { name: "chainId", type: "uint256" },
-      { name: "verifyingContract", type: "address" },
+      { name: 'name', type: 'string' },
+      { name: 'version', type: 'string' },
+      { name: 'chainId', type: 'uint256' },
+      { name: 'verifyingContract', type: 'address' },
     ],
     // Not an EIP712Domain definition
     Group: [
-      { name: "name", type: "string" },
-      { name: "members", type: "Person[]" },
+      { name: 'name', type: 'string' },
+      { name: 'members', type: 'Person[]' },
     ],
     // Refer to PrimaryType
     Mail: [
-      { name: "from", type: "Person" },
-      { name: "to", type: "Person[]" },
-      { name: "contents", type: "string" },
+      { name: 'from', type: 'Person' },
+      { name: 'to', type: 'Person[]' },
+      { name: 'contents', type: 'string' },
     ],
     // Not an EIP712Domain definition
     Person: [
-      { name: "name", type: "string" },
-      { name: "wallets", type: "address[]" },
+      { name: 'name', type: 'string' },
+      { name: 'wallets', type: 'address[]' },
     ],
   },
 });
 
-const from = ""; // signer address
+const from = ''; // signer address
 const params = [from, msgParams];
-const method = "eth_signTypedData_v4";
+const method = 'eth_signTypedData_v4';
 const result = web3.currentProvider.request({
   method,
   params,
 });
 ```
+
+If you want more detail on how typed data is structured and signed, refer to the
+official web3.js documentation: [https://web3js.readthedocs.io](https://web3js.readthedocs.io)

@@ -1,5 +1,5 @@
-import React from "react";
-import { DocsThemeConfig } from "nextra-theme-docs";
+import React from 'react';
+import { DocsThemeConfig } from 'nextra-theme-docs';
 
 const config: DocsThemeConfig = {
   logo: (
@@ -21,18 +21,18 @@ const config: DocsThemeConfig = {
         />
       </svg>
 
-      <span style={{ marginLeft: ".4em", fontWeight: 800 }}>Cosmostation</span>
+      <span style={{ marginLeft: '.4em', fontWeight: 800 }}>Cosmostation</span>
     </>
   ),
   project: {
-    link: "https://github.com/cosmostation",
+    link: 'https://github.com/cosmostation',
   },
-  docsRepositoryBase:
-    "https://github.com/cosmostation/cosmostation-wallet-docs",
+  docsRepositoryBase: 'https://github.com/cosmostation/cosmostation-docs/blob/master',
 
   useNextSeoProps() {
     return {
-      titleTemplate: "%s – Cosmostation Docs",
+      titleTemplate: '%s – Cosmostation Docs',
+      description: 'Official documentation for Cosmostation products and infrastructure',
     };
   },
 };

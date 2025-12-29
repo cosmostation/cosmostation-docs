@@ -1,0 +1,112 @@
+# Sign Message
+
+Cosmostation’s Sui wallet supports **message signing** through the Sui wallet standard.
+This is useful when you need a user-approved signature for an **off-chain** flow (e.g.,
+wallet login, account linking, or acknowledging a statement) without submitting an on-chain
+transaction.
+
+Cosmostation supports both message-signing feature keys:
+
+- `sui:signMessage` (v1)
+- `sui:signPersonalMessage` (v2)
+
+In most Sui dApps, the recommended approach is to use **Sui dApp Kit** and its wallet hooks.
+
+---
+
+## Using Sui dApp Kit (`useSignPersonalMessage`)
+
+Sui dApp Kit provides the `useSignPersonalMessage` hook to prompt the user to sign a message
+with their wallet. The hook takes a message as **`Uint8Array`**, and returns:
+
+- `signature`: Base64-encoded signature string
+- `bytes`: Base64-encoded message bytes
+
+### Example (React)
+
+```tsx
+import { ConnectButton, useCurrentAccount, useSignPersonalMessage } from '@mysten/dapp-kit';
+import { useState } from 'react';
+
+export function SignMessageExample() {
+  const { mutate: signPersonalMessage } = useSignPersonalMessage();
+  const currentAccount = useCurrentAccount();
+
+  const [message, setMessage] = useState('Hello from Cosmostation');
+  const [signature, setSignature] = useState('');
+
+  return (
+    <div style={{ padding: 20 }}>
+      <ConnectButton />
+
+      {currentAccount && (
+        <>
+          <div>
+            <label>
+              Message:{' '}
+              <input type="text" value={message} onChange={(ev) => setMessage(ev.target.value)} />
+            </label>
+          </div>
+
+          <button
+            onClick={() => {
+              signPersonalMessage(
+                { message: new TextEncoder().encode(message) },
+                {
+                  onSuccess: (result) => setSignature(result.signature),
+                },
+              );
+            }}
+          >
+            Sign message
+          </button>
+
+          <div>Signature: {signature}</div>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+### Key points
+
+- `message` must be provided as `Uint8Array` ([Mysten Labs TypeScript SDK Docs][1])
+- `chain` is optional; if omitted, it defaults to the active network configured in the dApp ([Mysten Labs TypeScript SDK Docs](https://sdk.mystenlabs.com/dapp-kit/wallet-hooks/useSignPersonalMessage))
+- The wallet returns both `signature` and `bytes` as Base64 strings ([Mysten Labs TypeScript SDK Docs](https://sdk.mystenlabs.com/typedoc/interfaces/_mysten_dapp-kit.SignedPersonalMessage.html))
+
+---
+
+## Vanilla JavaScript (Cosmostation Extension)
+
+If you are not using `@mysten/dapp-kit`, you can call the injected provider directly.
+
+Cosmostation’s internal implementation serializes message bytes as Base64 before sending the
+request to the extension app-layer (so transport stays consistent across contexts). In practice,
+your dApp can pass a string or bytes, and the provider will handle the encoding step.
+
+### `sui:signMessage` (v1)
+
+```ts
+await window.cosmostation.sui.connect();
+
+const res = await window.cosmostation.sui.signMessage({
+  message: 'Hello from Cosmostation',
+  // account: optional (wallet-selected account is typically used)
+});
+
+console.log('signMessage:', res);
+```
+
+### `sui:signPersonalMessage` (v2)
+
+```ts
+await window.cosmostation.sui.connect();
+
+const res = await window.cosmostation.sui.signPersonalMessage({
+  message: 'Hello from Cosmostation',
+  // account: optional (wallet-selected account is typically used)
+});
+
+console.log('signPersonalMessage:', res);
+```

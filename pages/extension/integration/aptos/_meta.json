@@ -1,7 +1,8 @@
 {
   "provider": "Provider",
-  "connect-and-account":"Connect & Account",
-  "sign-and-submit-transaction":"Sign & Submit Transaction",
-  "network":"Network",
-  "event":"Event"
+  "connect-and-account": "Connect & Account",
+  "sign-and-submit-transaction": "Sign & Submit Transaction",
+  "sign-message": "Sign Message",
+  "network": "Network",
+  "event": "Event"
 }

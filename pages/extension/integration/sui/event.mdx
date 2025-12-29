@@ -1,0 +1,126 @@
+## Event
+
+Wallet events allow a dApp to react to **state changes initiated by the wallet**
+without requiring a page reload.
+
+Cosmostation implements wallet events for Sui using the
+**Wallet Standard `standard:events` feature**, following the same interaction
+model used by other Sui-compatible wallets.
+
+These events are essential for keeping application state synchronized with
+the wallet’s internal state.
+
+---
+
+## Supported Events
+
+| Event Name      | Description                                             |
+| --------------- | ------------------------------------------------------- |
+| `accountChange` | Fired when the active Sui account changes or is cleared |
+| `networkChange` | Fired when the active Sui network changes               |
+
+---
+
+## Using Sui dApp Kit (`@mysten/dapp-kit`)
+
+When using **Sui dApp Kit**, wallet events are automatically handled and exposed
+through reactive state hooks.
+
+### Account & Network State
+
+```ts
+import { useCurrentAccount, useCurrentNetwork } from '@mysten/dapp-kit';
+
+export function WalletWatcher() {
+  const account = useCurrentAccount();
+  const network = useCurrentNetwork();
+
+  if (!account) {
+    console.log('Wallet disconnected');
+    return null;
+  }
+
+  console.log('Active account:', account.address);
+  console.log('Active network:', network);
+
+  return null;
+}
+```
+
+---
+
+## Using Vanilla Provider
+
+If you are not using `@mysten/dapp-kit`, you can subscribe to wallet events
+directly via the injected Cosmostation Sui provider.
+
+### Accessing the Provider
+
+```ts
+const sui = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.sui;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = sui();
+```
+
+---
+
+## Listening for Account Changes
+
+```ts
+const handler = (account) => {
+  if (!account) {
+    console.log('Wallet disconnected');
+    return;
+  }
+
+  console.log('Active account changed:', account);
+};
+
+provider.on(handler);
+```
+
+### Event Payload
+
+```ts
+type AccountChangePayload = string | null;
+```
+
+- `string` → active Sui address
+- `null` → wallet disconnected or no active account
+
+---
+
+## Listening for Network Changes
+
+```ts
+const handler = (network) => {
+  console.log('Network changed:', network);
+};
+
+provider.on(handler);
+```
+
+### Event Payload
+
+```ts
+type NetworkChangePayload = string;
+```
+
+- Network identifier (e.g. `mainnet`, `testnet`, `devnet`)
+
+---
+
+## Removing Event Listeners
+
+To prevent memory leaks or duplicated callbacks, always remove listeners
+when they are no longer needed.
+
+```ts
+provider.off(handler);
+```

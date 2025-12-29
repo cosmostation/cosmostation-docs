@@ -1,46 +1,109 @@
-# Connect And Get Accounts
+# Connect and Get Accounts
 
-connect and get Account via Cosmostation Extension
+This section explains how to connect to the **Cosmostation Sui wallet** and
+retrieve account information using both the **Sui dApp Kit** and **vanilla
+JavaScript**.
+
+Cosmostation exposes a Sui-compatible wallet that follows the Sui wallet
+standard and works seamlessly with ecosystem tooling.
+
+---
+
+## Using Sui dApp Kit (`@mysten/dapp-kit`)
+
+Cosmostation is compatible with **Sui dApp Kit**, which is the recommended way to
+integrate wallets in React-based Sui applications.
+
+With the dApp Kit:
+
+- Wallet discovery is handled automatically
+- Connection state is managed by hooks
+- The currently selected account is always available through reactive state
+
+### Example (React)
+
+```tsx
+import { useConnectWallet, useCurrentAccount, useWallets } from '@mysten/dapp-kit';
+
+const ConnectAndGetAccount = () => {
+  const wallets = useWallets();
+  const { mutate: connect } = useConnectWallet();
+  const account = useCurrentAccount();
+
+  const onConnect = () => {
+    const cosmostation = wallets.find((wallet) => wallet.name === 'Cosmostation Wallet');
+
+    if (!cosmostation) {
+      window.open('https://cosmostation.io/wallet/#extension');
+      return;
+    }
+
+    connect({ wallet: cosmostation });
+  };
+
+  return (
+    <div>
+      <button onClick={onConnect}>Connect Wallet</button>
+
+      {account && (
+        <div>
+          <div>Address: {account.address}</div>
+          <div>Public Key: {account.publicKey}</div>
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+### Notes
+
+- `useCurrentAccount()` always reflects the currently selected account
+- Account changes in the wallet are propagated automatically
+- No Cosmostation-specific APIs are required
+
+---
+
+## Vanilla JavaScript Integration
+
+If you are not using `@mysten/dapp-kit`, you can interact directly with the
+Cosmostation Sui provider injected into the browser.
+
+The provider is available at:
+
+- `window.cosmostation.sui`
+
+---
+
+## Connect (Vanilla)
 
 ```javascript
-const response = await window.cosmostation.sui.connect();
+// Basic connect
+const connected = await window.cosmostation.sui.connect();
 
-// or
-
-const response = await window.cosmostation.sui.connect([
-  "viewAccount",
-  "suggestTransactions",
+// Connect with requested permissions
+const connectedWithPermissions = await window.cosmostation.sui.connect([
+  'viewAccount',
+  'suggestTransactions',
 ]);
 ```
 
-#### Response
+---
 
-```typescript filename="Model"
-export type SuiConnectResponse = boolean;
-```
+## Get Accounts (Vanilla)
 
-```json filename="Example"
-true
-```
-
-## Get Accounts
-
-### Vanilla Code
+After a successful connection, account information can be queried from the
+wallet.
 
 ```javascript
 const response = await window.cosmostation.sui.connect();
+if (!response || !response.accounts) {
+  throw new Error('User rejected wallet connection');
+}
 
 const accounts = await window.cosmostation.sui.getAccounts();
-
 const publicKey = await window.cosmostation.sui.getPublicKey();
-```
 
-#### Response
-
-```typescript filename="Model"
-export type SuiAccountResponse = string[];
-```
-
-```json filename="Example"
-["0xd2d030d4339531d9cb442caf4be7bb954fddedb4"]
+console.log('Accounts:', accounts);
+console.log('Public Key:', publicKey);
 ```

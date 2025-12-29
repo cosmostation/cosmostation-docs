@@ -1,0 +1,103 @@
+## Connect, Accounts
+
+This section explains how to **connect a Bitcoin wallet** and **retrieve account
+information** from the Cosmostation Extension.
+
+Connecting the wallet is required before performing any Bitcoin-related
+operations such as signing PSBTs, signing messages, sending BTC, or switching
+networks.  
+The connection flow requests user approval through the wallet UI and grants the
+dApp access to the currently selected Bitcoin account.
+
+Cosmostation’s Bitcoin provider follows the `BTCProvider` interface defined by
+`@tomo-inc/tomo-wallet-provider`, so the connection behavior is consistent across
+SDK-based and vanilla integrations.
+
+---
+
+### SDK Integration (Tomo Wallet SDK)
+
+When using **Tomo Wallet SDK**, wallet connection is handled through the SDK’s
+modal and provider system. Once the user approves the connection, the SDK
+exposes a `bitcoinProvider` instance that implements `BTCProvider`.
+
+#### Connect Wallet
+
+```ts
+const accounts = await bitcoinProvider.connectWallet();
+console.log(accounts);
+```
+
+- This call prompts the user to approve account access in the wallet UI
+- The returned value is a list of Bitcoin addresses the wallet has exposed
+- In most cases, the list contains a single active address
+
+#### Get Account Information
+
+After a successful connection, you can retrieve account information without
+triggering additional approval prompts.
+
+```ts
+const accounts = await bitcoinProvider.getAccounts();
+const address = await bitcoinProvider.getAddress();
+
+console.log('Accounts:', accounts);
+console.log('Active address:', address);
+```
+
+- `getAccounts()` returns an array of addresses
+- `getAddress()` returns the currently selected Bitcoin address
+
+The active account reflects the wallet’s current state and may change if the
+user switches accounts inside the wallet.
+
+---
+
+### Vanilla JavaScript Integration
+
+If you are not using Tomo Wallet SDK, you can connect to the Bitcoin wallet
+directly through the injected Cosmostation provider.
+
+#### Access Provider
+
+```js
+const bitcoin = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.bitcoin;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+};
+
+const provider = bitcoin();
+```
+
+#### Connect Wallet
+
+```ts
+const accounts = await provider.connectWallet();
+console.log(accounts);
+```
+
+- This triggers the same wallet approval flow as the SDK
+- The user must explicitly allow account access
+- The returned value is an array of Bitcoin addresses
+
+#### Get Account Information
+
+```ts
+const accounts = await provider.getAccounts();
+const address = await provider.getAddress();
+
+console.log('Accounts:', accounts);
+console.log('Active address:', address);
+```
+
+- `getAccounts()` returns the wallet’s exposed addresses
+- `getAddress()` returns the currently selected address
+
+---
+
+### Notes and Best Practices
+
+- **SDK and vanilla integrations share the same connection behavior**

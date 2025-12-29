@@ -1,0 +1,126 @@
+# Provider
+
+Cosmostation browser extension supports multiple blockchains and exposes **chain-specific providers**
+for dApp integration. This page explains how to integrate **Cosmostation Extension** with **Bitcoin (BTC)**.
+
+Cosmostation’s BTC provider implements the **`BTCProvider` specification from `@tomo-inc/tomo-wallet-provider`**,
+so it can be used in a Babylon-friendly way through the **Tomo Wallet SDK**.
+
+You can integrate BTC in two ways:
+
+- **Tomo Wallet SDK (`@tomo-inc/wallet-connect-sdk`)** (recommended for Tomo/Babylon integrations)
+- **Vanilla JavaScript** via the injected provider (`window.cosmostation.bitcoin`)
+
+---
+
+## Tomo Wallet SDK (`@tomo-inc/wallet-connect-sdk`)
+
+Tomo’s Bitcoin Provider documentation shows a standard integration pattern:
+open the Bitcoin connection modal, check connection state, and then access `bitcoinProvider` from the provider set.
+
+### Example (connect + get provider)
+
+```ts
+import {
+  useTomoProviders,
+  useTomoModalControl,
+  useTomoWalletConnect,
+  useTomoWalletState,
+} from '@tomo-inc/wallet-connect-sdk';
+
+// 1) Open the BTC connection modal
+const tomoModal = useTomoModalControl();
+await tomoModal.open('bitcoin');
+
+// 2) Check connection state
+const walletState = useTomoWalletState();
+const connected = walletState.isConnected;
+
+// 3) Get the BTC provider
+const providers = useTomoProviders();
+const bitcoinProvider = providers.bitcoinProvider;
+
+// 4) Disconnect (optional)
+const walletConnect = useTomoWalletConnect();
+await walletConnect.disconnect();
+```
+
+> For full SDK setup and usage patterns, follow Tomo’s “For Babylon” documentation. ([docs.tomo.inc][1])
+
+---
+
+## Vanilla JavaScript Integration
+
+If you don’t want to use the Tomo SDK, you can access the injected provider directly.
+
+### Accessing the provider
+
+```js
+const bitcoin = () => {
+  if ('cosmostation' in window) {
+    return window.cosmostation.bitcoin;
+  }
+
+  window.open('https://cosmostation.io/wallet/#extension');
+  /**
+   * or:
+   * window.open(
+   *   'https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf'
+   * );
+   */
+};
+
+const provider = bitcoin();
+```
+
+### Notes
+
+- The provider is available only when the Cosmostation extension is installed.
+- Account selection, permissions, and signing confirmations are handled by the wallet UI.
+
+---
+
+## Supported BTCProvider API
+
+Cosmostation’s BTC provider follows the Tomo-style `BTCProvider` surface (Babylon-friendly wrapper),
+including account access, balance lookup, PSBT signing, message signing, and network switching. ([docs.tomo.inc][2])
+
+| Category  | Method                        | Description                                                                          |
+| --------- | ----------------------------- | ------------------------------------------------------------------------------------ |
+| Connect   | `connectWallet()`             | Requests wallet connection and returns the connected address list.                   |
+| Identity  | `getWalletProviderName()`     | Returns the provider name (e.g., “Cosmostation”).                                    |
+| Identity  | `getWalletProviderIcon()`     | Returns the provider icon (encoded or URL).                                          |
+| Account   | `getAccounts()`               | Returns accounts as an array (typically a single selected address).                  |
+| Account   | `getAddress()`                | Returns the currently selected BTC address.                                          |
+| Balance   | `getBalance()`                | Returns the current balance information for the selected address.                    |
+| Keys      | `getPublicKey()`              | Returns the public key (provider-specific encoding).                                 |
+| Keys      | `getPublicKeyHex()`           | Returns the public key as a hex string.                                              |
+| PSBT      | `signPsbt(psbtHex)`           | Signs a single PSBT (hex) and returns the signed result.                             |
+| PSBT      | `signPsbts(psbtsHexes)`       | Signs multiple PSBTs (hex array) and returns signed results.                         |
+| Message   | `signMessage(message, type?)` | Signs a message using `ecdsa` (default) or `bip322-simple`.                          |
+| Message   | `signMessageBIP322(message)`  | Convenience wrapper for `bip322-simple` signing.                                     |
+| Network   | `getNetwork()`                | Returns the current BTC network (e.g., mainnet/testnet/signet). ([docs.tomo.inc][3]) |
+| Network   | `switchNetwork(network)`      | Switches the wallet network and returns the updated network. ([docs.tomo.inc][4])    |
+| Send      | `sendBitcoin(to, satAmount)`  | Sends BTC (in satoshis) and returns the tx id.                                       |
+| Broadcast | `pushTx(txHex)`               | Broadcasts a raw transaction hex and returns the tx id.                              |
+
+---
+
+## Further Reading
+
+- [Tomo Docs — Bitcoin Provider (For Babylon)](https://docs.tomo.inc/tomo-sdk/tomo-enterprise-sdk/for-babylon/bitcoin-provider)
+
+- [Tomo Docs — Wallet Provider base class (top-level provider concepts)](https://docs.tomo.inc/tomo-sdk/tomo-enterprise-sdk/for-babylon/tomo-wallet-provider)
+
+- [`@tomo-inc/wallet-connect-sdk` (package)](https://www.npmjs.com/package/@tomo-inc/wallet-connect-sdk)
+
+- [`@tomo-inc/tomo-wallet-provider` (package)](https://www.npmjs.com/package/@tomo-inc/tomo-wallet-provider)
+
+- [Test dApp / local playground repo (tomo-wallet-provider)](https://github.com/UnyxTech/tomo-wallet-provider)
+
+[1]: https://docs.tomo.inc/tomo-sdk/tomo-web-sdk/bitcoin-provider 'Install the SDK | Tomo Docs'
+[2]: https://docs.tomo.inc/tomo-sdk/tomo-enterprise-sdk/for-babylon/tomo-wallet-provider 'Tomo Wallet Provider | Tomo Docs'
+[3]: https://github.com/UnyxTech/tomo-wallet-provider/blob/d2ec51bc317a20b5affafade70894906e653eeba/src/WalletProvider.ts#L159 'Bitcoin Provider | Tomo Docs'
+[4]: https://github.com/UnyxTech/tomo-wallet-provider/blob/d2ec51bc317a20b5affafade70894906e653eeba/src/providers/btc/BTCProvider.ts#L159 'Bitcoin Provider | Tomo Docs'
+[5]: https://www.npmjs.com/package/%40tomo-inc/tomo-wallet-provider 'tomo-inc/tomo-wallet-provider'
+[6]: https://github.com/UnyxTech/tomo-wallet-provider 'UnyxTech/tomo-wallet-provider'

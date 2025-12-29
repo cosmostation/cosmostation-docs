@@ -1,18 +1,119 @@
 # Provider
 
-Cosmostation extension support various chains.
+The Cosmostation browser extension supports multiple blockchains and exposes
+chain-specific providers for dApp integration.
+
+This section describes how to integrate **Cosmostation Extension** with **Sui**,
+using either the official **Sui dApp Kit** or plain (vanilla) JavaScript.
+
+---
+
+## Sui Provider
+
+When the Cosmostation extension is installed, a **Sui-compatible wallet provider**
+is injected into the browser.
+
+This provider follows the Sui wallet standard and is designed to work seamlessly
+with ecosystem tooling, including **Sui dApp Kit (`@mysten/dapp-kit`)**.
+
+From a dApp’s perspective, Cosmostation behaves like any other standard Sui
+wallet, allowing applications to remain wallet-agnostic.
+
+---
+
+## Sui dApp Kit (`@mysten/dapp-kit`)
+
+**Sui dApp Kit** is the official React-oriented toolkit provided by Mysten Labs
+for building Sui dApps.
+
+Cosmostation is fully compatible with this toolkit.
+
+When you integrate Cosmostation via the dApp Kit:
+
+- Wallet discovery and selection are handled automatically
+- Connection state and accounts are managed through React hooks
+- Wallet features are accessed via standardized APIs
+- No Cosmostation-specific branching logic is required
+
+This allows your application to interoperate with **multiple Sui wallets**
+through a single, unified interface.
+
+The dApp Kit is especially suitable when you are building:
+
+- React or Next.js based applications
+- Production-grade Sui dApps
+- Wallet-agnostic user experiences
+
+### Official Documentation
+
+For detailed API references, hooks, and architecture, refer to the official
+Sui dApp Kit documentation:
+
+- [@mysten/dapp-kit docs](https://sdk.mystenlabs.com/dapp-kit)
+- [Sui Wallet Standard docs](https://docs.sui.io/standards/wallet-standard#managing-wallets)
+
+---
+
+## Supported Features
+
+Cosmostation’s Sui provider follows the **Sui wallet standard feature model**
+and exposes the following capabilities.
+
+| Category   | Feature Key                          | Version | Method / Entry                        | Description                                                                                                                         |
+| ---------- | ------------------------------------ | ------: | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Connection | `standard:connect`                   | `1.0.0` | `connect()`                           | Establishes a connection with the wallet and returns the available `accounts` (address, publicKey, chains, and supported features). |
+| Events     | `standard:events`                    | `1.0.0` | `on(event, handler)`                  | Subscribes to wallet events via the standard event interface.                                                                       |
+| Signing    | `sui:signTransactionBlock`           | `1.0.0` | `signTransactionBlock(...)`           | Signs a Sui **TransactionBlock** payload without executing it.                                                                      |
+| Signing    | `sui:signTransaction`                | `2.0.0` | `signTransaction(...)`                | Signs a Sui **Transaction** payload (v2 API).                                                                                       |
+| Execute    | `sui:signAndExecuteTransactionBlock` | `1.0.0` | `signAndExecuteTransactionBlock(...)` | Signs and executes a **TransactionBlock** in one step.                                                                              |
+| Execute    | `sui:signAndExecuteTransaction`      | `2.0.0` | `signAndExecuteTransaction(...)`      | Signs and executes a **Transaction** (v2 API) in one step.                                                                          |
+| Message    | `sui:signMessage`                    | `1.0.0` | `signMessage(...)`                    | Signs an arbitrary message for off-chain authentication or verification.                                                            |
+| Message    | `sui:signPersonalMessage`            | `2.0.0` | `signPersonalMessage(...)`            | Signs a personal-message format commonly used in wallet login flows.                                                                |
+
+---
+
+## Vanilla JavaScript Integration
+
+If you choose not to use **Sui dApp Kit**, you can access the Sui provider
+directly from the injected `window.cosmostation` object.
+
+This approach is suitable for:
+
+- Lightweight integrations
+- Non-React environments
+- Custom application architectures
+
+### Accessing the Provider
 
 ```javascript
 const sui = () => {
-  if ("cosmostation" in window) {
+  if ('cosmostation' in window) {
     return window.cosmostation.sui;
   } else {
-    window.open("https://cosmostation.io/wallet/#extension");
+    window.open('https://cosmostation.io/wallet/#extension');
     /**
-     * or window.open("https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf");
-     * */
+     * or:
+     * window.open(
+     *   'https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf'
+     * );
+     */
   }
 };
 
 const provider = sui();
 ```
+
+---
+
+## Typical Use Cases
+
+With the Sui provider, your dApp can:
+
+- Request wallet connections
+- Access the active Sui account
+- Sign and execute transactions
+- Sign messages for off-chain verification
+- React to wallet-driven account changes
+
+While the integration style differs between **dApp Kit** and **vanilla usage**,
+the underlying wallet behavior remains consistent.

@@ -17,9 +17,9 @@
   "author": "soaryong <soaryong@stamper.netowrk>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cosmostation/cosmostation-wallet-docs/issues"
+    "url": "https://github.com/cosmostation/cosmostation-docs/issues"
   },
-  "homepage": "https://github.com/cosmostation/splcosmostation-wallet-docs#readme",
+  "homepage": "https://github.com/cosmostation/cosmostation-docs#readme",
   "dependencies": {
     "@codemirror/lang-json": "^6.0.1",
     "@cosmostation/extension": "^0.0.13",
