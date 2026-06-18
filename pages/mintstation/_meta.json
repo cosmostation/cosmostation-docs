@@ -1,8 +1,0 @@
-{
-  "index": "Introduction",
-  "cli": "CLI",
-  "validator": "Node & Validator",
-  "module": "Building Modules",
-  "contracts": "Smart Contracts",
-  "playground": "Playground"
-}

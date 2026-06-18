@@ -1,8 +1,0 @@
-{
-  "vanilla": "Vanilla",
-  "typescript": "Typescript",
-  "react-hook": "React Hook",
-  "wallet": "Wallet",
-  "integrate-cosmjs": "Integrate Cosmjs",
-  "integrate-keplr": "Integrate Keplr"
-}
