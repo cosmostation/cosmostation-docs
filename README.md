@@ -1,4 +1,4 @@
-# Cosmostation Wallet Docs
+# Mintscan Docs
 
 [**Docs →**](https://docs.cosmostation.io)
 

@@ -12,18 +12,6 @@
     "type": "page",
     "title": "API"
   },
-  "extension": {
-    "type": "page",
-    "title": "Extension Wallet"
-  },
-  "mobile": {
-    "type": "page",
-    "title": "Mobile Wallets"
-  },
-  "mintstation": {
-    "type": "page",
-    "title": "Mintstation"
-  },
   "contract": {
     "type": "page",
     "title": "Contract Verification"

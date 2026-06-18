@@ -1,7 +1,0 @@
-{
-  "create": "Create Contracts",
-  "compile": "Compile Contracts",
-  "deploy": "Store Codes",
-  "query": "Query Contracts",
-  "execute": "Execute Contracts"
-}
