@@ -1,6 +1,6 @@
 # Mintscan Docs
 
-[**Docs →**](https://docs.cosmostation.io)
+[**Docs →**](https://docs.mintscan.io)
 
 ## Local Development
 
